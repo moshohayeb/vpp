@@ -44,11 +44,8 @@
  * @param rewrite
  *  The rewrite.
  */
-extern void adj_nbr_midchain_update_rewrite(adj_index_t adj_index,
-					    adj_midchain_fixup_t fixup,
-                                            const void *fixup_data,
-					    adj_flags_t flags,
-					    u8 *rewrite);
+extern void adj_nbr_midchain_update_rewrite(adj_index_t adj_index, adj_midchain_fixup_t fixup, const void *fixup_data,
+                                            adj_flags_t flags, u8 *rewrite);
 
 /**
  * @brief
@@ -61,8 +58,7 @@ extern void adj_nbr_midchain_update_rewrite(adj_index_t adj_index,
  * @param dpo
  *  The parent DPO to stack onto (i.e. become a child of).
  */
-extern void adj_nbr_midchain_stack(adj_index_t adj_index,
-				   const dpo_id_t *dpo);
+extern void adj_nbr_midchain_stack(adj_index_t adj_index, const dpo_id_t *dpo);
 
 /**
  * @brief
@@ -84,6 +80,6 @@ extern void adj_midchain_module_init(void);
  * @brief
  * Format a midchain adjacency
  */
-extern u8* format_adj_midchain(u8* s, va_list *ap);
+extern u8 *format_adj_midchain(u8 *s, va_list *ap);
 
 #endif

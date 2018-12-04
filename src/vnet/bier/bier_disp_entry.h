@@ -39,8 +39,7 @@ typedef struct bier_disp_entry_t_ {
      * The DPO contirubted from the per-payload protocol parents
      * on cachline 1.
      */
-    struct
-    {
+    struct {
         dpo_id_t bde_dpo;
         u32 bde_rpf_id;
     } bde_fwd[BIER_HDR_N_PROTO];
@@ -60,25 +59,20 @@ typedef struct bier_disp_entry_t_ {
 } bier_disp_entry_t;
 
 extern index_t bier_disp_entry_add_or_lock(void);
-extern void bier_disp_entry_path_add(index_t bdei,
-                                     bier_hdr_proto_id_t pproto,
-                                     const fib_route_path_t *rpaths);
-extern int bier_disp_entry_path_remove(index_t bdei,
-                                       bier_hdr_proto_id_t pproto,
-                                       const fib_route_path_t *rpaths);
+extern void bier_disp_entry_path_add(index_t bdei, bier_hdr_proto_id_t pproto, const fib_route_path_t *rpaths);
+extern int bier_disp_entry_path_remove(index_t bdei, bier_hdr_proto_id_t pproto, const fib_route_path_t *rpaths);
 
 extern void bier_disp_entry_unlock(index_t bdi);
 extern void bier_disp_entry_lock(index_t bdi);
 
-extern u8* format_bier_disp_entry(u8* s, va_list *ap);
+extern u8 *format_bier_disp_entry(u8 *s, va_list *ap);
 
-extern void bier_disp_entry_contribute_forwarding(index_t bdi,
-                                                  dpo_id_t *dpo);
+extern void bier_disp_entry_contribute_forwarding(index_t bdi, dpo_id_t *dpo);
 
 extern bier_disp_entry_t *bier_disp_entry_pool;
 
-always_inline bier_disp_entry_t*
-bier_disp_entry_get (index_t bdi)
+always_inline bier_disp_entry_t *
+bier_disp_entry_get(index_t bdi)
 {
     return (pool_elt_at_index(bier_disp_entry_pool, bdi));
 }

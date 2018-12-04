@@ -53,30 +53,22 @@ typedef enum fib_node_type_t_ {
      */
     FIB_NODE_TYPE_TEST,
     FIB_NODE_TYPE_LAST = FIB_NODE_TYPE_TEST,
-} __attribute__ ((packed)) fib_node_type_t;
+} __attribute__((packed)) fib_node_type_t;
 
 #define FIB_NODE_TYPE_MAX (FIB_NODE_TYPE_LAST + 1)
 
-#define FIB_NODE_TYPES {					\
-    [FIB_NODE_TYPE_ENTRY]     = "entry",			\
-    [FIB_NODE_TYPE_MFIB_ENTRY] = "mfib-entry",			\
-    [FIB_NODE_TYPE_WALK]      = "walk",				\
-    [FIB_NODE_TYPE_PATH_LIST] = "path-list",			\
-    [FIB_NODE_TYPE_PATH]      = "path",				\
-    [FIB_NODE_TYPE_MPLS_ENTRY] = "mpls-entry",			\
-    [FIB_NODE_TYPE_MPLS_TUNNEL] = "mpls-tunnel",		\
-    [FIB_NODE_TYPE_ADJ] = "adj",				\
-    [FIB_NODE_TYPE_LISP_GPE_FWD_ENTRY] = "lisp-gpe-fwd-entry",	\
-    [FIB_NODE_TYPE_LISP_ADJ] = "lisp-adj",			\
-    [FIB_NODE_TYPE_GRE_TUNNEL] = "gre-tunnel",			\
-    [FIB_NODE_TYPE_VXLAN_TUNNEL] = "vxlan-tunnel",		\
-    [FIB_NODE_TYPE_MAP_E] = "map-e",				\
-    [FIB_NODE_TYPE_VXLAN_GPE_TUNNEL] = "vxlan-gpe-tunnel",	\
-    [FIB_NODE_TYPE_UDP_ENCAP] = "udp-encap",			\
-    [FIB_NODE_TYPE_BIER_FMASK] = "bier-fmask",			\
-    [FIB_NODE_TYPE_BIER_ENTRY] = "bier-entry",			\
-    [FIB_NODE_TYPE_VXLAN_GBP_TUNNEL] = "vxlan-gbp-tunnel"	\
-}
+#define FIB_NODE_TYPES                                                                                                 \
+    {                                                                                                                  \
+        [FIB_NODE_TYPE_ENTRY] = "entry", [FIB_NODE_TYPE_MFIB_ENTRY] = "mfib-entry", [FIB_NODE_TYPE_WALK] = "walk",     \
+        [FIB_NODE_TYPE_PATH_LIST] = "path-list", [FIB_NODE_TYPE_PATH] = "path",                                        \
+        [FIB_NODE_TYPE_MPLS_ENTRY] = "mpls-entry", [FIB_NODE_TYPE_MPLS_TUNNEL] = "mpls-tunnel",                        \
+        [FIB_NODE_TYPE_ADJ] = "adj", [FIB_NODE_TYPE_LISP_GPE_FWD_ENTRY] = "lisp-gpe-fwd-entry",                        \
+        [FIB_NODE_TYPE_LISP_ADJ] = "lisp-adj", [FIB_NODE_TYPE_GRE_TUNNEL] = "gre-tunnel",                              \
+        [FIB_NODE_TYPE_VXLAN_TUNNEL] = "vxlan-tunnel", [FIB_NODE_TYPE_MAP_E] = "map-e",                                \
+        [FIB_NODE_TYPE_VXLAN_GPE_TUNNEL] = "vxlan-gpe-tunnel", [FIB_NODE_TYPE_UDP_ENCAP] = "udp-encap",                \
+        [FIB_NODE_TYPE_BIER_FMASK] = "bier-fmask", [FIB_NODE_TYPE_BIER_ENTRY] = "bier-entry",                          \
+        [FIB_NODE_TYPE_VXLAN_GBP_TUNNEL] = "vxlan-gbp-tunnel"                                                          \
+    }
 
 /**
  * Reasons for backwalking the FIB object graph
@@ -124,43 +116,37 @@ typedef enum fib_node_back_walk_reason_t_ {
     FIB_NODE_BW_REASON_LAST = FIB_NODE_BW_REASON_ADJ_DOWN,
 } fib_node_back_walk_reason_t;
 
-#define FIB_NODE_BW_REASONS {			            \
-    [FIB_NODE_BW_REASON_RESOLVE] = "resolve",	            \
-    [FIB_NODE_BW_REASON_EVALUATE] = "evaluate",             \
-    [FIB_NODE_BW_REASON_INTERFACE_UP] = "if-up",            \
-    [FIB_NODE_BW_REASON_INTERFACE_DOWN] = "if-down",        \
-    [FIB_NODE_BW_REASON_INTERFACE_DELETE] = "if-delete",    \
-    [FIB_NODE_BW_REASON_ADJ_UPDATE] = "adj-update",         \
-    [FIB_NODE_BW_REASON_ADJ_DOWN] = "adj-down",             \
-}
+#define FIB_NODE_BW_REASONS                                                                                            \
+    {                                                                                                                  \
+        [FIB_NODE_BW_REASON_RESOLVE] = "resolve", [FIB_NODE_BW_REASON_EVALUATE] = "evaluate",                          \
+        [FIB_NODE_BW_REASON_INTERFACE_UP] = "if-up", [FIB_NODE_BW_REASON_INTERFACE_DOWN] = "if-down",                  \
+        [FIB_NODE_BW_REASON_INTERFACE_DELETE] = "if-delete", [FIB_NODE_BW_REASON_ADJ_UPDATE] = "adj-update",           \
+        [FIB_NODE_BW_REASON_ADJ_DOWN] = "adj-down",                                                                    \
+    }
 
-#define FOR_EACH_FIB_NODE_BW_REASON(_item) \
-    for (_item = FIB_NODE_BW_REASON_FIRST; \
-	 _item <= FIB_NODE_BW_REASON_LAST; \
-	 _item++)
+#define FOR_EACH_FIB_NODE_BW_REASON(_item)                                                                             \
+    for (_item = FIB_NODE_BW_REASON_FIRST; _item <= FIB_NODE_BW_REASON_LAST; _item++)
 
 /**
  * Flags enum constructed from the reaons
  */
 typedef enum fib_node_bw_reason_flag_t_ {
-    FIB_NODE_BW_REASON_FLAG_NONE = 0,
-    FIB_NODE_BW_REASON_FLAG_RESOLVE = (1 << FIB_NODE_BW_REASON_RESOLVE),
-    FIB_NODE_BW_REASON_FLAG_EVALUATE = (1 << FIB_NODE_BW_REASON_EVALUATE),
-    FIB_NODE_BW_REASON_FLAG_INTERFACE_UP = (1 << FIB_NODE_BW_REASON_INTERFACE_UP),
-    FIB_NODE_BW_REASON_FLAG_INTERFACE_DOWN = (1 << FIB_NODE_BW_REASON_INTERFACE_DOWN),
+    FIB_NODE_BW_REASON_FLAG_NONE             = 0,
+    FIB_NODE_BW_REASON_FLAG_RESOLVE          = (1 << FIB_NODE_BW_REASON_RESOLVE),
+    FIB_NODE_BW_REASON_FLAG_EVALUATE         = (1 << FIB_NODE_BW_REASON_EVALUATE),
+    FIB_NODE_BW_REASON_FLAG_INTERFACE_UP     = (1 << FIB_NODE_BW_REASON_INTERFACE_UP),
+    FIB_NODE_BW_REASON_FLAG_INTERFACE_DOWN   = (1 << FIB_NODE_BW_REASON_INTERFACE_DOWN),
     FIB_NODE_BW_REASON_FLAG_INTERFACE_DELETE = (1 << FIB_NODE_BW_REASON_INTERFACE_DELETE),
-    FIB_NODE_BW_REASON_FLAG_ADJ_UPDATE = (1 << FIB_NODE_BW_REASON_ADJ_UPDATE),
-    FIB_NODE_BW_REASON_FLAG_ADJ_DOWN = (1 << FIB_NODE_BW_REASON_ADJ_DOWN),
-} __attribute__ ((packed)) fib_node_bw_reason_flag_t;
+    FIB_NODE_BW_REASON_FLAG_ADJ_UPDATE       = (1 << FIB_NODE_BW_REASON_ADJ_UPDATE),
+    FIB_NODE_BW_REASON_FLAG_ADJ_DOWN         = (1 << FIB_NODE_BW_REASON_ADJ_DOWN),
+} __attribute__((packed)) fib_node_bw_reason_flag_t;
 
-STATIC_ASSERT(sizeof(fib_node_bw_reason_flag_t) < 2,
-	      "BW Reason enum < 2 byte. Consequences for cover_upd_res_t");
+STATIC_ASSERT(sizeof(fib_node_bw_reason_flag_t) < 2, "BW Reason enum < 2 byte. Consequences for cover_upd_res_t");
 
 /**
  * Flags on the walk
  */
-typedef enum fib_node_bw_flags_t_
-{
+typedef enum fib_node_bw_flags_t_ {
     FIB_NODE_BW_FLAG_NONE = 0,
     /**
      * Force the walk to be synchronous
@@ -225,13 +211,12 @@ typedef struct fib_node_back_walk_ctx_t_ {
  * there is a loop/cycle in the FIB graph.
  * Note that all object types contribute to 1 to the depth.
  */
-#define FIB_NODE_GRAPH_MAX_DEPTH ((u32)32)
+#define FIB_NODE_GRAPH_MAX_DEPTH ((u32) 32)
 
 /**
  * A callback function for walking a node dependency list
  */
-typedef int (*fib_node_ptr_walk_t)(fib_node_ptr_t *depend,
-				   void *ctx);
+typedef int (*fib_node_ptr_walk_t)(fib_node_ptr_t *depend, void *ctx);
 
 /**
  * A list of dependent nodes.
@@ -250,14 +235,12 @@ typedef enum fib_node_back_walk_rc_t_ {
 /**
  * Function definition to backwalk a FIB node
  */
-typedef fib_node_back_walk_rc_t (*fib_node_back_walk_t)(
-    struct fib_node_t_ *node,
-    fib_node_back_walk_ctx_t *ctx);
+typedef fib_node_back_walk_rc_t (*fib_node_back_walk_t)(struct fib_node_t_ *node, fib_node_back_walk_ctx_t *ctx);
 
 /**
  * Function definition to get a FIB node from its index
  */
-typedef struct fib_node_t_* (*fib_node_get_t)(fib_node_index_t index);
+typedef struct fib_node_t_ *(*fib_node_get_t)(fib_node_index_t index);
 
 /**
  * Function definition to inform the FIB node that its last lock has gone.
@@ -321,8 +304,7 @@ STATIC_ASSERT(sizeof(fib_node_t) == 12, "FIB node type is growing");
  * @param vft
  * virtual function table
  */
-extern void fib_node_register_type (fib_node_type_t ft,
-				    const fib_node_vft_t *vft);
+extern void fib_node_register_type(fib_node_type_t ft, const fib_node_vft_t *vft);
 
 /**
  * @brief
@@ -333,7 +315,7 @@ extern void fib_node_register_type (fib_node_type_t ft,
  *
  * @return new FIB node type
  */
-extern fib_node_type_t fib_node_register_new_type (const fib_node_vft_t *vft);
+extern fib_node_type_t fib_node_register_new_type(const fib_node_vft_t *vft);
 
 /**
  * @brief Show the memory usage for a type
@@ -346,41 +328,30 @@ extern fib_node_type_t fib_node_register_new_type (const fib_node_vft_t *vft);
  * @param allocd_elts The number of allocated pool elemenets
  * @param size_elt The size of one element
  */
-extern void fib_show_memory_usage(const char *name,
-				  u32 in_use_elts,
-				  u32 allocd_elts,
-				  size_t size_elt);
+extern void fib_show_memory_usage(const char *name, u32 in_use_elts, u32 allocd_elts, size_t size_elt);
 
-extern void fib_node_init(fib_node_t *node,
-			  fib_node_type_t ft);
+extern void fib_node_init(fib_node_t *node, fib_node_type_t ft);
 extern void fib_node_deinit(fib_node_t *node);
 
 extern void fib_node_lock(fib_node_t *node);
 extern void fib_node_unlock(fib_node_t *node);
 
-extern u32 fib_node_get_n_children(fib_node_type_t parent_type,
-                                   fib_node_index_t parent_index);
-extern u32 fib_node_child_add(fib_node_type_t parent_type,
-			      fib_node_index_t parent_index,
-			      fib_node_type_t child_type,
-			      fib_node_index_t child_index);
-extern void fib_node_child_remove(fib_node_type_t parent_type,
-                                  fib_node_index_t parent_index,
+extern u32 fib_node_get_n_children(fib_node_type_t parent_type, fib_node_index_t parent_index);
+extern u32 fib_node_child_add(fib_node_type_t parent_type, fib_node_index_t parent_index, fib_node_type_t child_type,
+                              fib_node_index_t child_index);
+extern void fib_node_child_remove(fib_node_type_t parent_type, fib_node_index_t parent_index,
                                   fib_node_index_t sibling_index);
 
-extern fib_node_back_walk_rc_t fib_node_back_walk_one(fib_node_ptr_t *ptr,
-                                                      fib_node_back_walk_ctx_t *ctx);
+extern fib_node_back_walk_rc_t fib_node_back_walk_one(fib_node_ptr_t *ptr, fib_node_back_walk_ctx_t *ctx);
 
-extern u8* fib_node_children_format(fib_node_list_t list,
-				    u8 *s);
+extern u8 *fib_node_children_format(fib_node_list_t list, u8 *s);
 
-extern const char* fib_node_type_get_name(fib_node_type_t type);
+extern const char *fib_node_type_get_name(fib_node_type_t type);
 
 static inline int
-fib_node_index_is_valid (fib_node_index_t ni)
+fib_node_index_is_valid(fib_node_index_t ni)
 {
     return (FIB_NODE_INDEX_INVALID != ni);
 }
 
 #endif
-

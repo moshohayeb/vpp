@@ -20,13 +20,12 @@
 /**
  * A copy of the query message sent from the worker to the main thread
  */
-typedef struct igmp_query_args_t_
-{
-  u32 sw_if_index;
-  igmp_membership_query_v3_t query[0];
+typedef struct igmp_query_args_t_ {
+    u32 sw_if_index;
+    igmp_membership_query_v3_t query[0];
 } igmp_query_args_t;
 
-extern void igmp_handle_query (const igmp_query_args_t * args);
+extern void igmp_handle_query(const igmp_query_args_t *args);
 
 /*
  * fd.io coding-style-patch-verification: ON

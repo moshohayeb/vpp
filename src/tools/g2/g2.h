@@ -1,4 +1,4 @@
-/* 
+/*
  *------------------------------------------------------------------
  * Copyright (c) 2005-2016 Cisco and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +37,7 @@ GtkWidget *g_mainhbox;
  * pointsel.c
  */
 void point_selector_init(void);
-boolean read_event_definitions (char *filename);
+boolean read_event_definitions(char *filename);
 char *sxerox(char *);
 void pointsel_about(char *);
 void pointsel_next_snapshot(void);
@@ -55,14 +55,14 @@ typedef struct event_def_ {
     char pad[2];
 } event_def_t;
 
-event_def_t *find_event_definition (ulong code);
+event_def_t *find_event_definition(ulong code);
 
 event_def_t g_eventdefs[NEVENTS];
 
 /*
  * config params
  */
-int c_maxpointsel;        /* max # points shown in selector dlg */
+int c_maxpointsel; /* max # points shown in selector dlg */
 gint c_view1_draw_width;
 gint c_view1_draw_height;
 
@@ -71,8 +71,7 @@ gint c_view1_draw_height;
  */
 
 void menu1_init(void);
-void modal_dialog (char *label_text, char *retry_text, char *default_value, 
-                   boolean (*cb)(char *));
+void modal_dialog(char *label_text, char *retry_text, char *default_value, boolean (*cb)(char *));
 void infobox(char *label_text, char *text);
 /*
  * view1.c
@@ -89,14 +88,14 @@ void set_pid_ax_width(int width);
 void set_window_title(const char *filename);
 
 enum view1_tbox_fn {
-    TBOX_DRAW_BOXED = 1,        /* note: order counts */
-	TBOX_DRAW_EVENT,
+    TBOX_DRAW_BOXED = 1, /* note: order counts */
+    TBOX_DRAW_EVENT,
     TBOX_DRAW_PLAIN,
     TBOX_PRINT_BOXED,
-	TBOX_PRINT_EVENT,
-    TBOX_PRINT_PLAIN,           /* end restriction */
+    TBOX_PRINT_EVENT,
+    TBOX_PRINT_PLAIN, /* end restriction */
     TBOX_GETRECT_BOXED,
-	TBOX_GETRECT_EVENT,
+    TBOX_GETRECT_EVENT,
     TBOX_GETRECT_PLAIN,
 };
 
@@ -106,15 +105,15 @@ enum view1_line_fn {
     LINE_PRINT,
 };
 
-GdkRectangle *tbox (char *s, int x, int y, enum view1_tbox_fn function);
-void line (int x1, int y1, int x2, int y2, enum view1_line_fn function);
-gint view1_handle_key_press_event (GtkWidget *widget, GdkEventKey *event);
+GdkRectangle *tbox(char *s, int x, int y, enum view1_tbox_fn function);
+void line(int x1, int y1, int x2, int y2, enum view1_line_fn function);
+gint view1_handle_key_press_event(GtkWidget *widget, GdkEventKey *event);
 
 /*
  * events.c
  */
 
-void events_about (char *);
+void events_about(char *);
 
 typedef struct raw_event {
     unsigned long time[2];
@@ -124,31 +123,29 @@ typedef struct raw_event {
 } raw_event_t;
 
 void event_init(void);
-char *mapfile (char *file, ulong *sizep);
-boolean unmapfile (char *addr, ulong size);
-void read_events (char *);
-int find_event_index (ulonglong t);
+char *mapfile(char *file, ulong *sizep);
+boolean unmapfile(char *addr, ulong size);
+void read_events(char *);
+int find_event_index(ulonglong t);
 int read_cpel_file(char *file);
 int read_clib_file(char *file);
 void cpel_event_init(ulong);
-void add_event_from_cpel_file(ulong, char * , char *);
-void add_event_from_clib_file(unsigned int event, char *name, 
-                              unsigned int vec_index);
+void add_event_from_cpel_file(ulong, char *, char *);
+void add_event_from_clib_file(unsigned int event, char *name, unsigned int vec_index);
 void add_cpel_event(ulonglong delta, ulong, ulong, ulong);
-void add_clib_event(double delta, unsigned short track, 
-                    unsigned short event, unsigned int index);
+void add_clib_event(double delta, unsigned short track, unsigned short event, unsigned int index);
 void cpel_event_finalize(void);
-void *get_clib_event (unsigned int datum);
+void *get_clib_event(unsigned int datum);
 
 typedef struct pid_data {
     struct pid_data *next;
-    ulong pid_value;            /* The actual pid value */
-    ulong pid_index;            /* Index in pid sort order */
+    ulong pid_value; /* The actual pid value */
+    ulong pid_index; /* Index in pid sort order */
 } pid_data_t;
-    
-#define EVENT_FLAG_SELECT 	0x00000001 /* This event is selected */
-#define EVENT_FLAG_SEARCHRSLT   0x00000002 /* This event is the search rslt */
-#define EVENT_FLAG_CLIB         0x00000004 /* clib event */
+
+#define EVENT_FLAG_SELECT 0x00000001     /* This event is selected */
+#define EVENT_FLAG_SEARCHRSLT 0x00000002 /* This event is the search rslt */
+#define EVENT_FLAG_CLIB 0x00000004       /* clib event */
 
 typedef struct pid_sort {
     struct pid_data *pid;
@@ -177,7 +174,7 @@ pid_sort_t *g_original_pids;
 int g_npids;
 pid_data_t *g_pid_data_list;
 
-#define PIDHASH_NBUCKETS	20021 /* Should be prime */
+#define PIDHASH_NBUCKETS 20021 /* Should be prime */
 
 boolean ticks_per_ns_set;
 double ticks_per_ns;

@@ -16,17 +16,23 @@
 #include <vnet/ethernet/mac_address.h>
 
 const mac_address_t ZERO_MAC_ADDRESS = {
-  .bytes = {
-	    0, 0, 0, 0, 0, 0,
-	    },
+    .bytes =
+        {
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+        },
 };
 
 u8 *
-format_mac_address_t (u8 * s, va_list * args)
+format_mac_address_t(u8 *s, va_list *args)
 {
-  const mac_address_t *mac = va_arg (*args, mac_address_t *);
+    const mac_address_t *mac = va_arg(*args, mac_address_t *);
 
-  return (format (s, "%U", format_mac_address, mac->bytes));
+    return (format(s, "%U", format_mac_address, mac->bytes));
 }
 
 

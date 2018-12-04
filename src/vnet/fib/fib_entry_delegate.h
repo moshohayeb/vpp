@@ -30,12 +30,12 @@ typedef enum fib_entry_delegate_type_t_ {
      * need the chain to provide forwarding for those children. We store these additional
      * chains in delegates to save memory in the common case.
      */
-    FIB_ENTRY_DELEGATE_CHAIN_UNICAST_IP4 = FIB_FORW_CHAIN_TYPE_UNICAST_IP4,
-    FIB_ENTRY_DELEGATE_CHAIN_UNICAST_IP6 = FIB_FORW_CHAIN_TYPE_UNICAST_IP6,
-    FIB_ENTRY_DELEGATE_CHAIN_MPLS_EOS = FIB_FORW_CHAIN_TYPE_MPLS_EOS,
+    FIB_ENTRY_DELEGATE_CHAIN_UNICAST_IP4  = FIB_FORW_CHAIN_TYPE_UNICAST_IP4,
+    FIB_ENTRY_DELEGATE_CHAIN_UNICAST_IP6  = FIB_FORW_CHAIN_TYPE_UNICAST_IP6,
+    FIB_ENTRY_DELEGATE_CHAIN_MPLS_EOS     = FIB_FORW_CHAIN_TYPE_MPLS_EOS,
     FIB_ENTRY_DELEGATE_CHAIN_MPLS_NON_EOS = FIB_FORW_CHAIN_TYPE_MPLS_NON_EOS,
-    FIB_ENTRY_DELEGATE_CHAIN_ETHERNET = FIB_FORW_CHAIN_TYPE_ETHERNET,
-    FIB_ENTRY_DELEGATE_CHAIN_NSH = FIB_FORW_CHAIN_TYPE_NSH,
+    FIB_ENTRY_DELEGATE_CHAIN_ETHERNET     = FIB_FORW_CHAIN_TYPE_ETHERNET,
+    FIB_ENTRY_DELEGATE_CHAIN_NSH          = FIB_FORW_CHAIN_TYPE_NSH,
     /**
      * Dependency list of covered entries.
      * these are more specific entries that are interested in changes
@@ -53,37 +53,30 @@ typedef enum fib_entry_delegate_type_t_ {
     FIB_ENTRY_DELEGATE_ATTACHED_EXPORT,
 } fib_entry_delegate_type_t;
 
-#define FOR_EACH_DELEGATE_CHAIN(_entry, _fdt, _fed, _body)    \
-{                                                             \
-    for (_fdt = FIB_ENTRY_DELEGATE_CHAIN_UNICAST_IP4;         \
-         _fdt <= FIB_ENTRY_DELEGATE_CHAIN_NSH;                \
-         _fdt++)                                              \
-    {                                                         \
-        _fed = fib_entry_delegate_get(_entry, _fdt);          \
-        if (NULL != _fed) {                                   \
-            _body;                                            \
-        }                                                     \
-    }                                                         \
-}
-#define FOR_EACH_DELEGATE(_entry, _fdt, _fed, _body)          \
-{                                                             \
-    for (_fdt = FIB_ENTRY_DELEGATE_CHAIN_UNICAST_IP4;         \
-         _fdt <= FIB_ENTRY_DELEGATE_ATTACHED_EXPORT;          \
-         _fdt++)                                              \
-    {                                                         \
-        _fed = fib_entry_delegate_get(_entry, _fdt);          \
-        if (NULL != _fed) {                                   \
-            _body;                                            \
-        }                                                     \
-    }                                                         \
-}
+#define FOR_EACH_DELEGATE_CHAIN(_entry, _fdt, _fed, _body)                                                             \
+    {                                                                                                                  \
+        for (_fdt = FIB_ENTRY_DELEGATE_CHAIN_UNICAST_IP4; _fdt <= FIB_ENTRY_DELEGATE_CHAIN_NSH; _fdt++) {              \
+            _fed = fib_entry_delegate_get(_entry, _fdt);                                                               \
+            if (NULL != _fed) {                                                                                        \
+                _body;                                                                                                 \
+            }                                                                                                          \
+        }                                                                                                              \
+    }
+#define FOR_EACH_DELEGATE(_entry, _fdt, _fed, _body)                                                                   \
+    {                                                                                                                  \
+        for (_fdt = FIB_ENTRY_DELEGATE_CHAIN_UNICAST_IP4; _fdt <= FIB_ENTRY_DELEGATE_ATTACHED_EXPORT; _fdt++) {        \
+            _fed = fib_entry_delegate_get(_entry, _fdt);                                                               \
+            if (NULL != _fed) {                                                                                        \
+                _body;                                                                                                 \
+            }                                                                                                          \
+        }                                                                                                              \
+    }
 
 /**
  * Distillation of the BFD session states into a go/no-go for using
  * the associated tracked FIB entry
  */
-typedef enum fib_bfd_state_t_
-{
+typedef enum fib_bfd_state_t_ {
     FIB_BFD_STATE_UP,
     FIB_BFD_STATE_DOWN,
 } fib_bfd_state_t;
@@ -94,8 +87,7 @@ typedef enum fib_bfd_state_t_
  * These 'other' objects are delegates. Delagates are thus attached to other FIB objects
  * to extend their functionality.
  */
-typedef struct fib_entry_delegate_t_
-{
+typedef struct fib_entry_delegate_t_ {
     /**
      * The FIB entry object to which the delagate is attached
      */
@@ -113,8 +105,7 @@ typedef struct fib_entry_delegate_t_
      * i.e. store an index, that's ok for large delegates, like the attached export
      * but for the chain delegates it's excessive
      */
-    union
-    {
+    union {
         /**
          * Valid for the forwarding chain delegates. The LB that is built.
          */
@@ -139,20 +130,16 @@ typedef struct fib_entry_delegate_t_
 
 struct fib_entry_t_;
 
-extern void fib_entry_delegate_remove(struct fib_entry_t_ *fib_entry,
-                                      fib_entry_delegate_type_t type);
+extern void fib_entry_delegate_remove(struct fib_entry_t_ *fib_entry, fib_entry_delegate_type_t type);
 
 extern fib_entry_delegate_t *fib_entry_delegate_find_or_add(struct fib_entry_t_ *fib_entry,
                                                             fib_entry_delegate_type_t fdt);
-extern fib_entry_delegate_t *fib_entry_delegate_get(const struct fib_entry_t_ *fib_entry,
-                                                    fib_entry_delegate_type_t type);
+extern fib_entry_delegate_t *fib_entry_delegate_get(const struct fib_entry_t_ *fib_entry, fib_entry_delegate_type_t type);
 
-extern fib_forward_chain_type_t fib_entry_delegate_type_to_chain_type(
-    fib_entry_delegate_type_t type);
+extern fib_forward_chain_type_t fib_entry_delegate_type_to_chain_type(fib_entry_delegate_type_t type);
 
-extern fib_entry_delegate_type_t fib_entry_chain_type_to_delegate_type(
-     fib_forward_chain_type_t type);
+extern fib_entry_delegate_type_t fib_entry_chain_type_to_delegate_type(fib_forward_chain_type_t type);
 
-extern u8 *format_fib_entry_deletegate(u8 * s, va_list * args);
+extern u8 *format_fib_entry_deletegate(u8 *s, va_list *args);
 
 #endif

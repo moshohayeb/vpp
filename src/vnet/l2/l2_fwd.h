@@ -22,9 +22,7 @@
 #include <vnet/ethernet/ethernet.h>
 
 
-void
-l2fwd_register_input_type (vlib_main_t * vm,
-			   ethernet_type_t type, u32 node_index);
+void l2fwd_register_input_type(vlib_main_t *vm, ethernet_type_t type, u32 node_index);
 #endif
 
 /*

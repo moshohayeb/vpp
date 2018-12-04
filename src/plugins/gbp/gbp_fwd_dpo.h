@@ -23,22 +23,21 @@
  * The GBP FWD DPO. Used in the L3 path to select the correct EPG uplink
  * based on the source EPG.
  */
-typedef struct gbp_fwd_dpo_t_
-{
-  /**
-   * The protocol of packets using this DPO
-   */
-  dpo_proto_t gfd_proto;
+typedef struct gbp_fwd_dpo_t_ {
+    /**
+     * The protocol of packets using this DPO
+     */
+    dpo_proto_t gfd_proto;
 
-  /**
-   * number of locks.
-   */
-  u16 gfd_locks;
+    /**
+     * number of locks.
+     */
+    u16 gfd_locks;
 } gbp_fwd_dpo_t;
 
-extern void gbp_fwd_dpo_add_or_lock (dpo_proto_t dproto, dpo_id_t * dpo);
+extern void gbp_fwd_dpo_add_or_lock(dpo_proto_t dproto, dpo_id_t *dpo);
 
-extern dpo_type_t gbp_fwd_dpo_get_type (void);
+extern dpo_type_t gbp_fwd_dpo_get_type(void);
 
 /**
  * @brief pool of all interface DPOs
@@ -46,9 +45,9 @@ extern dpo_type_t gbp_fwd_dpo_get_type (void);
 extern gbp_fwd_dpo_t *gbp_fwd_dpo_pool;
 
 static inline gbp_fwd_dpo_t *
-gbp_fwd_dpo_get (index_t index)
+gbp_fwd_dpo_get(index_t index)
 {
-  return (pool_elt_at_index (gbp_fwd_dpo_pool, index));
+    return (pool_elt_at_index(gbp_fwd_dpo_pool, index));
 }
 
 /*

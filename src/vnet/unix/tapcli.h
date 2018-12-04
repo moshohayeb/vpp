@@ -23,29 +23,27 @@
 #define __included_tapcli_h__
 
 /** TAP CLI errors */
-#define foreach_tapcli_error				\
-  /* Must be first. */                                  \
- _(NONE, "no error")                                    \
- _(READ, "read error")                                  \
- _(BUFFER_ALLOC, "buffer allocation error")             \
- _(UNKNOWN, "unknown error")
+#define foreach_tapcli_error                                                                                           \
+    /* Must be first. */                                                                                               \
+    _(NONE, "no error")                                                                                                \
+    _(READ, "read error")                                                                                              \
+    _(BUFFER_ALLOC, "buffer allocation error")                                                                         \
+    _(UNKNOWN, "unknown error")
 
-typedef enum
-{
-#define _(sym,str) TAPCLI_ERROR_##sym,
-  foreach_tapcli_error
+typedef enum {
+#define _(sym, str) TAPCLI_ERROR_##sym,
+    foreach_tapcli_error
 #undef _
-    TAPCLI_N_ERROR,
+        TAPCLI_N_ERROR,
 } tapcli_error_t;
 
 /** TAP CLI interface details struct */
-typedef struct
-{
-  u32 sw_if_index;
-  u8 dev_name[64];
+typedef struct {
+    u32 sw_if_index;
+    u8 dev_name[64];
 } tapcli_interface_details_t;
 
-int vnet_tap_dump_ifs (tapcli_interface_details_t ** out_tapids);
+int vnet_tap_dump_ifs(tapcli_interface_details_t **out_tapids);
 
 #define TAP_MTU_MIN 68
 #define TAP_MTU_MAX 65535

@@ -29,9 +29,9 @@ typedef struct {
     u16 msg_id_base;
 
     /* convenience */
-    vlib_main_t * vlib_main;
-    vnet_main_t * vnet_main;
-    
+    vlib_main_t *vlib_main;
+    vnet_main_t *vnet_main;
+
     /* DPO type */
     dpo_type_t srv6_localsid_sample_dpo_type;
 
@@ -45,16 +45,16 @@ typedef struct {
  * the user instantiates
  */
 typedef struct {
-	u32 fib_table;	/* Stupid index used as an example.. */
-} srv6_localsid_sample_per_sid_memory_t ;
+    u32 fib_table; /* Stupid index used as an example.. */
+} srv6_localsid_sample_per_sid_memory_t;
 
 extern srv6_localsid_sample_main_t srv6_localsid_sample_main;
 
 format_function_t format_srv6_localsid_sample;
 unformat_function_t unformat_srv6_localsid_sample;
 
-void srv6_localsid_sample_dpo_lock (dpo_id_t * dpo);
-void srv6_localsid_sample_dpo_unlock (dpo_id_t * dpo);
+void srv6_localsid_sample_dpo_lock(dpo_id_t *dpo);
+void srv6_localsid_sample_dpo_unlock(dpo_id_t *dpo);
 
 extern vlib_node_registration_t srv6_localsid_sample_node;
 

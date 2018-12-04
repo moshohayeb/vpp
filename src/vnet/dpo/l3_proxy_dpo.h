@@ -24,8 +24,7 @@
 #include <vnet/dpo/dpo.h>
 #include <vnet/ip/ip6.h>
 
-typedef struct l3_proxy_dpo_t_
-{
+typedef struct l3_proxy_dpo_t_ {
     /**
      * required for pool_get_aligned.
      *  memebers used in the switch path come first!
@@ -43,9 +42,7 @@ typedef struct l3_proxy_dpo_t_
     u16 l3p_locks;
 } l3_proxy_dpo_t;
 
-extern void l3_proxy_dpo_add_or_lock (dpo_proto_t proto,
-                                      u32 sw_if_index,
-                                      dpo_id_t *dpo);
+extern void l3_proxy_dpo_add_or_lock(dpo_proto_t proto, u32 sw_if_index, dpo_id_t *dpo);
 
 extern void l3_proxy_dpo_module_init(void);
 
@@ -55,7 +52,7 @@ extern void l3_proxy_dpo_module_init(void);
 l3_proxy_dpo_t *l3_proxy_dpo_pool;
 
 static inline l3_proxy_dpo_t *
-l3_proxy_dpo_get (index_t index)
+l3_proxy_dpo_get(index_t index)
 {
     return (pool_elt_at_index(l3_proxy_dpo_pool, index));
 }

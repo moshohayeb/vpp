@@ -25,29 +25,22 @@
  * Source initialisation Function
  */
 static void
-fib_entry_src_adj_init (fib_entry_src_t *src)
+fib_entry_src_adj_init(fib_entry_src_t *src)
 {
-    src->u.adj.fesa_cover = FIB_NODE_INDEX_INVALID;
+    src->u.adj.fesa_cover   = FIB_NODE_INDEX_INVALID;
     src->u.adj.fesa_sibling = FIB_NODE_INDEX_INVALID;
 }
 
 static void
-fib_entry_src_adj_path_add (fib_entry_src_t *src,
-                            const fib_entry_t *entry,
-                            fib_path_list_flags_t pl_flags,
-                            const fib_route_path_t *paths)
+fib_entry_src_adj_path_add(fib_entry_src_t *src, const fib_entry_t *entry, fib_path_list_flags_t pl_flags,
+                           const fib_route_path_t *paths)
 {
     const fib_route_path_t *rpath;
 
-    if (FIB_NODE_INDEX_INVALID == src->fes_pl)
-    {
+    if (FIB_NODE_INDEX_INVALID == src->fes_pl) {
         src->fes_pl = fib_path_list_create(pl_flags, paths);
-    }
-    else
-    {
-        src->fes_pl = fib_path_list_copy_and_path_add(src->fes_pl,
-                                                      pl_flags,
-                                                      paths);
+    } else {
+        src->fes_pl = fib_path_list_copy_and_path_add(src->fes_pl, pl_flags, paths);
     }
 
     /*
@@ -60,25 +53,17 @@ fib_entry_src_adj_path_add (fib_entry_src_t *src,
      */
     vec_foreach(rpath, paths)
     {
-        fib_path_ext_list_insert(&src->fes_path_exts,
-                                 src->fes_pl,
-                                 FIB_PATH_EXT_ADJ,
-                                 rpath);
+        fib_path_ext_list_insert(&src->fes_path_exts, src->fes_pl, FIB_PATH_EXT_ADJ, rpath);
     }
 }
 
 static void
-fib_entry_src_adj_path_remove (fib_entry_src_t *src,
-                               fib_path_list_flags_t pl_flags,
-                               const fib_route_path_t *rpaths)
+fib_entry_src_adj_path_remove(fib_entry_src_t *src, fib_path_list_flags_t pl_flags, const fib_route_path_t *rpaths)
 {
     const fib_route_path_t *rpath;
 
-    if (FIB_NODE_INDEX_INVALID != src->fes_pl)
-    {
-        src->fes_pl = fib_path_list_copy_and_path_remove(src->fes_pl,
-                                                         pl_flags,
-                                                         rpaths);
+    if (FIB_NODE_INDEX_INVALID != src->fes_pl) {
+        src->fes_pl = fib_path_list_copy_and_path_remove(src->fes_pl, pl_flags, rpaths);
     }
 
     /*
@@ -95,10 +80,8 @@ fib_entry_src_adj_path_remove (fib_entry_src_t *src,
 }
 
 static void
-fib_entry_src_adj_path_swap (fib_entry_src_t *src,
-                             const fib_entry_t *entry,
-                             fib_path_list_flags_t pl_flags,
-                             const fib_route_path_t *paths)
+fib_entry_src_adj_path_swap(fib_entry_src_t *src, const fib_entry_t *entry, fib_path_list_flags_t pl_flags,
+                            const fib_route_path_t *paths)
 {
     const fib_route_path_t *rpath;
 
@@ -114,15 +97,12 @@ fib_entry_src_adj_path_swap (fib_entry_src_t *src,
      */
     vec_foreach(rpath, paths)
     {
-        fib_path_ext_list_push_back(&src->fes_path_exts,
-                                    src->fes_pl,
-                                    FIB_PATH_EXT_ADJ,
-                                    rpath);
+        fib_path_ext_list_push_back(&src->fes_path_exts, src->fes_pl, FIB_PATH_EXT_ADJ, rpath);
     }
 }
 
 static void
-fib_entry_src_adj_remove (fib_entry_src_t *src)
+fib_entry_src_adj_remove(fib_entry_src_t *src)
 {
     src->fes_pl = FIB_NODE_INDEX_INVALID;
 }
@@ -132,78 +112,58 @@ fib_entry_src_adj_remove (fib_entry_src_t *src)
  * because it passed the refinement check
  */
 static void
-fib_enty_src_adj_update_path_ext (fib_entry_src_t *src,
-                                  fib_node_index_t path_index,
-                                  fib_path_ext_adj_flags_t flags)
+fib_enty_src_adj_update_path_ext(fib_entry_src_t *src, fib_node_index_t path_index, fib_path_ext_adj_flags_t flags)
 {
     fib_path_ext_t *path_ext;
 
-    path_ext = fib_path_ext_list_find_by_path_index(&src->fes_path_exts,
-                                                    path_index);
+    path_ext = fib_path_ext_list_find_by_path_index(&src->fes_path_exts, path_index);
 
-    if (NULL != path_ext)
-    {
+    if (NULL != path_ext) {
         path_ext->fpe_adj_flags = flags;
-    }
-    else
-    {
+    } else {
         ASSERT(!"no path extension");
     }
 }
 
-typedef struct fib_entry_src_path_list_walk_cxt_t_
-{
+typedef struct fib_entry_src_path_list_walk_cxt_t_ {
     fib_entry_src_t *src;
     u32 cover_itf;
     fib_path_ext_adj_flags_t flags;
 } fib_entry_src_path_list_walk_cxt_t;
 
 static fib_path_list_walk_rc_t
-fib_entry_src_adj_path_list_walk (fib_node_index_t pl_index,
-                                  fib_node_index_t path_index,
-                                  void *arg)
+fib_entry_src_adj_path_list_walk(fib_node_index_t pl_index, fib_node_index_t path_index, void *arg)
 {
     fib_entry_src_path_list_walk_cxt_t *ctx;
     u32 adj_itf;
 
-    ctx = arg;
+    ctx     = arg;
     adj_itf = fib_path_get_resolving_interface(path_index);
 
-    if (ctx->cover_itf == adj_itf)
-    {
-        fib_enty_src_adj_update_path_ext(ctx->src, path_index,
-                                         FIB_PATH_EXT_ADJ_FLAG_REFINES_COVER);
+    if (ctx->cover_itf == adj_itf) {
+        fib_enty_src_adj_update_path_ext(ctx->src, path_index, FIB_PATH_EXT_ADJ_FLAG_REFINES_COVER);
         ctx->flags |= FIB_PATH_EXT_ADJ_FLAG_REFINES_COVER;
-    }
-    else
-    {
+    } else {
         /*
          * if the interface the adj is on is unnumbered to the
          * cover's, then allow that too.
          */
         vnet_sw_interface_t *swif;
 
-        swif = vnet_get_sw_interface (vnet_get_main(), adj_itf);
+        swif = vnet_get_sw_interface(vnet_get_main(), adj_itf);
 
-        if (swif->flags & VNET_SW_INTERFACE_FLAG_UNNUMBERED &&
-            ctx->cover_itf == swif->unnumbered_sw_if_index)
-        {
-            fib_enty_src_adj_update_path_ext(ctx->src, path_index,
-                                             FIB_PATH_EXT_ADJ_FLAG_REFINES_COVER);
+        if (swif->flags & VNET_SW_INTERFACE_FLAG_UNNUMBERED && ctx->cover_itf == swif->unnumbered_sw_if_index) {
+            fib_enty_src_adj_update_path_ext(ctx->src, path_index, FIB_PATH_EXT_ADJ_FLAG_REFINES_COVER);
             ctx->flags |= FIB_PATH_EXT_ADJ_FLAG_REFINES_COVER;
-        }
-        else
-        {
-            fib_enty_src_adj_update_path_ext(ctx->src, path_index,
-                                             FIB_PATH_EXT_ADJ_FLAG_NONE);
+        } else {
+            fib_enty_src_adj_update_path_ext(ctx->src, path_index, FIB_PATH_EXT_ADJ_FLAG_NONE);
         }
     }
     return (FIB_PATH_LIST_WALK_CONTINUE);
 }
 
 static int
-fib_entry_src_adj_activate (fib_entry_src_t *src,
-                            const fib_entry_t *fib_entry)
+fib_entry_src_adj_activate(fib_entry_src_t *src, const fib_entry_t *fib_entry)
 {
     fib_entry_t *cover;
 
@@ -211,8 +171,7 @@ fib_entry_src_adj_activate (fib_entry_src_t *src,
      * find the covering prefix. become a dependent thereof.
      * there should always be a cover, though it may be the default route.
      */
-    src->u.adj.fesa_cover = fib_table_get_less_specific(fib_entry->fe_fib_index,
-                                                        &fib_entry->fe_prefix);
+    src->u.adj.fesa_cover = fib_table_get_less_specific(fib_entry->fe_fib_index, &fib_entry->fe_prefix);
 
     ASSERT(FIB_NODE_INDEX_INVALID != src->u.adj.fesa_cover);
     ASSERT(fib_entry_get_index(fib_entry) != src->u.adj.fesa_cover);
@@ -221,9 +180,7 @@ fib_entry_src_adj_activate (fib_entry_src_t *src,
 
     ASSERT(cover != fib_entry);
 
-    src->u.adj.fesa_sibling =
-        fib_entry_cover_track(cover,
-                              fib_entry_get_index(fib_entry));
+    src->u.adj.fesa_sibling = fib_entry_cover_track(cover, fib_entry_get_index(fib_entry));
 
     /*
      * if the cover is attached on the same interface as this adj source then
@@ -237,17 +194,14 @@ fib_entry_src_adj_activate (fib_entry_src_t *src,
      *   ip route add 10.0.0.0/24 Eth0
      * is attached. and we want adj-fibs to install on Eth0.
      */
-    if (FIB_ENTRY_FLAG_ATTACHED & fib_entry_get_flags_i(cover))
-    {
+    if (FIB_ENTRY_FLAG_ATTACHED & fib_entry_get_flags_i(cover)) {
         fib_entry_src_path_list_walk_cxt_t ctx = {
             .cover_itf = fib_entry_get_resolving_interface(src->u.adj.fesa_cover),
-            .flags = FIB_PATH_EXT_ADJ_FLAG_NONE,
-            .src = src,
+            .flags     = FIB_PATH_EXT_ADJ_FLAG_NONE,
+            .src       = src,
         };
 
-        fib_path_list_walk(src->fes_pl,
-                           fib_entry_src_adj_path_list_walk,
-                           &ctx);
+        fib_path_list_walk(src->fes_pl, fib_entry_src_adj_path_list_walk, &ctx);
 
         /*
          * active the entry is one of the paths refines the cover.
@@ -263,18 +217,15 @@ fib_entry_src_adj_activate (fib_entry_src_t *src,
  * the best source
  */
 static int
-fib_entry_src_adj_reactivate (fib_entry_src_t *src,
-                              const fib_entry_t *fib_entry)
+fib_entry_src_adj_reactivate(fib_entry_src_t *src, const fib_entry_t *fib_entry)
 {
     fib_entry_src_path_list_walk_cxt_t ctx = {
         .cover_itf = fib_entry_get_resolving_interface(src->u.adj.fesa_cover),
-        .flags = FIB_PATH_EXT_ADJ_FLAG_NONE,
-        .src = src,
+        .flags     = FIB_PATH_EXT_ADJ_FLAG_NONE,
+        .src       = src,
     };
 
-    fib_path_list_walk(src->fes_pl,
-                       fib_entry_src_adj_path_list_walk,
-                       &ctx);
+    fib_path_list_walk(src->fes_pl, fib_entry_src_adj_path_list_walk, &ctx);
 
     return (FIB_PATH_EXT_ADJ_FLAG_REFINES_COVER & ctx.flags);
 }
@@ -284,8 +235,7 @@ fib_entry_src_adj_reactivate (fib_entry_src_t *src,
  * Called when the source is no longer best source on the entry
  */
 static void
-fib_entry_src_adj_deactivate (fib_entry_src_t *src,
-                              const fib_entry_t *fib_entry)
+fib_entry_src_adj_deactivate(fib_entry_src_t *src, const fib_entry_t *fib_entry)
 {
     fib_entry_t *cover;
 
@@ -305,16 +255,14 @@ fib_entry_src_adj_deactivate (fib_entry_src_t *src,
     src->u.adj.fesa_cover = FIB_NODE_INDEX_INVALID;
 }
 
-static u8*
-fib_entry_src_adj_format (fib_entry_src_t *src,
-                         u8* s)
+static u8 *
+fib_entry_src_adj_format(fib_entry_src_t *src, u8 *s)
 {
     return (format(s, " cover:%d", src->u.adj.fesa_cover));
 }
 
 static void
-fib_entry_src_adj_installed (fib_entry_src_t *src,
-                             const fib_entry_t *fib_entry)
+fib_entry_src_adj_installed(fib_entry_src_t *src, const fib_entry_t *fib_entry)
 {
     /*
      * The adj source now rules! poke our cover to get exported
@@ -324,16 +272,14 @@ fib_entry_src_adj_installed (fib_entry_src_t *src,
     ASSERT(FIB_NODE_INDEX_INVALID != src->u.adj.fesa_cover);
     cover = fib_entry_get(src->u.adj.fesa_cover);
 
-    fib_attached_export_covered_added(cover,
-                                      fib_entry_get_index(fib_entry));
+    fib_attached_export_covered_added(cover, fib_entry_get_index(fib_entry));
 }
 
 static fib_entry_src_cover_res_t
-fib_entry_src_adj_cover_change (fib_entry_src_t *src,
-                                const fib_entry_t *fib_entry)
+fib_entry_src_adj_cover_change(fib_entry_src_t *src, const fib_entry_t *fib_entry)
 {
     fib_entry_src_cover_res_t res = {
-        .install = !0,
+        .install   = !0,
         .bw_reason = FIB_NODE_BW_REASON_FLAG_NONE,
     };
 
@@ -355,8 +301,7 @@ fib_entry_src_adj_cover_change (fib_entry_src_t *src,
  * fib_entry_src_adj_cover_update
  */
 static fib_entry_src_cover_res_t
-fib_entry_src_adj_cover_update (fib_entry_src_t *src,
-                                const fib_entry_t *fib_entry)
+fib_entry_src_adj_cover_update(fib_entry_src_t *src, const fib_entry_t *fib_entry)
 {
     /*
      * the cover has updated, i.e. its forwarding or flags
@@ -364,7 +309,7 @@ fib_entry_src_adj_cover_update (fib_entry_src_t *src,
      * prefix is updated during the covers walk.
      */
     fib_entry_src_cover_res_t res = {
-        .install = !0,
+        .install   = !0,
         .bw_reason = FIB_NODE_BW_REASON_FLAG_NONE,
     };
     fib_entry_t *cover;
@@ -379,22 +324,22 @@ fib_entry_src_adj_cover_update (fib_entry_src_t *src,
 }
 
 const static fib_entry_src_vft_t adj_src_vft = {
-    .fesv_init = fib_entry_src_adj_init,
-    .fesv_path_swap = fib_entry_src_adj_path_swap,
-    .fesv_path_add = fib_entry_src_adj_path_add,
-    .fesv_path_remove = fib_entry_src_adj_path_remove,
-    .fesv_remove = fib_entry_src_adj_remove,
-    .fesv_activate = fib_entry_src_adj_activate,
-    .fesv_deactivate = fib_entry_src_adj_deactivate,
-    .fesv_reactivate = fib_entry_src_adj_reactivate,
-    .fesv_format = fib_entry_src_adj_format,
-    .fesv_installed = fib_entry_src_adj_installed,
+    .fesv_init         = fib_entry_src_adj_init,
+    .fesv_path_swap    = fib_entry_src_adj_path_swap,
+    .fesv_path_add     = fib_entry_src_adj_path_add,
+    .fesv_path_remove  = fib_entry_src_adj_path_remove,
+    .fesv_remove       = fib_entry_src_adj_remove,
+    .fesv_activate     = fib_entry_src_adj_activate,
+    .fesv_deactivate   = fib_entry_src_adj_deactivate,
+    .fesv_reactivate   = fib_entry_src_adj_reactivate,
+    .fesv_format       = fib_entry_src_adj_format,
+    .fesv_installed    = fib_entry_src_adj_installed,
     .fesv_cover_change = fib_entry_src_adj_cover_change,
     .fesv_cover_update = fib_entry_src_adj_cover_update,
 };
 
 void
-fib_entry_src_adj_register (void)
+fib_entry_src_adj_register(void)
 {
     fib_entry_src_register(FIB_SOURCE_ADJ, &adj_src_vft);
 }

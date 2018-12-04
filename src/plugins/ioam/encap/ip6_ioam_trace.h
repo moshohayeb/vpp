@@ -23,21 +23,21 @@
 
 /* *INDENT-OFF* */
 typedef CLIB_PACKED(struct {
-  ip6_hop_by_hop_option_t hdr;
-  ioam_trace_hdr_t trace_hdr;
+    ip6_hop_by_hop_option_t hdr;
+    ioam_trace_hdr_t trace_hdr;
 }) ioam_trace_option_t;
 /* *INDENT-ON* */
 
 always_inline void
-ip6_hbh_ioam_trace_set_bit (ioam_trace_option_t * trace, u8 trace_bit)
+ip6_hbh_ioam_trace_set_bit(ioam_trace_option_t *trace, u8 trace_bit)
 {
-  ioam_trace_set_bit (&trace->trace_hdr, trace_bit);
+    ioam_trace_set_bit(&trace->trace_hdr, trace_bit);
 }
 
 always_inline void
-ip6_hbh_ioam_trace_reset_bit (ioam_trace_option_t * trace, u8 trace_bit)
+ip6_hbh_ioam_trace_reset_bit(ioam_trace_option_t *trace, u8 trace_bit)
 {
-  ioam_trace_reset_bit (&trace->trace_hdr, trace_bit);
+    ioam_trace_reset_bit(&trace->trace_hdr, trace_bit);
 }
 
 #endif /* PLUGINS_IOAM_PLUGIN_IOAM_ENCAP_IP6_IOAM_TRACE_H_ */

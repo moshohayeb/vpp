@@ -40,10 +40,9 @@
 #include <plugins/gbp/gbp_subnet.h>
 #include <plugins/gbp/gbp_recirc.h>
 
-typedef struct
-{
-  u32 gbp_acl_user_id;
-  acl_plugin_methods_t acl_plugin;
+typedef struct {
+    u32 gbp_acl_user_id;
+    acl_plugin_methods_t acl_plugin;
 } gbp_main_t;
 
 extern gbp_main_t gbp_main;

@@ -41,8 +41,7 @@ typedef enum adj_delegate_type_t_ {
 /**
  * Adj delegate. This object is attached to the adjacency.
  */
-typedef struct adj_delegate_t_
-{
+typedef struct adj_delegate_t_ {
     /**
      * The ADJ entry object to which the delagate is attached
      */
@@ -69,7 +68,7 @@ typedef void (*adj_delegate_adj_deleted_t)(adj_delegate_t *aed);
 /**
  * Format function for the delegate
  */
-typedef u8 * (*adj_delegate_format_t)(const adj_delegate_t *aed, u8 *s);
+typedef u8 *(*adj_delegate_format_t)(const adj_delegate_t *aed, u8 *s);
 
 /**
  * An ADJ delegate virtual function table
@@ -85,8 +84,7 @@ typedef struct adj_delegate_vft_t_ {
  * @param ai The adjacency to remove the delegate from
  * @param type The type of delegate being removed
  */
-extern void adj_delegate_remove(adj_index_t ai,
-                                adj_delegate_type_t type);
+extern void adj_delegate_remove(adj_index_t ai, adj_delegate_type_t type);
 
 /**
  * @brief Add a delegate to an adjacency
@@ -95,9 +93,7 @@ extern void adj_delegate_remove(adj_index_t ai,
  * @param type The type of delegate being added
  * @param adi The provider's [pool] index of its attached objet
  */
-extern int adj_delegate_add(ip_adjacency_t *adj,
-                            adj_delegate_type_t fdt,
-                            index_t adi);
+extern int adj_delegate_add(ip_adjacency_t *adj, adj_delegate_type_t fdt, index_t adi);
 
 /**
  * @brief Get a delegate from an adjacency
@@ -105,19 +101,16 @@ extern int adj_delegate_add(ip_adjacency_t *adj,
  * @param ai The adjacency to get the delegate from
  * @param type The type of delegate being sought
  */
-extern adj_delegate_t *adj_delegate_get(const ip_adjacency_t *adj,
-                                        adj_delegate_type_t type);
+extern adj_delegate_t *adj_delegate_get(const ip_adjacency_t *adj, adj_delegate_type_t type);
 
 /**
  * @brief Register a VFT for one of the built-in types
  */
-extern void adj_delegate_register_type(adj_delegate_type_t type,
-                                       const adj_delegate_vft_t *vft);
+extern void adj_delegate_register_type(adj_delegate_type_t type, const adj_delegate_vft_t *vft);
 
 /**
  * @brief create a new delegate type and register a new VFT
  */
-extern adj_delegate_type_t adj_delegate_register_new_type(
-    const adj_delegate_vft_t *vft);
+extern adj_delegate_type_t adj_delegate_register_new_type(const adj_delegate_vft_t *vft);
 
 #endif

@@ -22,39 +22,38 @@
 /**
  * An Endpoint Group representation
  */
-typedef struct gpb_recirc_t_
-{
-  /**
-   * EPG ID that packets will classify to when they arrive on this recirc
-   */
-  epg_id_t gr_epg;
+typedef struct gpb_recirc_t_ {
+    /**
+     * EPG ID that packets will classify to when they arrive on this recirc
+     */
+    epg_id_t gr_epg;
 
-  /**
-   * FIB indices the EPG is mapped to
-   */
-  u32 gr_fib_index[FIB_PROTOCOL_IP_MAX];
+    /**
+     * FIB indices the EPG is mapped to
+     */
+    u32 gr_fib_index[FIB_PROTOCOL_IP_MAX];
 
-  /**
-   * Is the interface for packets post-NAT translation (i.e. ext)
-   * or pre-NAT translation (i.e. internal)
-   */
-  u8 gr_is_ext;
+    /**
+     * Is the interface for packets post-NAT translation (i.e. ext)
+     * or pre-NAT translation (i.e. internal)
+     */
+    u8 gr_is_ext;
 
-  /**
-   */
-  u32 gr_sw_if_index;
+    /**
+     */
+    u32 gr_sw_if_index;
 
-  /**
-   * The endpoint created to represent the reric interface
-   */
-  index_t gr_ep;
+    /**
+     * The endpoint created to represent the reric interface
+     */
+    index_t gr_ep;
 } gbp_recirc_t;
 
-extern int gbp_recirc_add (u32 sw_if_index, epg_id_t epg_id, u8 is_ext);
-extern void gbp_recirc_delete (u32 sw_if_index);
+extern int gbp_recirc_add(u32 sw_if_index, epg_id_t epg_id, u8 is_ext);
+extern void gbp_recirc_delete(u32 sw_if_index);
 
-typedef int (*gbp_recirc_cb_t) (gbp_recirc_t * gbpe, void *ctx);
-extern void gbp_recirc_walk (gbp_recirc_cb_t bgpe, void *ctx);
+typedef int (*gbp_recirc_cb_t)(gbp_recirc_t *gbpe, void *ctx);
+extern void gbp_recirc_walk(gbp_recirc_cb_t bgpe, void *ctx);
 
 /**
  * Data plane functions
@@ -63,9 +62,9 @@ extern gbp_recirc_t *gbp_recirc_pool;
 extern index_t *gbp_recirc_db;
 
 always_inline const gbp_recirc_t *
-gbp_recirc_get (u32 sw_if_index)
+gbp_recirc_get(u32 sw_if_index)
 {
-  return (pool_elt_at_index (gbp_recirc_pool, gbp_recirc_db[sw_if_index]));
+    return (pool_elt_at_index(gbp_recirc_pool, gbp_recirc_db[sw_if_index]));
 }
 #endif
 

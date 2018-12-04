@@ -23,8 +23,7 @@
 /**
  * Flags present on an MPLS label sourced path-extension
  */
-typedef enum mpls_label_dpo_attr_t_
-{
+typedef enum mpls_label_dpo_attr_t_ {
     /**
      * Do not decrement the TTL of IP packet during imposition
      */
@@ -32,29 +31,26 @@ typedef enum mpls_label_dpo_attr_t_
     MPLS_LABEL_DPO_ATTR_UNIFORM_MODE,
 } mpls_label_dpo_attr_t;
 
-#define MPLS_LABEL_DPO_ATTR_MAX (MPLS_LABEL_DPO_ATTR_UNIFORM_MODE+1)
+#define MPLS_LABEL_DPO_ATTR_MAX (MPLS_LABEL_DPO_ATTR_UNIFORM_MODE + 1)
 
-typedef enum mpls_label_dpo_flags_t_
-{
-    MPLS_LABEL_DPO_FLAG_NONE = 0,
+typedef enum mpls_label_dpo_flags_t_ {
+    MPLS_LABEL_DPO_FLAG_NONE           = 0,
     MPLS_LABEL_DPO_FLAG_NO_IP_TTL_DECR = (1 << MPLS_LABEL_DPO_ATTR_NO_IP_TTL_DECR),
-    MPLS_LABEL_DPO_FLAG_UNIFORM_MODE = (1 << MPLS_LABEL_DPO_ATTR_UNIFORM_MODE),
-} __attribute__ ((packed)) mpls_label_dpo_flags_t;
+    MPLS_LABEL_DPO_FLAG_UNIFORM_MODE   = (1 << MPLS_LABEL_DPO_ATTR_UNIFORM_MODE),
+} __attribute__((packed)) mpls_label_dpo_flags_t;
 
-#define MPLS_LABEL_DPO_ATTR_NAMES {                               \
-    [MPLS_LABEL_DPO_ATTR_NO_IP_TTL_DECR] = "no-ip-tll-decr",      \
-    [MPLS_LABEL_DPO_ATTR_UNIFORM_MODE]   = "uniform-mode",        \
-}
+#define MPLS_LABEL_DPO_ATTR_NAMES                                                                                      \
+    {                                                                                                                  \
+        [MPLS_LABEL_DPO_ATTR_NO_IP_TTL_DECR] = "no-ip-tll-decr", [MPLS_LABEL_DPO_ATTR_UNIFORM_MODE] = "uniform-mode",  \
+    }
 
-#define FOR_EACH_MPLS_LABEL_DPO_ATTR(_item)                \
-    for (_item = MPLS_LABEL_DPO_ATTR_NO_IP_TTL_DECR;       \
-         _item <= MPLS_LABEL_DPO_ATTR_UNIFORM_MODE;        \
-         _item++)
+#define FOR_EACH_MPLS_LABEL_DPO_ATTR(_item)                                                                            \
+    for (_item = MPLS_LABEL_DPO_ATTR_NO_IP_TTL_DECR; _item <= MPLS_LABEL_DPO_ATTR_UNIFORM_MODE; _item++)
 
 /**
  * Format the flags variable
  */
-extern u8* format_mpls_label_dpo_flags(u8 *s, va_list *args);
+extern u8 *format_mpls_label_dpo_flags(u8 *s, va_list *args);
 
 /**
  * Maximum number of labels in one DPO
@@ -64,8 +60,7 @@ extern u8* format_mpls_label_dpo_flags(u8 *s, va_list *args);
 /**
  * A representation of an MPLS label for imposition in the data-path
  */
-typedef struct mpls_label_dpo_t
-{
+typedef struct mpls_label_dpo_t {
     /**
      * required for pool_get_aligned.
      *  memebers used in the switch path come first!
@@ -114,8 +109,7 @@ typedef struct mpls_label_dpo_t
  * Should this get any bigger then we will need to reconsider how many labels
  * can be pushed in one object.
  */
-STATIC_ASSERT((sizeof(mpls_label_dpo_t) <= CLIB_CACHE_LINE_BYTES),
-              "MPLS label DPO is larger than one cache line.");
+STATIC_ASSERT((sizeof(mpls_label_dpo_t) <= CLIB_CACHE_LINE_BYTES), "MPLS label DPO is larger than one cache line.");
 
 /**
  * @brief Create an MPLS label object
@@ -127,14 +121,10 @@ STATIC_ASSERT((sizeof(mpls_label_dpo_t) <= CLIB_CACHE_LINE_BYTES),
  * @param parent The parent of the created MPLS label object
  * @param dpo The MPLS label DPO created
  */
-extern void mpls_label_dpo_create(fib_mpls_label_t *label_stack,
-                                  mpls_eos_bit_t eos,
-                                  dpo_proto_t payload_proto,
-                                  mpls_label_dpo_flags_t flags,
-                                  const dpo_id_t *paremt,
-                                  dpo_id_t *dpo);
+extern void mpls_label_dpo_create(fib_mpls_label_t *label_stack, mpls_eos_bit_t eos, dpo_proto_t payload_proto,
+                                  mpls_label_dpo_flags_t flags, const dpo_id_t *paremt, dpo_id_t *dpo);
 
-extern u8* format_mpls_label_dpo(u8 *s, va_list *args);
+extern u8 *format_mpls_label_dpo(u8 *s, va_list *args);
 
 
 /*
@@ -143,7 +133,7 @@ extern u8* format_mpls_label_dpo(u8 *s, va_list *args);
 extern mpls_label_dpo_t *mpls_label_dpo_pool;
 
 static inline mpls_label_dpo_t *
-mpls_label_dpo_get (index_t index)
+mpls_label_dpo_get(index_t index)
 {
     return (pool_elt_at_index(mpls_label_dpo_pool, index));
 }

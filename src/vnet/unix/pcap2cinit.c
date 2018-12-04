@@ -35,35 +35,33 @@ pcap_main_t pcap_main;
  *
  */
 int
-pcap2cinit (pcap_main_t * pm, FILE * ofp)
+pcap2cinit(pcap_main_t *pm, FILE *ofp)
 {
-  int i, j;
-  u8 *pkt;
+    int i, j;
+    u8 *pkt;
 
-  for (i = 0; i < vec_len (pm->packets_read); i++)
-    {
-      pkt = (u8 *) pm->packets_read[i];
+    for (i = 0; i < vec_len(pm->packets_read); i++) {
+        pkt = (u8 *) pm->packets_read[i];
 
-      fformat (ofp, "static u8 __pcap_pkt%d [] = {\n  ", i);
+        fformat(ofp, "static u8 __pcap_pkt%d [] = {\n  ", i);
 
-      for (j = 0; j < vec_len (pkt); j++)
-	{
-	  if (((j + 1) % 8) == 0)
-	    fformat (ofp, "0x%02x,\n  ", pkt[j]);
-	  else
-	    fformat (ofp, "0x%02x, ", pkt[j]);
-	}
-      fformat (ofp, "\n};\n");
+        for (j = 0; j < vec_len(pkt); j++) {
+            if (((j + 1) % 8) == 0)
+                fformat(ofp, "0x%02x,\n  ", pkt[j]);
+            else
+                fformat(ofp, "0x%02x, ", pkt[j]);
+        }
+        fformat(ofp, "\n};\n");
     }
 
-  fformat (ofp, "static u8 *__pcap_pkts [] = {\n");
+    fformat(ofp, "static u8 *__pcap_pkts [] = {\n");
 
-  for (i = 0; i < vec_len (pm->packets_read); i++)
-    fformat (ofp, "  __pcap_pkt%d, \n", i);
+    for (i = 0; i < vec_len(pm->packets_read); i++)
+        fformat(ofp, "  __pcap_pkt%d, \n", i);
 
-  fformat (ofp, "};\n");
+    fformat(ofp, "};\n");
 
-  return 0;
+    return 0;
 }
 
 /**
@@ -71,63 +69,53 @@ pcap2cinit (pcap_main_t * pm, FILE * ofp)
  * usage: pcap2pg -i <input-file> [-o <output-file>]
  */
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
-  unformat_input_t input;
-  pcap_main_t *pm = &pcap_main;
-  u8 *input_file = 0, *output_file = 0;
-  FILE *ofp;
-  clib_error_t *error;
+    unformat_input_t input;
+    pcap_main_t *pm = &pcap_main;
+    u8 *input_file = 0, *output_file = 0;
+    FILE *ofp;
+    clib_error_t *error;
 
-  unformat_init_command_line (&input, argv);
+    unformat_init_command_line(&input, argv);
 
-  while (unformat_check_input (&input) != UNFORMAT_END_OF_INPUT)
-    {
-      if (unformat (&input, "-i %s", &input_file)
-	  || unformat (&input, "input %s", &input_file))
-	;
-      else if (unformat (&input, "-o %s", &output_file)
-	       || unformat (&input, "output %s", &output_file))
-	;
-      else
-	{
-	usage:
-	  fformat (stderr,
-		   "usage: pcap2pg -i <input-file> [-o <output-file>]\n");
-	  exit (1);
-	}
+    while (unformat_check_input(&input) != UNFORMAT_END_OF_INPUT) {
+        if (unformat(&input, "-i %s", &input_file) || unformat(&input, "input %s", &input_file))
+            ;
+        else if (unformat(&input, "-o %s", &output_file) || unformat(&input, "output %s", &output_file))
+            ;
+        else {
+        usage:
+            fformat(stderr, "usage: pcap2pg -i <input-file> [-o <output-file>]\n");
+            exit(1);
+        }
     }
 
-  if (input_file == 0)
-    goto usage;
+    if (input_file == 0)
+        goto usage;
 
-  pm->file_name = (char *) input_file;
-  error = pcap_read (pm);
+    pm->file_name = (char *) input_file;
+    error         = pcap_read(pm);
 
-  if (error)
-    {
-      clib_error_report (error);
-      exit (1);
+    if (error) {
+        clib_error_report(error);
+        exit(1);
     }
 
-  if (output_file)
-    {
-      ofp = fopen ((char *) output_file, "w+");
-      if (ofp == NULL)
-	{
-	  clib_unix_warning ("Couldn't create '%s'", output_file);
-	  exit (1);
-	}
-    }
-  else
-    {
-      ofp = stdout;
+    if (output_file) {
+        ofp = fopen((char *) output_file, "w+");
+        if (ofp == NULL) {
+            clib_unix_warning("Couldn't create '%s'", output_file);
+            exit(1);
+        }
+    } else {
+        ofp = stdout;
     }
 
-  pcap2cinit (pm, ofp);
+    pcap2cinit(pm, ofp);
 
-  fclose (ofp);
-  exit (0);
+    fclose(ofp);
+    exit(0);
 }
 
 /*

@@ -23,41 +23,38 @@
  * The GBP FWD DPO. Used in the L3 path to select the correct EPG uplink
  * based on the source EPG.
  */
-typedef struct gbp_policy_dpo_t_
-{
-  /**
-   * The protocol of packets using this DPO
-   */
-  dpo_proto_t gpd_proto;
+typedef struct gbp_policy_dpo_t_ {
+    /**
+     * The protocol of packets using this DPO
+     */
+    dpo_proto_t gpd_proto;
 
-  /**
-   * EPG
-   */
-  epg_id_t gpd_epg;
+    /**
+     * EPG
+     */
+    epg_id_t gpd_epg;
 
-  /**
-   * output sw_if_index
-   */
-  u32 gpd_sw_if_index;
+    /**
+     * output sw_if_index
+     */
+    u32 gpd_sw_if_index;
 
-  /**
-   * number of locks.
-   */
-  u16 gpd_locks;
+    /**
+     * number of locks.
+     */
+    u16 gpd_locks;
 
-  /**
-   * Stacked DPO on DVR of output interface
-   */
-  dpo_id_t gpd_dpo;
+    /**
+     * Stacked DPO on DVR of output interface
+     */
+    dpo_id_t gpd_dpo;
 } gbp_policy_dpo_t;
 
-extern void gbp_policy_dpo_add_or_lock (dpo_proto_t dproto,
-					epg_id_t epg,
-					u32 sw_if_index, dpo_id_t * dpo);
+extern void gbp_policy_dpo_add_or_lock(dpo_proto_t dproto, epg_id_t epg, u32 sw_if_index, dpo_id_t *dpo);
 
-extern gbp_policy_dpo_t *gbp_policy_dpo_get (index_t index);
+extern gbp_policy_dpo_t *gbp_policy_dpo_get(index_t index);
 
-extern dpo_type_t gbp_policy_dpo_get_type (void);
+extern dpo_type_t gbp_policy_dpo_get_type(void);
 
 /*
  * fd.io coding-style-patch-verification: ON

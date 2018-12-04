@@ -24,8 +24,7 @@
  * If a packet encounters an object of this type in the data-path, it's
  * RX interface is changed.
  */
-typedef struct interface_rx_dpo_t_
-{
+typedef struct interface_rx_dpo_t_ {
     /**
      * The Software interface index that the packets will be given
      * as the ingress/rx interface
@@ -49,9 +48,7 @@ typedef struct interface_rx_dpo_t_
     u16 ido_locks;
 } interface_rx_dpo_t;
 
-extern void interface_rx_dpo_add_or_lock (dpo_proto_t proto,
-                                          u32 sw_if_index,
-                                          dpo_id_t *dpo);
+extern void interface_rx_dpo_add_or_lock(dpo_proto_t proto, u32 sw_if_index, dpo_id_t *dpo);
 
 extern void interface_rx_dpo_module_init(void);
 
@@ -61,7 +58,7 @@ extern void interface_rx_dpo_module_init(void);
 interface_rx_dpo_t *interface_rx_dpo_pool;
 
 static inline interface_rx_dpo_t *
-interface_rx_dpo_get (index_t index)
+interface_rx_dpo_get(index_t index)
 {
     return (pool_elt_at_index(interface_rx_dpo_pool, index));
 }

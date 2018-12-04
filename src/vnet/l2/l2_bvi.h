@@ -24,8 +24,8 @@
 
 #include <vnet/l2/l2_input.h>
 
-#define TO_BVI_ERR_OK        0
-#define TO_BVI_ERR_BAD_MAC   1
+#define TO_BVI_ERR_OK 0
+#define TO_BVI_ERR_BAD_MAC 1
 #define TO_BVI_ERR_ETHERTYPE 2
 
 /**
@@ -35,68 +35,54 @@
  */
 
 static_always_inline u32
-l2_to_bvi (vlib_main_t * vlib_main,
-	   vnet_main_t * vnet_main,
-	   vlib_buffer_t * b0,
-	   u32 bvi_sw_if_index, next_by_ethertype_t * l3_next, u16 * next0)
+l2_to_bvi(vlib_main_t *vlib_main, vnet_main_t *vnet_main, vlib_buffer_t *b0, u32 bvi_sw_if_index,
+          next_by_ethertype_t *l3_next, u16 *next0)
 {
-  /* Perform L3 my-mac filter */
-  ethernet_header_t *e0 = vlib_buffer_get_current (b0);
-  if (!ethernet_address_cast (e0->dst_address))
-    {
-      vnet_hw_interface_t *hi =
-	vnet_get_sup_hw_interface (vnet_main, bvi_sw_if_index);
-      if (!eth_mac_equal (e0->dst_address, hi->hw_address))
-	return TO_BVI_ERR_BAD_MAC;
+    /* Perform L3 my-mac filter */
+    ethernet_header_t *e0 = vlib_buffer_get_current(b0);
+    if (!ethernet_address_cast(e0->dst_address)) {
+        vnet_hw_interface_t *hi = vnet_get_sup_hw_interface(vnet_main, bvi_sw_if_index);
+        if (!eth_mac_equal(e0->dst_address, hi->hw_address))
+            return TO_BVI_ERR_BAD_MAC;
     }
 
-  /* Save L2 header position which may be changed due to packet replication */
-  vnet_buffer (b0)->l2_hdr_offset = b0->current_data;
+    /* Save L2 header position which may be changed due to packet replication */
+    vnet_buffer(b0)->l2_hdr_offset = b0->current_data;
 
-  /* Strip L2 header */
-  u8 l2_len = vnet_buffer (b0)->l2.l2_len;
-  vlib_buffer_advance (b0, l2_len);
+    /* Strip L2 header */
+    u8 l2_len = vnet_buffer(b0)->l2.l2_len;
+    vlib_buffer_advance(b0, l2_len);
 
-  u8 *l3h = vlib_buffer_get_current (b0);
-  u16 ethertype = clib_net_to_host_u16 (*(u16 *) (l3h - 2));
+    u8 *l3h       = vlib_buffer_get_current(b0);
+    u16 ethertype = clib_net_to_host_u16(*(u16 *) (l3h - 2));
 
-  /* Set the input interface to be the BVI interface */
-  vnet_buffer (b0)->sw_if_index[VLIB_RX] = bvi_sw_if_index;
-  vnet_buffer (b0)->sw_if_index[VLIB_TX] = ~0;
+    /* Set the input interface to be the BVI interface */
+    vnet_buffer(b0)->sw_if_index[VLIB_RX] = bvi_sw_if_index;
+    vnet_buffer(b0)->sw_if_index[VLIB_TX] = ~0;
 
-  /* Go to appropriate L3 input node */
-  if (ethertype == ETHERNET_TYPE_IP4)
-    {
-      *next0 = l3_next->input_next_ip4;
-    }
-  else if (ethertype == ETHERNET_TYPE_IP6)
-    {
-      *next0 = l3_next->input_next_ip6;
-    }
-  else
-    {
-      /* uncommon ethertype, check table */
-      u32 i0 = sparse_vec_index (l3_next->input_next_by_type, ethertype);
-      *next0 = vec_elt (l3_next->input_next_by_type, i0);
+    /* Go to appropriate L3 input node */
+    if (ethertype == ETHERNET_TYPE_IP4) {
+        *next0 = l3_next->input_next_ip4;
+    } else if (ethertype == ETHERNET_TYPE_IP6) {
+        *next0 = l3_next->input_next_ip6;
+    } else {
+        /* uncommon ethertype, check table */
+        u32 i0 = sparse_vec_index(l3_next->input_next_by_type, ethertype);
+        *next0 = vec_elt(l3_next->input_next_by_type, i0);
 
-      if (i0 == SPARSE_VEC_INVALID_INDEX)
-	{
-	  return TO_BVI_ERR_ETHERTYPE;
-	}
+        if (i0 == SPARSE_VEC_INVALID_INDEX) {
+            return TO_BVI_ERR_ETHERTYPE;
+        }
     }
 
-  /* increment BVI RX interface stat */
-  vlib_increment_combined_counter
-    (vnet_main->interface_main.combined_sw_if_counters
-     + VNET_INTERFACE_COUNTER_RX,
-     vlib_main->thread_index, bvi_sw_if_index,
-     1, vlib_buffer_length_in_chain (vlib_main, b0));
-  return TO_BVI_ERR_OK;
+    /* increment BVI RX interface stat */
+    vlib_increment_combined_counter(vnet_main->interface_main.combined_sw_if_counters + VNET_INTERFACE_COUNTER_RX,
+                                    vlib_main->thread_index, bvi_sw_if_index, 1,
+                                    vlib_buffer_length_in_chain(vlib_main, b0));
+    return TO_BVI_ERR_OK;
 }
 
-void
-l2bvi_register_input_type (vlib_main_t * vm,
-			   ethernet_type_t type, u32 node_index);
+void l2bvi_register_input_type(vlib_main_t *vm, ethernet_type_t type, u32 node_index);
 #endif
 
 /*

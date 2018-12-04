@@ -21,243 +21,203 @@
 #include <vlib/vlib.h>
 
 static int
-stat_poll_loop (u8 ** patterns)
+stat_poll_loop(u8 **patterns)
 {
-  struct timespec ts, tsrem;
-  stat_segment_data_t *res;
-  int i, j, k, lost_connection = 0;
-  f64 heartbeat, prev_heartbeat = 0;
-  u32 *stats = stat_segment_ls (patterns);
-  if (!stats)
-    {
-      return -1;
+    struct timespec ts, tsrem;
+    stat_segment_data_t *res;
+    int i, j, k, lost_connection = 0;
+    f64 heartbeat, prev_heartbeat = 0;
+    u32 *stats = stat_segment_ls(patterns);
+    if (!stats) {
+        return -1;
     }
 
-  printf ("\033[2J");		/*  clear the screen  */
-  while (1)
-    {
-      heartbeat = stat_segment_heartbeat ();
-      if (heartbeat > prev_heartbeat)
-	{
-	  prev_heartbeat = heartbeat;
-	  lost_connection = 0;
-	}
-      else
-	{
-	  lost_connection++;
-	}
-      if (lost_connection > 10)
-	{
-	  fformat (stderr, "Lost connection to VPP...\n");
-	  return -1;
-	}
+    printf("\033[2J"); /*  clear the screen  */
+    while (1) {
+        heartbeat = stat_segment_heartbeat();
+        if (heartbeat > prev_heartbeat) {
+            prev_heartbeat  = heartbeat;
+            lost_connection = 0;
+        } else {
+            lost_connection++;
+        }
+        if (lost_connection > 10) {
+            fformat(stderr, "Lost connection to VPP...\n");
+            return -1;
+        }
 
-      printf ("\033[H");	/* Cursor top left corner */
-      res = stat_segment_dump (stats);
-      if (!res)
-	{
-	  stats = stat_segment_ls (patterns);
-	  continue;
-	}
-      for (i = 0; i < vec_len (res); i++)
-	{
-	  switch (res[i].type)
-	    {
-	    case STAT_DIR_TYPE_COUNTER_VECTOR_SIMPLE:
-	      for (k = 0; k < vec_len (res[i].simple_counter_vec); k++)
-		for (j = 0; j < vec_len (res[i].simple_counter_vec[k]); j++)
-		  fformat (stdout, "[%d]: %llu packets %s\n",
-			   j, res[i].simple_counter_vec[k][j], res[i].name);
-	      break;
+        printf("\033[H"); /* Cursor top left corner */
+        res = stat_segment_dump(stats);
+        if (!res) {
+            stats = stat_segment_ls(patterns);
+            continue;
+        }
+        for (i = 0; i < vec_len(res); i++) {
+            switch (res[i].type) {
+            case STAT_DIR_TYPE_COUNTER_VECTOR_SIMPLE:
+                for (k = 0; k < vec_len(res[i].simple_counter_vec); k++)
+                    for (j = 0; j < vec_len(res[i].simple_counter_vec[k]); j++)
+                        fformat(stdout, "[%d]: %llu packets %s\n", j, res[i].simple_counter_vec[k][j], res[i].name);
+                break;
 
-	    case STAT_DIR_TYPE_COUNTER_VECTOR_COMBINED:
-	      for (k = 0; k < vec_len (res[i].simple_counter_vec); k++)
-		for (j = 0; j < vec_len (res[i].combined_counter_vec[k]); j++)
-		  fformat (stdout, "[%d]: %llu packets, %llu bytes %s\n",
-			   j, res[i].combined_counter_vec[k][j].packets,
-			   res[i].combined_counter_vec[k][j].bytes,
-			   res[i].name);
-	      break;
+            case STAT_DIR_TYPE_COUNTER_VECTOR_COMBINED:
+                for (k = 0; k < vec_len(res[i].simple_counter_vec); k++)
+                    for (j = 0; j < vec_len(res[i].combined_counter_vec[k]); j++)
+                        fformat(stdout, "[%d]: %llu packets, %llu bytes %s\n", j,
+                                res[i].combined_counter_vec[k][j].packets, res[i].combined_counter_vec[k][j].bytes,
+                                res[i].name);
+                break;
 
-	    case STAT_DIR_TYPE_ERROR_INDEX:
-	      fformat (stdout, "%llu %s\n", res[i].error_value, res[i].name);
-	      break;
+            case STAT_DIR_TYPE_ERROR_INDEX:
+                fformat(stdout, "%llu %s\n", res[i].error_value, res[i].name);
+                break;
 
-	    case STAT_DIR_TYPE_SCALAR_INDEX:
-	      fformat (stdout, "%.2f %s\n", res[i].scalar_value, res[i].name);
-	      break;
+            case STAT_DIR_TYPE_SCALAR_INDEX:
+                fformat(stdout, "%.2f %s\n", res[i].scalar_value, res[i].name);
+                break;
 
-	    default:
-	      printf ("Unknown value\n");
-	      ;
-	    }
-	}
-      stat_segment_data_free (res);
-      /* Scrape stats every 5 seconds */
-      ts.tv_sec = 1;
-      ts.tv_nsec = 0;
-      while (nanosleep (&ts, &tsrem) < 0)
-	ts = tsrem;
-
+            default:
+                printf("Unknown value\n");
+                ;
+            }
+        }
+        stat_segment_data_free(res);
+        /* Scrape stats every 5 seconds */
+        ts.tv_sec  = 1;
+        ts.tv_nsec = 0;
+        while (nanosleep(&ts, &tsrem) < 0)
+            ts = tsrem;
     }
 }
 
-enum stat_client_cmd_e
-{
-  STAT_CLIENT_CMD_UNKNOWN,
-  STAT_CLIENT_CMD_LS,
-  STAT_CLIENT_CMD_POLL,
-  STAT_CLIENT_CMD_DUMP,
-  STAT_CLIENT_CMD_TIGHTPOLL,
+enum stat_client_cmd_e {
+    STAT_CLIENT_CMD_UNKNOWN,
+    STAT_CLIENT_CMD_LS,
+    STAT_CLIENT_CMD_POLL,
+    STAT_CLIENT_CMD_DUMP,
+    STAT_CLIENT_CMD_TIGHTPOLL,
 };
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
-  unformat_input_t _argv, *a = &_argv;
-  u8 *stat_segment_name, *pattern = 0, **patterns = 0;
-  int rv;
-  enum stat_client_cmd_e cmd = STAT_CLIENT_CMD_UNKNOWN;
+    unformat_input_t _argv, *a      = &_argv;
+    u8 *stat_segment_name, *pattern = 0, **patterns = 0;
+    int rv;
+    enum stat_client_cmd_e cmd = STAT_CLIENT_CMD_UNKNOWN;
 
-  /* Create a heap of 64MB */
-  clib_mem_init (0, 64 << 20);
+    /* Create a heap of 64MB */
+    clib_mem_init(0, 64 << 20);
 
-  unformat_init_command_line (a, argv);
+    unformat_init_command_line(a, argv);
 
-  stat_segment_name = (u8 *) STAT_SEGMENT_SOCKET_FILE;
+    stat_segment_name = (u8 *) STAT_SEGMENT_SOCKET_FILE;
 
-  while (unformat_check_input (a) != UNFORMAT_END_OF_INPUT)
-    {
-      if (unformat (a, "socket-name %s", &stat_segment_name))
-	;
-      else if (unformat (a, "ls"))
-	{
-	  cmd = STAT_CLIENT_CMD_LS;
-	}
-      else if (unformat (a, "dump"))
-	{
-	  cmd = STAT_CLIENT_CMD_DUMP;
-	}
-      else if (unformat (a, "poll"))
-	{
-	  cmd = STAT_CLIENT_CMD_POLL;
-	}
-      else if (unformat (a, "tightpoll"))
-	{
-	  cmd = STAT_CLIENT_CMD_TIGHTPOLL;
-	}
-      else if (unformat (a, "%s", &pattern))
-	{
-	  vec_add1 (patterns, pattern);
-	}
-      else
-	{
-	  fformat (stderr,
-		   "%s: usage [socket-name <name>] [ls|dump|poll] <patterns> ...\n",
-		   argv[0]);
-	  exit (1);
-	}
+    while (unformat_check_input(a) != UNFORMAT_END_OF_INPUT) {
+        if (unformat(a, "socket-name %s", &stat_segment_name))
+            ;
+        else if (unformat(a, "ls")) {
+            cmd = STAT_CLIENT_CMD_LS;
+        } else if (unformat(a, "dump")) {
+            cmd = STAT_CLIENT_CMD_DUMP;
+        } else if (unformat(a, "poll")) {
+            cmd = STAT_CLIENT_CMD_POLL;
+        } else if (unformat(a, "tightpoll")) {
+            cmd = STAT_CLIENT_CMD_TIGHTPOLL;
+        } else if (unformat(a, "%s", &pattern)) {
+            vec_add1(patterns, pattern);
+        } else {
+            fformat(stderr, "%s: usage [socket-name <name>] [ls|dump|poll] <patterns> ...\n", argv[0]);
+            exit(1);
+        }
     }
 reconnect:
-  rv = stat_segment_connect ((char *) stat_segment_name);
-  if (rv)
-    {
-      fformat (stderr, "Couldn't connect to vpp, does %s exist?\n",
-	       stat_segment_name);
-      exit (1);
+    rv = stat_segment_connect((char *) stat_segment_name);
+    if (rv) {
+        fformat(stderr, "Couldn't connect to vpp, does %s exist?\n", stat_segment_name);
+        exit(1);
     }
 
-  u32 *dir;
-  int i, j, k;
-  stat_segment_data_t *res;
+    u32 *dir;
+    int i, j, k;
+    stat_segment_data_t *res;
 
-  dir = stat_segment_ls (patterns);
+    dir = stat_segment_ls(patterns);
 
-  switch (cmd)
-    {
+    switch (cmd) {
     case STAT_CLIENT_CMD_LS:
-      /* List all counters */
-      for (i = 0; i < vec_len (dir); i++)
-	{
-	  char *n = stat_segment_index_to_name (dir[i]);
-	  printf ("%s\n", n);
-	  free (n);
-	}
-      break;
+        /* List all counters */
+        for (i = 0; i < vec_len(dir); i++) {
+            char *n = stat_segment_index_to_name(dir[i]);
+            printf("%s\n", n);
+            free(n);
+        }
+        break;
 
     case STAT_CLIENT_CMD_DUMP:
-      res = stat_segment_dump (dir);
-      for (i = 0; i < vec_len (res); i++)
-	{
-	  switch (res[i].type)
-	    {
-	    case STAT_DIR_TYPE_COUNTER_VECTOR_SIMPLE:
-	      if (res[i].simple_counter_vec == 0)
-		continue;
-	      for (k = 0; k < vec_len (res[i].simple_counter_vec) - 1; k++)
-		for (j = 0; j < vec_len (res[i].simple_counter_vec[k]); j++)
-		  fformat (stdout, "[%d @ %d]: %llu packets %s\n",
-			   j, k, res[i].simple_counter_vec[k][j],
-			   res[i].name);
-	      break;
+        res = stat_segment_dump(dir);
+        for (i = 0; i < vec_len(res); i++) {
+            switch (res[i].type) {
+            case STAT_DIR_TYPE_COUNTER_VECTOR_SIMPLE:
+                if (res[i].simple_counter_vec == 0)
+                    continue;
+                for (k = 0; k < vec_len(res[i].simple_counter_vec) - 1; k++)
+                    for (j = 0; j < vec_len(res[i].simple_counter_vec[k]); j++)
+                        fformat(stdout, "[%d @ %d]: %llu packets %s\n", j, k, res[i].simple_counter_vec[k][j],
+                                res[i].name);
+                break;
 
-	    case STAT_DIR_TYPE_COUNTER_VECTOR_COMBINED:
-	      if (res[i].simple_counter_vec == 0)
-		continue;
-	      for (k = 0; k < vec_len (res[i].combined_counter_vec); k++)
-		for (j = 0; j < vec_len (res[i].combined_counter_vec[k]); j++)
-		  fformat (stdout, "[%d @ %d]: %llu packets, %llu bytes %s\n",
-			   j, k, res[i].combined_counter_vec[k][j].packets,
-			   res[i].combined_counter_vec[k][j].bytes,
-			   res[i].name);
-	      break;
+            case STAT_DIR_TYPE_COUNTER_VECTOR_COMBINED:
+                if (res[i].simple_counter_vec == 0)
+                    continue;
+                for (k = 0; k < vec_len(res[i].combined_counter_vec); k++)
+                    for (j = 0; j < vec_len(res[i].combined_counter_vec[k]); j++)
+                        fformat(stdout, "[%d @ %d]: %llu packets, %llu bytes %s\n", j, k,
+                                res[i].combined_counter_vec[k][j].packets, res[i].combined_counter_vec[k][j].bytes,
+                                res[i].name);
+                break;
 
-	    case STAT_DIR_TYPE_ERROR_INDEX:
-	      fformat (stdout, "%llu %s\n", res[i].error_value, res[i].name);
-	      break;
+            case STAT_DIR_TYPE_ERROR_INDEX:
+                fformat(stdout, "%llu %s\n", res[i].error_value, res[i].name);
+                break;
 
-	    case STAT_DIR_TYPE_SCALAR_INDEX:
-	      fformat (stdout, "%.2f %s\n", res[i].scalar_value, res[i].name);
-	      break;
+            case STAT_DIR_TYPE_SCALAR_INDEX:
+                fformat(stdout, "%.2f %s\n", res[i].scalar_value, res[i].name);
+                break;
 
-	    default:
-	      ;
-	    }
-	}
-      stat_segment_data_free (res);
-      break;
+            default:;
+            }
+        }
+        stat_segment_data_free(res);
+        break;
 
     case STAT_CLIENT_CMD_POLL:
-      stat_poll_loop (patterns);
-      /* We can only exist the pool loop if we lost connection to VPP */
-      stat_segment_disconnect ();
-      goto reconnect;
-      break;
+        stat_poll_loop(patterns);
+        /* We can only exist the pool loop if we lost connection to VPP */
+        stat_segment_disconnect();
+        goto reconnect;
+        break;
 
     case STAT_CLIENT_CMD_TIGHTPOLL:
-      while (1)
-	{
-	  res = stat_segment_dump (dir);
-	  if (res == 0)
-	    {
-	      /* Refresh */
-	      vec_free (dir);
-	      dir = stat_segment_ls (patterns);
-	      continue;
-	    }
-	  stat_segment_data_free (res);
-	}
-      break;
+        while (1) {
+            res = stat_segment_dump(dir);
+            if (res == 0) {
+                /* Refresh */
+                vec_free(dir);
+                dir = stat_segment_ls(patterns);
+                continue;
+            }
+            stat_segment_data_free(res);
+        }
+        break;
 
     default:
-      fformat (stderr,
-	       "%s: usage [socket-name <name>] [ls|dump|poll] <patterns> ...\n",
-	       argv[0]);
+        fformat(stderr, "%s: usage [socket-name <name>] [ls|dump|poll] <patterns> ...\n", argv[0]);
     }
 
-  stat_segment_disconnect ();
+    stat_segment_disconnect();
 
-  exit (0);
+    exit(0);
 }
 
 /*

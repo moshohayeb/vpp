@@ -28,7 +28,7 @@ typedef struct {
     u16 msg_id_base;
 
     /* convenience */
-    vnet_main_t * vnet_main;
+    vnet_main_t *vnet_main;
 } sample_main_t;
 
 extern sample_main_t sample_main;

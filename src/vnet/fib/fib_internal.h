@@ -24,12 +24,9 @@
  */
 #undef FIB_DEBUG
 
-extern void fib_prefix_from_mpls_label(mpls_label_t label,
-                                       mpls_eos_bit_t eos,
-				       fib_prefix_t *prf);
+extern void fib_prefix_from_mpls_label(mpls_label_t label, mpls_eos_bit_t eos, fib_prefix_t *prf);
 
-extern int fib_route_path_cmp(const fib_route_path_t *rpath1,
-			      const fib_route_path_t *rpath2);
+extern int fib_route_path_cmp(const fib_route_path_t *rpath1, const fib_route_path_t *rpath2);
 
 /**
  * @brief
@@ -46,9 +43,7 @@ extern int fib_route_path_cmp(const fib_route_path_t *rpath1,
  * @param dpo
  *  The data-path object to use for forwarding
  */
-extern void fib_table_fwding_dpo_update(u32 fib_index,
-					const fib_prefix_t *prefix,
-					const dpo_id_t *dpo);
+extern void fib_table_fwding_dpo_update(u32 fib_index, const fib_prefix_t *prefix, const dpo_id_t *dpo);
 /**
  * @brief
  *  remove an entry in the FIB's forwarding table
@@ -62,9 +57,7 @@ extern void fib_table_fwding_dpo_update(u32 fib_index,
  * @param dpo
  *  The data-path object to use for forwarding
  */
-extern void fib_table_fwding_dpo_remove(u32 fib_index,
-					const fib_prefix_t *prefix,
-					const dpo_id_t *dpo);
+extern void fib_table_fwding_dpo_remove(u32 fib_index, const fib_prefix_t *prefix, const dpo_id_t *dpo);
 
 
 #endif

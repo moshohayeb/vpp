@@ -44,24 +44,24 @@
 pg_main_t pg_main;
 
 static clib_error_t *
-pg_init (vlib_main_t * vm)
+pg_init(vlib_main_t *vm)
 {
-  clib_error_t *error;
-  pg_main_t *pg = &pg_main;
+    clib_error_t *error;
+    pg_main_t *pg = &pg_main;
 
-  pg->if_index_by_if_id = hash_create (0, sizeof (uword));
+    pg->if_index_by_if_id = hash_create(0, sizeof(uword));
 
-  if ((error = vlib_call_init_function (vm, vnet_main_init)))
-    goto done;
+    if ((error = vlib_call_init_function(vm, vnet_main_init)))
+        goto done;
 
-  if ((error = vlib_call_init_function (vm, pg_cli_init)))
-    goto done;
+    if ((error = vlib_call_init_function(vm, pg_cli_init)))
+        goto done;
 
 done:
-  return error;
+    return error;
 }
 
-VLIB_INIT_FUNCTION (pg_init);
+VLIB_INIT_FUNCTION(pg_init);
 
 /*
  * fd.io coding-style-patch-verification: ON

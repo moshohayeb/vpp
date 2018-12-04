@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/ bin / bash
 
-# to obtain dhcp address from leftpeer
-dhclient -d -v eth1
+#to obtain dhcp address from leftpeer
+dhclient - d - v eth1

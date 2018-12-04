@@ -20,7 +20,7 @@
  * Source initialisation Function
  */
 static void
-fib_entry_src_special_init (fib_entry_src_t *src)
+fib_entry_src_special_init(fib_entry_src_t *src)
 {
     src->fes_flags = FIB_ENTRY_SRC_FLAG_NONE;
 }
@@ -29,49 +29,40 @@ fib_entry_src_special_init (fib_entry_src_t *src)
  * Source deinitialisation Function
  */
 static void
-fib_entry_src_special_deinit (fib_entry_src_t *src)
+fib_entry_src_special_deinit(fib_entry_src_t *src)
 {
 }
 
 static void
-fib_entry_src_special_remove (fib_entry_src_t *src)
+fib_entry_src_special_remove(fib_entry_src_t *src)
 {
     src->fes_pl = FIB_NODE_INDEX_INVALID;
 }
 
 static void
-fib_entry_src_special_add (fib_entry_src_t *src,
-			   const fib_entry_t *entry,
-			   fib_entry_flag_t flags,
-			   dpo_proto_t proto,
-			   const dpo_id_t *dpo)
+fib_entry_src_special_add(fib_entry_src_t *src, const fib_entry_t *entry, fib_entry_flag_t flags, dpo_proto_t proto,
+                          const dpo_id_t *dpo)
 {
-    src->fes_pl =
-	fib_path_list_create_special(proto,
-				     fib_entry_src_flags_2_path_list_flags(flags),
-				     dpo);
+    src->fes_pl = fib_path_list_create_special(proto, fib_entry_src_flags_2_path_list_flags(flags), dpo);
 }
 
 static void
-fib_entry_src_special_path_swap (fib_entry_src_t *src,
-                                 const fib_entry_t *entry,
-                                 fib_path_list_flags_t pl_flags,
-                                 const fib_route_path_t *rpaths)
+fib_entry_src_special_path_swap(fib_entry_src_t *src, const fib_entry_t *entry, fib_path_list_flags_t pl_flags,
+                                const fib_route_path_t *rpaths)
 {
-    src->fes_pl = fib_path_list_create((FIB_PATH_LIST_FLAG_SHARED | pl_flags),
-				       rpaths);
+    src->fes_pl = fib_path_list_create((FIB_PATH_LIST_FLAG_SHARED | pl_flags), rpaths);
 }
 
 const static fib_entry_src_vft_t special_src_vft = {
-    .fesv_init = fib_entry_src_special_init,
-    .fesv_deinit = fib_entry_src_special_deinit,
-    .fesv_add = fib_entry_src_special_add,
-    .fesv_remove = fib_entry_src_special_remove,
+    .fesv_init      = fib_entry_src_special_init,
+    .fesv_deinit    = fib_entry_src_special_deinit,
+    .fesv_add       = fib_entry_src_special_add,
+    .fesv_remove    = fib_entry_src_special_remove,
     .fesv_path_swap = fib_entry_src_special_path_swap,
 };
 
 void
-fib_entry_src_special_register (void)
+fib_entry_src_special_register(void)
 {
     fib_entry_src_register(FIB_SOURCE_SPECIAL, &special_src_vft);
     fib_entry_src_register(FIB_SOURCE_MAP, &special_src_vft);

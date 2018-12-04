@@ -40,55 +40,54 @@
 #ifndef included_ip_ip6_error_h
 #define included_ip_ip6_error_h
 
-#define foreach_ip6_error                                               \
-  /* Must be first. */                                                  \
-  _ (NONE, "valid ip6 packets")                                         \
-                                                                        \
-  /* Errors signalled by ip6-input */                                   \
-  _ (TOO_SHORT, "ip6 length < 40 bytes")                                \
-  _ (BAD_LENGTH, "ip6 length > l2 length")                              \
-  _ (VERSION, "ip6 version != 6")                                       \
-  _ (TIME_EXPIRED, "ip6 ttl <= 1")                                      \
-                                                                        \
-  /* Errors signalled by ip6-rewrite. */                                \
-  _ (MTU_EXCEEDED, "ip6 MTU exceeded")                                  \
-  _ (DST_LOOKUP_MISS, "ip6 destination lookup miss")                    \
-  _ (SRC_LOOKUP_MISS, "ip6 source lookup miss")                         \
-  _ (DROP, "ip6 drop")                                                  \
-  _ (PUNT, "ip6 punt")                                                  \
-                                                                        \
-  /* Errors signalled by ip6-local. */                                  \
-  _ (UNKNOWN_PROTOCOL, "unknown ip protocol")                           \
-  _ (UDP_CHECKSUM, "bad udp checksum")                                  \
-  _ (ICMP_CHECKSUM, "bad icmp checksum")                                \
-  _ (UDP_LENGTH, "inconsistent udp/ip lengths")                         \
-                                                                        \
-  /* Errors signalled by udp6-lookup. */				\
-  _ (UNKNOWN_UDP_PORT, "no listener for udp port")                      \
-                                                                        \
-  /* Spoofed packets in ip6-rewrite-local */                            \
-  _(SPOOFED_LOCAL_PACKETS, "ip4 spoofed local-address packet drops")    \
-                                                                        \
- /* Erros singalled by ip6-inacl */                                     \
-  _ (INACL_TABLE_MISS, "input ACL table-miss drops")                    \
-  _ (INACL_SESSION_DENY, "input ACL session deny drops")                \
- /* Erros singalled by ip6-outacl */                                    \
-  _ (OUTACL_TABLE_MISS, "output ACL table-miss drops")                  \
-  _ (OUTACL_SESSION_DENY, "output ACL session deny drops")              \
-                                                                        \
-  /* Errors signalled by ip6-reassembly */                              \
-  _ (REASS_MISSING_UPPER, "missing-upper layer drops")                  \
-  _ (REASS_DUPLICATE_FRAGMENT, "duplicate fragments")                   \
-  _ (REASS_OVERLAPPING_FRAGMENT, "overlapping fragments")               \
-  _ (REASS_LIMIT_REACHED, "drops due to concurrent reassemblies limit") \
-  _ (REASS_TIMEOUT, "fragments dropped due to reassembly timeout")
+#define foreach_ip6_error                                                                                              \
+    /* Must be first. */                                                                                               \
+    _(NONE, "valid ip6 packets")                                                                                       \
+                                                                                                                       \
+    /* Errors signalled by ip6-input */                                                                                \
+    _(TOO_SHORT, "ip6 length < 40 bytes")                                                                              \
+    _(BAD_LENGTH, "ip6 length > l2 length")                                                                            \
+    _(VERSION, "ip6 version != 6")                                                                                     \
+    _(TIME_EXPIRED, "ip6 ttl <= 1")                                                                                    \
+                                                                                                                       \
+    /* Errors signalled by ip6-rewrite. */                                                                             \
+    _(MTU_EXCEEDED, "ip6 MTU exceeded")                                                                                \
+    _(DST_LOOKUP_MISS, "ip6 destination lookup miss")                                                                  \
+    _(SRC_LOOKUP_MISS, "ip6 source lookup miss")                                                                       \
+    _(DROP, "ip6 drop")                                                                                                \
+    _(PUNT, "ip6 punt")                                                                                                \
+                                                                                                                       \
+    /* Errors signalled by ip6-local. */                                                                               \
+    _(UNKNOWN_PROTOCOL, "unknown ip protocol")                                                                         \
+    _(UDP_CHECKSUM, "bad udp checksum")                                                                                \
+    _(ICMP_CHECKSUM, "bad icmp checksum")                                                                              \
+    _(UDP_LENGTH, "inconsistent udp/ip lengths")                                                                       \
+                                                                                                                       \
+    /* Errors signalled by udp6-lookup. */                                                                             \
+    _(UNKNOWN_UDP_PORT, "no listener for udp port")                                                                    \
+                                                                                                                       \
+    /* Spoofed packets in ip6-rewrite-local */                                                                         \
+    _(SPOOFED_LOCAL_PACKETS, "ip4 spoofed local-address packet drops")                                                 \
+                                                                                                                       \
+    /* Erros singalled by ip6-inacl */                                                                                 \
+    _(INACL_TABLE_MISS, "input ACL table-miss drops")                                                                  \
+    _(INACL_SESSION_DENY, "input ACL session deny drops")                                                              \
+    /* Erros singalled by ip6-outacl */                                                                                \
+    _(OUTACL_TABLE_MISS, "output ACL table-miss drops")                                                                \
+    _(OUTACL_SESSION_DENY, "output ACL session deny drops")                                                            \
+                                                                                                                       \
+    /* Errors signalled by ip6-reassembly */                                                                           \
+    _(REASS_MISSING_UPPER, "missing-upper layer drops")                                                                \
+    _(REASS_DUPLICATE_FRAGMENT, "duplicate fragments")                                                                 \
+    _(REASS_OVERLAPPING_FRAGMENT, "overlapping fragments")                                                             \
+    _(REASS_LIMIT_REACHED, "drops due to concurrent reassemblies limit")                                               \
+    _(REASS_TIMEOUT, "fragments dropped due to reassembly timeout")
 
-typedef enum
-{
-#define _(sym,str) IP6_ERROR_##sym,
-  foreach_ip6_error
+typedef enum {
+#define _(sym, str) IP6_ERROR_##sym,
+    foreach_ip6_error
 #undef _
-    IP6_N_ERROR,
+        IP6_N_ERROR,
 } ip6_error_t;
 
 #endif /* included_ip_ip6_error_h */

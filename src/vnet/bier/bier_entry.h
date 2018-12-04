@@ -71,26 +71,22 @@ typedef struct bier_entry_t_ {
     fib_node_index_t be_sibling_index;
 } bier_entry_t;
 
-extern index_t bier_entry_create(index_t bti,
-                                 bier_bp_t bp);
+extern index_t bier_entry_create(index_t bti, bier_bp_t bp);
 extern void bier_entry_delete(index_t bei);
 
-extern void bier_entry_path_update (index_t bei,
-                                    const fib_route_path_t *rpaths);
+extern void bier_entry_path_update(index_t bei, const fib_route_path_t *rpaths);
 
-extern void bier_entry_path_add(index_t bei,
-                                const fib_route_path_t *brp);
+extern void bier_entry_path_add(index_t bei, const fib_route_path_t *brp);
 
-extern int bier_entry_path_remove(index_t bei,
-                                  const fib_route_path_t *brp);
+extern int bier_entry_path_remove(index_t bei, const fib_route_path_t *brp);
 
-extern u8* format_bier_entry(u8* s, va_list *ap);
+extern u8 *format_bier_entry(u8 *s, va_list *ap);
 
-extern void bier_entry_contribute_forwarding(index_t bei,
-                                             dpo_id_t *dpo);
+extern void bier_entry_contribute_forwarding(index_t bei, dpo_id_t *dpo);
 
 extern bier_entry_t *bier_entry_pool;
-always_inline bier_entry_t* bier_entry_get(index_t bei)
+always_inline bier_entry_t *
+bier_entry_get(index_t bei)
 {
     return (&bier_entry_pool[bei]);
 }

@@ -17,51 +17,50 @@
 
 #include <vlib/vlib.h>
 
-typedef enum _sctp_dbg
-{
+typedef enum _sctp_dbg {
 #define _(sym, str) SCTP_DBG_##sym,
-  foreach_sctp_dbg_evt
+    foreach_sctp_dbg_evt
 #undef _
 } sctp_dbg_e;
 
 #define SCTP_DEBUG_STATE_MACHINE (0)
 #if SCTP_DEBUG_STATE_MACHINE
-#define SCTP_DBG_STATE_MACHINE(_fmt, _args...) clib_warning (_fmt, ##_args)
+#define SCTP_DBG_STATE_MACHINE(_fmt, _args...) clib_warning(_fmt, ##_args)
 #else
 #define SCTP_DBG_STATE_MACHINE(_fmt, _args...)
 #endif
 
 #define SCTP_DEBUG (0)
 #if SCTP_DEBUG
-#define SCTP_DBG(_fmt, _args...) clib_warning (_fmt, ##_args)
+#define SCTP_DBG(_fmt, _args...) clib_warning(_fmt, ##_args)
 #else
 #define SCTP_DBG(_fmt, _args...)
 #endif
 
 #define SCTP_ADV_DEBUG (0)
 #if SCTP_ADV_DEBUG
-#define SCTP_ADV_DBG(_fmt, _args...) clib_warning (_fmt, ##_args)
+#define SCTP_ADV_DBG(_fmt, _args...) clib_warning(_fmt, ##_args)
 #else
 #define SCTP_ADV_DBG(_fmt, _args...)
 #endif
 
 #define SCTP_DEBUG_OUTPUT (0)
 #if SCTP_DEBUG_OUTPUT
-#define SCTP_DBG_OUTPUT(_fmt, _args...) clib_warning (_fmt, ##_args)
+#define SCTP_DBG_OUTPUT(_fmt, _args...) clib_warning(_fmt, ##_args)
 #else
 #define SCTP_DBG_OUTPUT(_fmt, _args...)
 #endif
 
 #define SCTP_ADV_DEBUG_OUTPUT (0)
 #if SCTP_ADV_DEBUG_OUTPUT
-#define SCTP_ADV_DBG_OUTPUT(_fmt, _args...) clib_warning (_fmt, ##_args)
+#define SCTP_ADV_DBG_OUTPUT(_fmt, _args...) clib_warning(_fmt, ##_args)
 #else
 #define SCTP_ADV_DBG_OUTPUT(_fmt, _args...)
 #endif
 
 #define SCTP_CONN_TRACKING_DEBUG (0)
 #if SCTP_CONN_TRACKING_DEBUG
-#define SCTP_CONN_TRACKING_DBG(_fmt, _args...) clib_warning (_fmt, ##_args)
+#define SCTP_CONN_TRACKING_DBG(_fmt, _args...) clib_warning(_fmt, ##_args)
 #else
 #define SCTP_CONN_TRACKING_DBG(_fmt, _args...)
 #endif

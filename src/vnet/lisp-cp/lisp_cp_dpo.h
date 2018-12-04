@@ -22,17 +22,16 @@
 /**
  * A representation of punt to the LISP control plane.
  */
-typedef struct lisp_cp_dpo_t
-{
-  /**
-   * The transport payload type.
-   */
-  dpo_proto_t lcd_proto;
+typedef struct lisp_cp_dpo_t {
+    /**
+     * The transport payload type.
+     */
+    dpo_proto_t lcd_proto;
 } lisp_cp_dpo_t;
 
-extern const dpo_id_t *lisp_cp_dpo_get (dpo_proto_t proto);
+extern const dpo_id_t *lisp_cp_dpo_get(dpo_proto_t proto);
 
-extern void lisp_cp_dpo_module_init (void);
+extern void lisp_cp_dpo_module_init(void);
 
 #endif
 

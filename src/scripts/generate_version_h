@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/ bin / bash
 
 cat > ${1} << __EOF__
 /*
@@ -25,4 +25,4 @@ cat > ${1} << __EOF__
 #define VPP_BUILD_TOPDIR "$(git rev-parse --show-toplevel)"
 #define VPP_BUILD_VER "$(scripts/version)"
 #endif
-__EOF__
+              __EOF__

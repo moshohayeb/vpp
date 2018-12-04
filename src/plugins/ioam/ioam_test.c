@@ -17,31 +17,31 @@
 #include <vlibapi/api.h>
 #include <vlibmemory/api.h>
 
-clib_error_t * vxlan_gpe_ioam_export_vat_plugin_register (vat_main_t * vam);
-clib_error_t * pot_vat_plugin_register (vat_main_t *vam);
-clib_error_t * trace_vat_plugin_register (vat_main_t * vam);
-clib_error_t * vxlan_gpe_vat_plugin_register (vat_main_t * vam);
-clib_error_t * udp_ping_vat_plugin_register (vat_main_t * vam);
+clib_error_t *vxlan_gpe_ioam_export_vat_plugin_register(vat_main_t *vam);
+clib_error_t *pot_vat_plugin_register(vat_main_t *vam);
+clib_error_t *trace_vat_plugin_register(vat_main_t *vam);
+clib_error_t *vxlan_gpe_vat_plugin_register(vat_main_t *vam);
+clib_error_t *udp_ping_vat_plugin_register(vat_main_t *vam);
 
 clib_error_t *
-vat_plugin_register (vat_main_t *vam)
+vat_plugin_register(vat_main_t *vam)
 {
-  clib_error_t *err;
+    clib_error_t *err;
 
-  if ((err = pot_vat_plugin_register (vam)))
-    return err;
+    if ((err = pot_vat_plugin_register(vam)))
+        return err;
 
-  if ((err = vxlan_gpe_ioam_export_vat_plugin_register (vam)))
-    return err;
+    if ((err = vxlan_gpe_ioam_export_vat_plugin_register(vam)))
+        return err;
 
-  if ((err = trace_vat_plugin_register (vam)))
-    return err;
+    if ((err = trace_vat_plugin_register(vam)))
+        return err;
 
-  if ((err = vxlan_gpe_vat_plugin_register(vam)))
-    return err;
+    if ((err = vxlan_gpe_vat_plugin_register(vam)))
+        return err;
 
-  if ((err = udp_ping_vat_plugin_register (vam)))
-    return err;
+    if ((err = udp_ping_vat_plugin_register(vam)))
+        return err;
 
-  return 0;
+    return 0;
 }

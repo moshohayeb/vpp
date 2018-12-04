@@ -20,14 +20,14 @@
 #include <vnet/fib/fib_path_list.h>
 
 static clib_error_t *
-fib_module_init (vlib_main_t * vm)
+fib_module_init(vlib_main_t *vm)
 {
-    clib_error_t * error;
+    clib_error_t *error;
 
-    if ((error = vlib_call_init_function (vm, dpo_module_init)))
-	return (error);
-    if ((error = vlib_call_init_function (vm, adj_module_init)))
-	return (error);
+    if ((error = vlib_call_init_function(vm, dpo_module_init)))
+        return (error);
+    if ((error = vlib_call_init_function(vm, adj_module_init)))
+        return (error);
 
     fib_entry_module_init();
     fib_entry_src_module_init();
@@ -38,4 +38,4 @@ fib_module_init (vlib_main_t * vm)
     return (NULL);
 }
 
-VLIB_INIT_FUNCTION (fib_module_init);
+VLIB_INIT_FUNCTION(fib_module_init);

@@ -21,20 +21,21 @@
 static const mfib_prefix_t ip4_specials[] = {
     {
         /* (*,*)/0 */
-        .fp_src_addr = {
-            .ip4.data_u32 = 0,
-        },
-        .fp_grp_addr = {
-            .ip4.data_u32 = 0,
-        },
-        .fp_len  = 0,
+        .fp_src_addr =
+            {
+                .ip4.data_u32 = 0,
+            },
+        .fp_grp_addr =
+            {
+                .ip4.data_u32 = 0,
+            },
+        .fp_len   = 0,
         .fp_proto = FIB_PROTOCOL_IP4,
     },
 };
 
 static u32
-ip4_create_mfib_with_table_id (u32 table_id,
-                               mfib_source_t src)
+ip4_create_mfib_with_table_id(u32 table_id, mfib_source_t src)
 {
     mfib_table_t *mfib_table;
 
@@ -42,17 +43,11 @@ ip4_create_mfib_with_table_id (u32 table_id,
     memset(mfib_table, 0, sizeof(*mfib_table));
 
     mfib_table->mft_proto = FIB_PROTOCOL_IP4;
-    mfib_table->mft_index =
-        mfib_table->v4.index =
-            (mfib_table - ip4_main.mfibs);
+    mfib_table->mft_index = mfib_table->v4.index = (mfib_table - ip4_main.mfibs);
 
-    hash_set (ip4_main.mfib_index_by_table_id,
-              table_id,
-              mfib_table->mft_index);
+    hash_set(ip4_main.mfib_index_by_table_id, table_id, mfib_table->mft_index);
 
-    mfib_table->mft_table_id =
-        mfib_table->v4.table_id =
-            table_id;
+    mfib_table->mft_table_id = mfib_table->v4.table_id = table_id;
 
     mfib_table_lock(mfib_table->mft_index, FIB_PROTOCOL_IP4, src);
 
@@ -61,19 +56,13 @@ ip4_create_mfib_with_table_id (u32 table_id,
      */
     int ii;
 
-    for (ii = 0; ii < ARRAY_LEN(ip4_specials); ii++)
-    {
+    for (ii = 0; ii < ARRAY_LEN(ip4_specials); ii++) {
         mfib_prefix_t prefix = ip4_specials[ii];
 
-        prefix.fp_src_addr.ip4.data_u32 =
-            clib_host_to_net_u32(prefix.fp_src_addr.ip4.data_u32);
-        prefix.fp_grp_addr.ip4.data_u32 =
-            clib_host_to_net_u32(prefix.fp_grp_addr.ip4.data_u32);
+        prefix.fp_src_addr.ip4.data_u32 = clib_host_to_net_u32(prefix.fp_src_addr.ip4.data_u32);
+        prefix.fp_grp_addr.ip4.data_u32 = clib_host_to_net_u32(prefix.fp_grp_addr.ip4.data_u32);
 
-        mfib_table_entry_update(mfib_table->mft_index,
-                                &prefix,
-                                MFIB_SOURCE_DEFAULT_ROUTE,
-                                MFIB_RPF_ID_NONE,
+        mfib_table_entry_update(mfib_table->mft_index, &prefix, MFIB_SOURCE_DEFAULT_ROUTE, MFIB_RPF_ID_NONE,
                                 MFIB_ENTRY_FLAG_DROP);
     }
 
@@ -81,23 +70,20 @@ ip4_create_mfib_with_table_id (u32 table_id,
 }
 
 void
-ip4_mfib_table_destroy (ip4_mfib_t *mfib)
+ip4_mfib_table_destroy(ip4_mfib_t *mfib)
 {
-    mfib_table_t *mfib_table = (mfib_table_t*)mfib;
+    mfib_table_t *mfib_table = (mfib_table_t *) mfib;
     int ii;
 
     /*
      * remove all the specials we added when the table was created.
      */
-    for (ii = 0; ii < ARRAY_LEN(ip4_specials); ii++)
-    {
+    for (ii = 0; ii < ARRAY_LEN(ip4_specials); ii++) {
         fib_node_index_t mfei;
         mfib_prefix_t prefix = ip4_specials[ii];
 
-        prefix.fp_src_addr.ip4.data_u32 =
-            clib_host_to_net_u32(prefix.fp_src_addr.ip4.data_u32);
-        prefix.fp_grp_addr.ip4.data_u32 =
-            clib_host_to_net_u32(prefix.fp_grp_addr.ip4.data_u32);
+        prefix.fp_src_addr.ip4.data_u32 = clib_host_to_net_u32(prefix.fp_src_addr.ip4.data_u32);
+        prefix.fp_grp_addr.ip4.data_u32 = clib_host_to_net_u32(prefix.fp_grp_addr.ip4.data_u32);
 
         mfei = mfib_table_lookup(mfib_table->mft_index, &prefix);
         mfib_table_entry_delete_index(mfei, MFIB_SOURCE_DEFAULT_ROUTE);
@@ -109,13 +95,12 @@ ip4_mfib_table_destroy (ip4_mfib_t *mfib)
     ASSERT(0 == mfib_table->mft_total_route_counts);
     ASSERT(~0 != mfib_table->mft_table_id);
 
-    hash_unset (ip4_main.mfib_index_by_table_id, mfib_table->mft_table_id);
+    hash_unset(ip4_main.mfib_index_by_table_id, mfib_table->mft_table_id);
     pool_put(ip4_main.mfibs, mfib_table);
 }
 
 u32
-ip4_mfib_table_find_or_create_and_lock (u32 table_id,
-                                        mfib_source_t src)
+ip4_mfib_table_find_or_create_and_lock(u32 table_id, mfib_source_t src)
 {
     u32 index;
 
@@ -128,10 +113,9 @@ ip4_mfib_table_find_or_create_and_lock (u32 table_id,
 }
 
 u32
-ip4_mfib_table_get_index_for_sw_if_index (u32 sw_if_index)
+ip4_mfib_table_get_index_for_sw_if_index(u32 sw_if_index)
 {
-    if (sw_if_index >= vec_len(ip4_main.mfib_index_by_sw_if_index))
-    {
+    if (sw_if_index >= vec_len(ip4_main.mfib_index_by_sw_if_index)) {
         /*
          * This is the case for interfaces that are not yet mapped to
          * a IP table
@@ -141,20 +125,17 @@ ip4_mfib_table_get_index_for_sw_if_index (u32 sw_if_index)
     return (ip4_main.mfib_index_by_sw_if_index[sw_if_index]);
 }
 
-#define IPV4_MFIB_GRP_LEN(_len)\
-    (_len > 32 ? 32 : _len)
+#define IPV4_MFIB_GRP_LEN(_len) (_len > 32 ? 32 : _len)
 
-#define IP4_MFIB_MK_KEY(_grp, _src, _len, _key)                         \
-{                                                                       \
-    _key  = ((u64)(_grp->data_u32 &                                     \
-                   ip4_main.fib_masks[IPV4_MFIB_GRP_LEN(_len)])) << 32; \
-    _key |= _src->data_u32;                                             \
-}
-#define IP4_MFIB_MK_GRP_KEY(_grp, _len, _key)                           \
-{                                                                       \
-    _key  = ((u64)(_grp->data_u32 &                                     \
-                   ip4_main.fib_masks[IPV4_MFIB_GRP_LEN(_len)])) << 32; \
-}
+#define IP4_MFIB_MK_KEY(_grp, _src, _len, _key)                                                                        \
+    {                                                                                                                  \
+        _key = ((u64)(_grp->data_u32 & ip4_main.fib_masks[IPV4_MFIB_GRP_LEN(_len)])) << 32;                            \
+        _key |= _src->data_u32;                                                                                        \
+    }
+#define IP4_MFIB_MK_GRP_KEY(_grp, _len, _key)                                                                          \
+    {                                                                                                                  \
+        _key = ((u64)(_grp->data_u32 & ip4_main.fib_masks[IPV4_MFIB_GRP_LEN(_len)])) << 32;                            \
+    }
 
 /*
  * ip4_fib_table_lookup_exact_match
@@ -162,12 +143,9 @@ ip4_mfib_table_get_index_for_sw_if_index (u32 sw_if_index)
  * Exact match prefix lookup
  */
 fib_node_index_t
-ip4_mfib_table_lookup_exact_match (const ip4_mfib_t *mfib,
-                                   const ip4_address_t *grp,
-                                   const ip4_address_t *src,
-                                   u32 len)
+ip4_mfib_table_lookup_exact_match(const ip4_mfib_t *mfib, const ip4_address_t *grp, const ip4_address_t *src, u32 len)
 {
-    uword * hash, * result;
+    uword *hash, *result;
     u64 key;
 
     hash = mfib->fib_entry_by_dst_address[len];
@@ -187,35 +165,30 @@ ip4_mfib_table_lookup_exact_match (const ip4_mfib_t *mfib,
  * Longest prefix match
  */
 fib_node_index_t
-ip4_mfib_table_lookup (const ip4_mfib_t *mfib,
-                       const ip4_address_t *src,
-                       const ip4_address_t *grp,
-                       u32 len)
+ip4_mfib_table_lookup(const ip4_mfib_t *mfib, const ip4_address_t *src, const ip4_address_t *grp, u32 len)
 {
-    uword * hash, * result;
+    uword *hash, *result;
     i32 mask_len;
     u64 key;
 
     mask_len = len;
 
-    if (PREDICT_TRUE(64 == mask_len))
-    {
+    if (PREDICT_TRUE(64 == mask_len)) {
         hash = mfib->fib_entry_by_dst_address[mask_len];
         IP4_MFIB_MK_KEY(grp, src, mask_len, key);
 
-        result = hash_get (hash, key);
+        result = hash_get(hash, key);
 
         if (NULL != result) {
             return (result[0]);
         }
     }
 
-    for (mask_len = 32; mask_len >= 0; mask_len--)
-    {
+    for (mask_len = 32; mask_len >= 0; mask_len--) {
         hash = mfib->fib_entry_by_dst_address[mask_len];
         IP4_MFIB_MK_GRP_KEY(grp, mask_len, key);
 
-        result = hash_get (hash, key);
+        result = hash_get(hash, key);
 
         if (NULL != result) {
             return (result[0]);
@@ -225,57 +198,46 @@ ip4_mfib_table_lookup (const ip4_mfib_t *mfib,
 }
 
 void
-ip4_mfib_table_entry_insert (ip4_mfib_t *mfib,
-                             const ip4_address_t *grp,
-                             const ip4_address_t *src,
-                             u32 len,
-                             fib_node_index_t fib_entry_index)
+ip4_mfib_table_entry_insert(ip4_mfib_t *mfib, const ip4_address_t *grp, const ip4_address_t *src, u32 len,
+                            fib_node_index_t fib_entry_index)
 {
-    uword * hash, * result;
+    uword *hash, *result;
     u64 key;
 
     IP4_MFIB_MK_KEY(grp, src, len, key);
-    hash = mfib->fib_entry_by_dst_address[len];
-    result = hash_get (hash, key);
+    hash   = mfib->fib_entry_by_dst_address[len];
+    result = hash_get(hash, key);
 
     if (NULL == result) {
         /*
          * adding a new entry
          */
         if (NULL == hash) {
-            hash = hash_create (32 /* elts */, sizeof (uword));
-            hash_set_flags (hash, HASH_FLAG_NO_AUTO_SHRINK);
+            hash = hash_create(32 /* elts */, sizeof(uword));
+            hash_set_flags(hash, HASH_FLAG_NO_AUTO_SHRINK);
         }
-        hash = hash_set(hash, key, fib_entry_index);
+        hash                                = hash_set(hash, key, fib_entry_index);
         mfib->fib_entry_by_dst_address[len] = hash;
-    }
-    else
-    {
+    } else {
         ASSERT(0);
     }
 }
 
 void
-ip4_mfib_table_entry_remove (ip4_mfib_t *mfib,
-                             const ip4_address_t *grp,
-                             const ip4_address_t *src,
-                             u32 len)
+ip4_mfib_table_entry_remove(ip4_mfib_t *mfib, const ip4_address_t *grp, const ip4_address_t *src, u32 len)
 {
-    uword * hash, * result;
+    uword *hash, *result;
     u64 key;
 
     IP4_MFIB_MK_KEY(grp, src, len, key);
-    hash = mfib->fib_entry_by_dst_address[len];
-    result = hash_get (hash, key);
+    hash   = mfib->fib_entry_by_dst_address[len];
+    result = hash_get(hash, key);
 
-    if (NULL == result)
-    {
+    if (NULL == result) {
         /*
          * removing a non-existant entry. i'll allow it.
          */
-    }
-    else
-    {
+    } else {
         hash_unset(hash, key);
     }
 
@@ -283,67 +245,54 @@ ip4_mfib_table_entry_remove (ip4_mfib_t *mfib,
 }
 
 void
-ip4_mfib_table_walk (ip4_mfib_t *mfib,
-                     mfib_table_walk_fn_t fn,
-                     void *ctx)
+ip4_mfib_table_walk(ip4_mfib_t *mfib, mfib_table_walk_fn_t fn, void *ctx)
 {
     int i;
 
-    for (i = 0; i < ARRAY_LEN (mfib->fib_entry_by_dst_address); i++)
-    {
-	uword * hash = mfib->fib_entry_by_dst_address[i];
+    for (i = 0; i < ARRAY_LEN(mfib->fib_entry_by_dst_address); i++) {
+        uword *hash = mfib->fib_entry_by_dst_address[i];
 
-	if (NULL != hash)
-	{
-	    hash_pair_t * p;
+        if (NULL != hash) {
+            hash_pair_t *p;
 
-	    hash_foreach_pair (p, hash,
-	    ({
-		fn(p->value[0], ctx);
-	    }));
-	}
+            hash_foreach_pair(p, hash, ({ fn(p->value[0], ctx); }));
+        }
     }
 }
 
 u8 *
-format_ip4_mfib_table_memory (u8 * s, va_list * args)
+format_ip4_mfib_table_memory(u8 *s, va_list *args)
 {
     mfib_table_t *mfib_table;
     u64 total_memory;
 
     total_memory = 0;
 
-    pool_foreach (mfib_table, ip4_main.mfibs,
-    ({
-        ip4_mfib_t *mfib = &mfib_table->v4;
-        uword mfib_size;
-        int i;
+    pool_foreach(mfib_table, ip4_main.mfibs, ({
+                     ip4_mfib_t *mfib = &mfib_table->v4;
+                     uword mfib_size;
+                     int i;
 
-        mfib_size = 0;
+                     mfib_size = 0;
 
-        for (i = 0; i < ARRAY_LEN (mfib->fib_entry_by_dst_address); i++)
-        {
-            uword * hash = mfib->fib_entry_by_dst_address[i];
+                     for (i = 0; i < ARRAY_LEN(mfib->fib_entry_by_dst_address); i++) {
+                         uword *hash = mfib->fib_entry_by_dst_address[i];
 
-            if (NULL != hash)
-            {
-                mfib_size += hash_bytes(hash);
-            }
-        }
+                         if (NULL != hash) {
+                             mfib_size += hash_bytes(hash);
+                         }
+                     }
 
-        total_memory += mfib_size;
-    }));
+                     total_memory += mfib_size;
+                 }));
 
-    s = format(s, "%=30s %=6d %=8ld\n",
-               "IPv4 multicast",
-               pool_elts(ip4_main.mfibs), total_memory);
+    s = format(s, "%=30s %=6d %=8ld\n", "IPv4 multicast", pool_elts(ip4_main.mfibs), total_memory);
 
     return (s);
 }
 
 static void
-ip4_mfib_table_show_all (ip4_mfib_t *mfib,
-                         vlib_main_t * vm)
+ip4_mfib_table_show_all(ip4_mfib_t *mfib, vlib_main_t *vm)
 {
     fib_node_index_t *mfib_entry_indicies;
     fib_node_index_t *mfib_entry_index;
@@ -351,18 +300,13 @@ ip4_mfib_table_show_all (ip4_mfib_t *mfib,
 
     mfib_entry_indicies = NULL;
 
-    for (i = 0; i < ARRAY_LEN (mfib->fib_entry_by_dst_address); i++)
-    {
-        uword * hash = mfib->fib_entry_by_dst_address[i];
+    for (i = 0; i < ARRAY_LEN(mfib->fib_entry_by_dst_address); i++) {
+        uword *hash = mfib->fib_entry_by_dst_address[i];
 
-        if (NULL != hash)
-        {
-            hash_pair_t * p;
+        if (NULL != hash) {
+            hash_pair_t *p;
 
-            hash_foreach_pair (p, hash,
-            ({
-                vec_add1(mfib_entry_indicies, p->value[0]);
-            }));
+            hash_foreach_pair(p, hash, ({ vec_add1(mfib_entry_indicies, p->value[0]); }));
         }
     }
 
@@ -370,34 +314,23 @@ ip4_mfib_table_show_all (ip4_mfib_t *mfib,
 
     vec_foreach(mfib_entry_index, mfib_entry_indicies)
     {
-        vlib_cli_output(vm, "%U",
-                        format_mfib_entry,
-                        *mfib_entry_index,
-                        MFIB_ENTRY_FORMAT_BRIEF);
+        vlib_cli_output(vm, "%U", format_mfib_entry, *mfib_entry_index, MFIB_ENTRY_FORMAT_BRIEF);
     }
 
     vec_free(mfib_entry_indicies);
 }
 
 static void
-ip4_mfib_table_show_one (ip4_mfib_t *mfib,
-                         vlib_main_t * vm,
-                         ip4_address_t *src,
-                         ip4_address_t *grp,
-                         u32 mask_len)
+ip4_mfib_table_show_one(ip4_mfib_t *mfib, vlib_main_t *vm, ip4_address_t *src, ip4_address_t *grp, u32 mask_len)
 {
-    vlib_cli_output(vm, "%U",
-                    format_mfib_entry,
-                    ip4_mfib_table_lookup(mfib, src, grp, mask_len),
+    vlib_cli_output(vm, "%U", format_mfib_entry, ip4_mfib_table_lookup(mfib, src, grp, mask_len),
                     MFIB_ENTRY_FORMAT_DETAIL);
 }
 
 static clib_error_t *
-ip4_show_mfib (vlib_main_t * vm,
-               unformat_input_t * input,
-               vlib_cli_command_t * cmd)
+ip4_show_mfib(vlib_main_t *vm, unformat_input_t *input, vlib_cli_command_t *cmd)
 {
-    ip4_main_t * im4 = &ip4_main;
+    ip4_main_t *im4 = &ip4_main;
     mfib_table_t *mfib_table;
     int verbose, matching, memory;
     ip4_address_t grp, src = {{0}};
@@ -409,100 +342,78 @@ ip4_show_mfib (vlib_main_t * vm,
     memory = matching = 0;
     total_hash_memory = 0;
 
-    while (unformat_check_input (input) != UNFORMAT_END_OF_INPUT)
-    {
-        if (unformat (input, "brief") || unformat (input, "summary")
-            || unformat (input, "sum"))
+    while (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
+        if (unformat(input, "brief") || unformat(input, "summary") || unformat(input, "sum"))
             verbose = 0;
-        else if (unformat (input, "mem") || unformat (input, "memory"))
+        else if (unformat(input, "mem") || unformat(input, "memory"))
             memory = 1;
-        else if (unformat (input, "%U %U",
-                           unformat_ip4_address, &src,
-                           unformat_ip4_address, &grp))
-        {
+        else if (unformat(input, "%U %U", unformat_ip4_address, &src, unformat_ip4_address, &grp)) {
             matching = 1;
-            mask = 64;
-        }
-        else if (unformat (input, "%U/%d", unformat_ip4_address, &grp, &mask))
-        {
+            mask     = 64;
+        } else if (unformat(input, "%U/%d", unformat_ip4_address, &grp, &mask)) {
             memset(&src, 0, sizeof(src));
             matching = 1;
-        }
-        else if (unformat (input, "%U", unformat_ip4_address, &grp))
-        {
+        } else if (unformat(input, "%U", unformat_ip4_address, &grp)) {
             memset(&src, 0, sizeof(src));
             matching = 1;
-            mask = 32;
-        }
-        else if (unformat (input, "table %d", &table_id))
+            mask     = 32;
+        } else if (unformat(input, "table %d", &table_id))
             ;
-        else if (unformat (input, "index %d", &fib_index))
+        else if (unformat(input, "index %d", &fib_index))
             ;
         else
             break;
     }
 
-    pool_foreach (mfib_table, im4->mfibs,
-    ({
-        ip4_mfib_t *mfib = &mfib_table->v4;
+    pool_foreach(mfib_table, im4->mfibs, ({
+                     ip4_mfib_t *mfib = &mfib_table->v4;
 
-        if (table_id >= 0 && table_id != (int)mfib->table_id)
-            continue;
-        if (fib_index != ~0 && fib_index != (int)mfib->index)
-            continue;
+                     if (table_id >= 0 && table_id != (int) mfib->table_id)
+                         continue;
+                     if (fib_index != ~0 && fib_index != (int) mfib->index)
+                         continue;
 
-        if (memory)
-        {
-            uword hash_size;
+                     if (memory) {
+                         uword hash_size;
 
-            hash_size = 0;
+                         hash_size = 0;
 
-	    for (i = 0; i < ARRAY_LEN (mfib->fib_entry_by_dst_address); i++)
-	    {
-		uword * hash = mfib->fib_entry_by_dst_address[i];
-                if (NULL != hash)
-                {
-                    hash_size += hash_bytes(hash);
-                }
-            }
-            if (verbose)
-                vlib_cli_output (vm, "%U hash:%d",
-                                 format_mfib_table_name, mfib->index,
-                                 FIB_PROTOCOL_IP4,
-                                 hash_size);
-            total_hash_memory += hash_size;
-            continue;
-        }
+                         for (i = 0; i < ARRAY_LEN(mfib->fib_entry_by_dst_address); i++) {
+                             uword *hash = mfib->fib_entry_by_dst_address[i];
+                             if (NULL != hash) {
+                                 hash_size += hash_bytes(hash);
+                             }
+                         }
+                         if (verbose)
+                             vlib_cli_output(vm, "%U hash:%d", format_mfib_table_name, mfib->index, FIB_PROTOCOL_IP4,
+                                             hash_size);
+                         total_hash_memory += hash_size;
+                         continue;
+                     }
 
-        vlib_cli_output (vm, "%U, fib_index %d",
-                         format_mfib_table_name, mfib->index, FIB_PROTOCOL_IP4,
-                         mfib->index);
+                     vlib_cli_output(vm, "%U, fib_index %d", format_mfib_table_name, mfib->index, FIB_PROTOCOL_IP4,
+                                     mfib->index);
 
-        /* Show summary? */
-        if (! verbose)
-        {
-            vlib_cli_output (vm, "%=20s%=16s", "Prefix length", "Count");
-            for (i = 0; i < ARRAY_LEN (mfib->fib_entry_by_dst_address); i++)
-            {
-                uword * hash = mfib->fib_entry_by_dst_address[i];
-                uword n_elts = hash_elts (hash);
-                if (n_elts > 0)
-                    vlib_cli_output (vm, "%20d%16d", i, n_elts);
-            }
-            continue;
-        }
+                     /* Show summary? */
+                     if (!verbose) {
+                         vlib_cli_output(vm, "%=20s%=16s", "Prefix length", "Count");
+                         for (i = 0; i < ARRAY_LEN(mfib->fib_entry_by_dst_address); i++) {
+                             uword *hash  = mfib->fib_entry_by_dst_address[i];
+                             uword n_elts = hash_elts(hash);
+                             if (n_elts > 0)
+                                 vlib_cli_output(vm, "%20d%16d", i, n_elts);
+                         }
+                         continue;
+                     }
 
-        if (!matching)
-        {
-            ip4_mfib_table_show_all(mfib, vm);
-        }
-        else
-        {
-            ip4_mfib_table_show_one(mfib, vm, &src, &grp, mask);
-        }
-    }));
+                     if (!matching) {
+                         ip4_mfib_table_show_all(mfib, vm);
+                     } else {
+                         ip4_mfib_table_show_one(mfib, vm, &src, &grp, mask);
+                     }
+                 }));
     if (memory)
-        vlib_cli_output (vm, "totals: hash:%ld", total_hash_memory);
+        vlib_cli_output(vm, "totals: hash:%ld", total_hash_memory);
 
     return 0;
 }
@@ -550,9 +461,10 @@ ip4_show_mfib (vlib_main_t * vm,
  * @cliexend
  ?*/
 /* *INDENT-OFF* */
-VLIB_CLI_COMMAND (ip4_show_mfib_command, static) = {
-    .path = "show ip mfib",
-    .short_help = "show ip mfib [summary] [table <table-id>] [index <fib-id>] [<grp-addr>[/<mask>]] [<grp-addr>] [<src-addr> <grp-addr>]",
+VLIB_CLI_COMMAND(ip4_show_mfib_command, static) = {
+    .path       = "show ip mfib",
+    .short_help = "show ip mfib [summary] [table <table-id>] [index <fib-id>] [<grp-addr>[/<mask>]] [<grp-addr>] "
+                  "[<src-addr> <grp-addr>]",
     .function = ip4_show_mfib,
 };
 /* *INDENT-ON* */

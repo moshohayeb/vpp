@@ -41,15 +41,14 @@
 /* Bootstrap include so that #include <vppinfra/mem.h> can include e.g.
    <vppinfra/mheap.h> which depends on <vppinfra/vec.h>. */
 
-#include <vppinfra/clib.h>	/* for uword */
+#include <vppinfra/clib.h> /* for uword */
 
-enum
-{
-  CLIB_ERROR_FATAL = 1 << 0,
-  CLIB_ERROR_ABORT = 1 << 1,
-  CLIB_ERROR_WARNING = 1 << 2,
-  CLIB_ERROR_ERRNO_VALID = 1 << 16,
-  CLIB_ERROR_NO_RATE_LIMIT = 1 << 17,
+enum {
+    CLIB_ERROR_FATAL         = 1 << 0,
+    CLIB_ERROR_ABORT         = 1 << 1,
+    CLIB_ERROR_WARNING       = 1 << 2,
+    CLIB_ERROR_ERRNO_VALID   = 1 << 16,
+    CLIB_ERROR_NO_RATE_LIMIT = 1 << 17,
 };
 
 /* Current function name.  Need (char *) cast to silence gcc4 pointer signedness warning. */
@@ -62,41 +61,33 @@ enum
 /* Low level error reporting function.
    Code specifies whether to call exit, abort or nothing at
    all (for non-fatal warnings). */
-extern void _clib_error (int code,
-			 char *function_name,
-			 uword line_number, char *format, ...);
+extern void _clib_error(int code, char *function_name, uword line_number, char *format, ...);
 
-#define ASSERT(truth)					\
-do {							\
-  if (CLIB_ASSERT_ENABLE && ! (truth))			\
-    {							\
-      _clib_error (CLIB_ERROR_ABORT, 0, 0,		\
-		   "%s:%d (%s) assertion `%s' fails",	\
-		   __FILE__,				\
-		   (uword) __LINE__,			\
-		   clib_error_function,			\
-		   # truth);				\
-    }							\
-} while (0)
+#define ASSERT(truth)                                                                                                  \
+    do {                                                                                                               \
+        if (CLIB_ASSERT_ENABLE && !(truth)) {                                                                          \
+            _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", __FILE__, (uword) __LINE__,         \
+                        clib_error_function, #truth);                                                                  \
+        }                                                                                                              \
+    } while (0)
 
 #if defined(__clang__)
-#define STATIC_ASSERT(truth,...)
+#define STATIC_ASSERT(truth, ...)
 #else
-#define STATIC_ASSERT(truth,...) _Static_assert(truth, __VA_ARGS__)
+#define STATIC_ASSERT(truth, ...) _Static_assert(truth, __VA_ARGS__)
 #endif
 
-#define STATIC_ASSERT_SIZEOF(d, s) \
-  STATIC_ASSERT (sizeof (d) == s, "Size of " #d " must be " # s " bytes")
+#define STATIC_ASSERT_SIZEOF(d, s) STATIC_ASSERT(sizeof(d) == s, "Size of " #d " must be " #s " bytes")
 
-#define STATIC_ASSERT_OFFSET_OF(s, e, o) \
-  STATIC_ASSERT (STRUCT_OFFSET_OF(s,e) == o, "Offset of " #s "." #e " must be " # o)
+#define STATIC_ASSERT_OFFSET_OF(s, e, o)                                                                               \
+    STATIC_ASSERT(STRUCT_OFFSET_OF(s, e) == o, "Offset of " #s "." #e " must be " #o)
 
 /* Assert without allocating memory. */
-#define ASSERT_AND_PANIC(truth)			\
-do {						\
-  if (CLIB_ASSERT_ENABLE && ! (truth))		\
-    os_panic ();				\
-} while (0)
+#define ASSERT_AND_PANIC(truth)                                                                                        \
+    do {                                                                                                               \
+        if (CLIB_ASSERT_ENABLE && !(truth))                                                                            \
+            os_panic();                                                                                                \
+    } while (0)
 
 #endif /* included_error_bootstrap_h */
 

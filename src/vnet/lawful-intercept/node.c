@@ -24,82 +24,73 @@
 
 vlib_node_registration_t li_hit_node;
 
-typedef struct
-{
-  u32 next_index;
+typedef struct {
+    u32 next_index;
 } li_hit_trace_t;
 
 /* packet trace format function */
 static u8 *
-format_li_hit_trace (u8 * s, va_list * args)
+format_li_hit_trace(u8 *s, va_list *args)
 {
-  CLIB_UNUSED (vlib_main_t * vm) = va_arg (*args, vlib_main_t *);
-  CLIB_UNUSED (vlib_node_t * node) = va_arg (*args, vlib_node_t *);
-  li_hit_trace_t *t = va_arg (*args, li_hit_trace_t *);
+    CLIB_UNUSED(vlib_main_t * vm)   = va_arg(*args, vlib_main_t *);
+    CLIB_UNUSED(vlib_node_t * node) = va_arg(*args, vlib_node_t *);
+    li_hit_trace_t *t               = va_arg(*args, li_hit_trace_t *);
 
-  s = format (s, "LI_HIT: next index %d", t->next_index);
+    s = format(s, "LI_HIT: next index %d", t->next_index);
 
-  return s;
+    return s;
 }
 
 vlib_node_registration_t li_hit_node;
 
-#define foreach_li_hit_error                                    \
-_(HITS, "LI packets processed")                                 \
-_(NO_COLLECTOR, "No collector configured")                      \
-_(BUFFER_ALLOCATION_FAILURE, "Buffer allocation failure")
+#define foreach_li_hit_error                                                                                           \
+    _(HITS, "LI packets processed")                                                                                    \
+    _(NO_COLLECTOR, "No collector configured")                                                                         \
+    _(BUFFER_ALLOCATION_FAILURE, "Buffer allocation failure")
 
-typedef enum
-{
-#define _(sym,str) LI_HIT_ERROR_##sym,
-  foreach_li_hit_error
+typedef enum {
+#define _(sym, str) LI_HIT_ERROR_##sym,
+    foreach_li_hit_error
 #undef _
-    LI_HIT_N_ERROR,
+        LI_HIT_N_ERROR,
 } li_hit_error_t;
 
 static char *li_hit_error_strings[] = {
-#define _(sym,string) string,
-  foreach_li_hit_error
+#define _(sym, string) string,
+    foreach_li_hit_error
 #undef _
 };
 
-typedef enum
-{
-  LI_HIT_NEXT_ETHERNET,
-  LI_HIT_N_NEXT,
+typedef enum {
+    LI_HIT_NEXT_ETHERNET,
+    LI_HIT_N_NEXT,
 } li_hit_next_t;
 
 static uword
-li_hit_node_fn (vlib_main_t * vm,
-		vlib_node_runtime_t * node, vlib_frame_t * frame)
+li_hit_node_fn(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *frame)
 {
-  u32 n_left_from, *from, *to_next;
-  li_hit_next_t next_index;
-  vlib_frame_t *int_frame = 0;
-  u32 *to_int_next = 0;
-  li_main_t *lm = &li_main;
+    u32 n_left_from, *from, *to_next;
+    li_hit_next_t next_index;
+    vlib_frame_t *int_frame = 0;
+    u32 *to_int_next        = 0;
+    li_main_t *lm           = &li_main;
 
-  from = vlib_frame_vector_args (frame);
-  n_left_from = frame->n_vectors;
-  next_index = node->cached_next_index;
+    from        = vlib_frame_vector_args(frame);
+    n_left_from = frame->n_vectors;
+    next_index  = node->cached_next_index;
 
-  if (PREDICT_FALSE (vec_len (lm->collectors) == 0))
-    {
-      vlib_node_increment_counter (vm, li_hit_node.index,
-				   LI_HIT_ERROR_NO_COLLECTOR, n_left_from);
-    }
-  else
-    {
-      /* The intercept frame... */
-      int_frame = vlib_get_frame_to_node (vm, ip4_lookup_node.index);
-      to_int_next = vlib_frame_vector_args (int_frame);
+    if (PREDICT_FALSE(vec_len(lm->collectors) == 0)) {
+        vlib_node_increment_counter(vm, li_hit_node.index, LI_HIT_ERROR_NO_COLLECTOR, n_left_from);
+    } else {
+        /* The intercept frame... */
+        int_frame   = vlib_get_frame_to_node(vm, ip4_lookup_node.index);
+        to_int_next = vlib_frame_vector_args(int_frame);
     }
 
-  while (n_left_from > 0)
-    {
-      u32 n_left_to_next;
+    while (n_left_from > 0) {
+        u32 n_left_to_next;
 
-      vlib_get_next_frame (vm, node, next_index, to_next, n_left_to_next);
+        vlib_get_next_frame(vm, node, next_index, to_next, n_left_to_next);
 
 #if 0
       while (n_left_from >= 4 && n_left_to_next >= 2)
@@ -178,112 +169,100 @@ li_hit_node_fn (vlib_main_t * vm,
 	}
 #endif /* $$$ dual-loop off */
 
-      while (n_left_from > 0 && n_left_to_next > 0)
-	{
-	  u32 bi0;
-	  vlib_buffer_t *b0;
-	  vlib_buffer_t *c0;
-	  ip4_udp_header_t *iu0;
-	  ip4_header_t *ip0;
-	  udp_header_t *udp0;
-	  u32 next0 = LI_HIT_NEXT_ETHERNET;
+        while (n_left_from > 0 && n_left_to_next > 0) {
+            u32 bi0;
+            vlib_buffer_t *b0;
+            vlib_buffer_t *c0;
+            ip4_udp_header_t *iu0;
+            ip4_header_t *ip0;
+            udp_header_t *udp0;
+            u32 next0 = LI_HIT_NEXT_ETHERNET;
 
-	  /* speculatively enqueue b0 to the current next frame */
-	  bi0 = from[0];
-	  to_next[0] = bi0;
-	  from += 1;
-	  to_next += 1;
-	  n_left_from -= 1;
-	  n_left_to_next -= 1;
+            /* speculatively enqueue b0 to the current next frame */
+            bi0        = from[0];
+            to_next[0] = bi0;
+            from += 1;
+            to_next += 1;
+            n_left_from -= 1;
+            n_left_to_next -= 1;
 
-	  b0 = vlib_get_buffer (vm, bi0);
-	  if (PREDICT_TRUE (to_int_next != 0))
-	    {
-	      /* Make an intercept copy. This can fail. */
-	      c0 = vlib_buffer_copy (vm, b0);
+            b0 = vlib_get_buffer(vm, bi0);
+            if (PREDICT_TRUE(to_int_next != 0)) {
+                /* Make an intercept copy. This can fail. */
+                c0 = vlib_buffer_copy(vm, b0);
 
-	      if (PREDICT_FALSE (c0 == 0))
-		{
-		  vlib_node_increment_counter
-		    (vm, node->node_index,
-		     LI_HIT_ERROR_BUFFER_ALLOCATION_FAILURE, 1);
-		  goto skip;
-		}
+                if (PREDICT_FALSE(c0 == 0)) {
+                    vlib_node_increment_counter(vm, node->node_index, LI_HIT_ERROR_BUFFER_ALLOCATION_FAILURE, 1);
+                    goto skip;
+                }
 
-	      vlib_buffer_advance (c0, -sizeof (*iu0));
+                vlib_buffer_advance(c0, -sizeof(*iu0));
 
-	      iu0 = vlib_buffer_get_current (c0);
-	      ip0 = &iu0->ip4;
+                iu0 = vlib_buffer_get_current(c0);
+                ip0 = &iu0->ip4;
 
-	      ip0->ip_version_and_header_length = 0x45;
-	      ip0->ttl = 254;
-	      ip0->protocol = IP_PROTOCOL_UDP;
+                ip0->ip_version_and_header_length = 0x45;
+                ip0->ttl                          = 254;
+                ip0->protocol                     = IP_PROTOCOL_UDP;
 
-	      ip0->src_address.as_u32 = lm->src_addrs[0].as_u32;
-	      ip0->dst_address.as_u32 = lm->collectors[0].as_u32;
-	      ip0->length = vlib_buffer_length_in_chain (vm, c0);
-	      ip0->checksum = ip4_header_checksum (ip0);
+                ip0->src_address.as_u32 = lm->src_addrs[0].as_u32;
+                ip0->dst_address.as_u32 = lm->collectors[0].as_u32;
+                ip0->length             = vlib_buffer_length_in_chain(vm, c0);
+                ip0->checksum           = ip4_header_checksum(ip0);
 
-	      udp0 = &iu0->udp;
-	      udp0->src_port = udp0->dst_port =
-		clib_host_to_net_u16 (lm->ports[0]);
-	      udp0->checksum = 0;
-	      udp0->length =
-		clib_net_to_host_u16 (vlib_buffer_length_in_chain (vm, b0));
+                udp0           = &iu0->udp;
+                udp0->src_port = udp0->dst_port = clib_host_to_net_u16(lm->ports[0]);
+                udp0->checksum                  = 0;
+                udp0->length                    = clib_net_to_host_u16(vlib_buffer_length_in_chain(vm, b0));
 
-	      to_int_next[0] = vlib_get_buffer_index (vm, c0);
-	      to_int_next++;
-	    }
+                to_int_next[0] = vlib_get_buffer_index(vm, c0);
+                to_int_next++;
+            }
 
-	skip:
-	  if (PREDICT_FALSE ((node->flags & VLIB_NODE_FLAG_TRACE)
-			     && (b0->flags & VLIB_BUFFER_IS_TRACED)))
-	    {
-	      li_hit_trace_t *t = vlib_add_trace (vm, node, b0, sizeof (*t));
-	      t->next_index = next0;
-	    }
+        skip:
+            if (PREDICT_FALSE((node->flags & VLIB_NODE_FLAG_TRACE) && (b0->flags & VLIB_BUFFER_IS_TRACED))) {
+                li_hit_trace_t *t = vlib_add_trace(vm, node, b0, sizeof(*t));
+                t->next_index     = next0;
+            }
 
-	  /* verify speculative enqueue, maybe switch current next frame */
-	  vlib_validate_buffer_enqueue_x1 (vm, node, next_index,
-					   to_next, n_left_to_next,
-					   bi0, next0);
-	}
+            /* verify speculative enqueue, maybe switch current next frame */
+            vlib_validate_buffer_enqueue_x1(vm, node, next_index, to_next, n_left_to_next, bi0, next0);
+        }
 
-      vlib_put_next_frame (vm, node, next_index, n_left_to_next);
+        vlib_put_next_frame(vm, node, next_index, n_left_to_next);
     }
 
-  if (int_frame)
-    {
-      int_frame->n_vectors = frame->n_vectors;
-      vlib_put_frame_to_node (vm, ip4_lookup_node.index, int_frame);
+    if (int_frame) {
+        int_frame->n_vectors = frame->n_vectors;
+        vlib_put_frame_to_node(vm, ip4_lookup_node.index, int_frame);
     }
 
-  vlib_node_increment_counter (vm, li_hit_node.index,
-			       LI_HIT_ERROR_HITS, frame->n_vectors);
-  return frame->n_vectors;
+    vlib_node_increment_counter(vm, li_hit_node.index, LI_HIT_ERROR_HITS, frame->n_vectors);
+    return frame->n_vectors;
 }
 
 /* *INDENT-OFF* */
-VLIB_REGISTER_NODE (li_hit_node) = {
-  .function = li_hit_node_fn,
-  .name = "li-hit",
-  .vector_size = sizeof (u32),
-  .format_trace = format_li_hit_trace,
-  .type = VLIB_NODE_TYPE_INTERNAL,
+VLIB_REGISTER_NODE(li_hit_node) = {
+    .function     = li_hit_node_fn,
+    .name         = "li-hit",
+    .vector_size  = sizeof(u32),
+    .format_trace = format_li_hit_trace,
+    .type         = VLIB_NODE_TYPE_INTERNAL,
 
-  .n_errors = ARRAY_LEN(li_hit_error_strings),
-  .error_strings = li_hit_error_strings,
+    .n_errors      = ARRAY_LEN(li_hit_error_strings),
+    .error_strings = li_hit_error_strings,
 
-  .n_next_nodes = LI_HIT_N_NEXT,
+    .n_next_nodes = LI_HIT_N_NEXT,
 
-  /* edit / add dispositions here */
-  .next_nodes = {
-        [LI_HIT_NEXT_ETHERNET] = "ethernet-input-not-l2",
-  },
+    /* edit / add dispositions here */
+    .next_nodes =
+        {
+            [LI_HIT_NEXT_ETHERNET] = "ethernet-input-not-l2",
+        },
 };
 /* *INDENT-ON* */
 
-VLIB_NODE_FUNCTION_MULTIARCH (li_hit_node, li_hit_node_fn)
+VLIB_NODE_FUNCTION_MULTIARCH(li_hit_node, li_hit_node_fn)
 /*
  * fd.io coding-style-patch-verification: ON
  *

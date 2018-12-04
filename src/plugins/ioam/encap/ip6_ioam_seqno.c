@@ -36,41 +36,38 @@
  * On decap node decap is handled by seperate function.
  */
 int
-ioam_seqno_encap_handler (vlib_buffer_t *b, ip6_header_t *ip,
-                          ip6_hop_by_hop_option_t *opt)
+ioam_seqno_encap_handler(vlib_buffer_t *b, ip6_header_t *ip, ip6_hop_by_hop_option_t *opt)
 {
-  u32 opaque_index = vnet_buffer(b)->l2_classify.opaque_index;
-  ioam_e2e_option_t * e2e;
-  int rv = 0;
-  ioam_seqno_data *data;
+    u32 opaque_index = vnet_buffer(b)->l2_classify.opaque_index;
+    ioam_e2e_option_t *e2e;
+    int rv = 0;
+    ioam_seqno_data *data;
 
-  /* Bypass seqno processing */
-  if (PREDICT_FALSE(opaque_index == 0x7FFFFFFF))
-    return rv;
+    /* Bypass seqno processing */
+    if (PREDICT_FALSE(opaque_index == 0x7FFFFFFF))
+        return rv;
 
-  data = ioam_e2ec_get_seqno_data_from_flow_ctx(opaque_index);
-  e2e = (ioam_e2e_option_t *) opt;
-  e2e->e2e_hdr.e2e_data = clib_host_to_net_u32(++data->seq_num);
+    data                  = ioam_e2ec_get_seqno_data_from_flow_ctx(opaque_index);
+    e2e                   = (ioam_e2e_option_t *) opt;
+    e2e->e2e_hdr.e2e_data = clib_host_to_net_u32(++data->seq_num);
 
-  return (rv);
+    return (rv);
 }
 
 /*
  * This Routine gets called on POP/Decap node.
  */
 int
-ioam_seqno_decap_handler (vlib_buffer_t *b, ip6_header_t *ip,
-                          ip6_hop_by_hop_option_t *opt)
+ioam_seqno_decap_handler(vlib_buffer_t *b, ip6_header_t *ip, ip6_hop_by_hop_option_t *opt)
 {
-  u32 opaque_index = vnet_buffer(b)->l2_classify.opaque_index;
-  ioam_e2e_option_t * e2e;
-  int rv = 0;
-  ioam_seqno_data *data;
+    u32 opaque_index = vnet_buffer(b)->l2_classify.opaque_index;
+    ioam_e2e_option_t *e2e;
+    int rv = 0;
+    ioam_seqno_data *data;
 
-  data = ioam_e2ec_get_seqno_data_from_flow_ctx(opaque_index);
-  e2e = (ioam_e2e_option_t *) opt;
-  ioam_analyze_seqno(&data->seqno_rx,
-                     (u64) clib_net_to_host_u32(e2e->e2e_hdr.e2e_data));
+    data = ioam_e2ec_get_seqno_data_from_flow_ctx(opaque_index);
+    e2e  = (ioam_e2e_option_t *) opt;
+    ioam_analyze_seqno(&data->seqno_rx, (u64) clib_net_to_host_u32(e2e->e2e_hdr.e2e_data));
 
-  return (rv);
+    return (rv);
 }

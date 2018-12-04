@@ -16,7 +16,7 @@
  *  @file
  *  @brief VXLAN GPE packet header structure
  *
-*/
+ */
 #ifndef included_vxlan_gpe_packet_h
 #define included_vxlan_gpe_packet_h
 
@@ -64,12 +64,12 @@
  * 3 - ETHERNET
  * 4 - NSH
  */
-#define foreach_vxlan_gpe_protocol \
-_ (0x01, IP4)                         \
-_ (0x02, IP6)                         \
-_ (0x03, ETHERNET)		     \
-_ (0x04, NSH)		     \
-_ (0x05, IOAM)
+#define foreach_vxlan_gpe_protocol                                                                                     \
+    _(0x01, IP4)                                                                                                       \
+    _(0x02, IP6)                                                                                                       \
+    _(0x03, ETHERNET)                                                                                                  \
+    _(0x04, NSH)                                                                                                       \
+    _(0x05, IOAM)
 
 
 /**
@@ -80,28 +80,26 @@ _ (0x05, IOAM)
  * 4 - NSH
  * 5 - IOAM
  */
-typedef enum
-{
-#define _(n,f) VXLAN_GPE_PROTOCOL_##f = n,
-  foreach_vxlan_gpe_protocol
+typedef enum {
+#define _(n, f) VXLAN_GPE_PROTOCOL_##f = n,
+    foreach_vxlan_gpe_protocol
 #undef _
-    VXLAN_GPE_PROTOCOL_MAX,
+        VXLAN_GPE_PROTOCOL_MAX,
 } vxlan_gpe_protocol_t;
 
 /**
  * @brief VXLAN GPE Header definition
  */
-typedef struct
-{
-  u8 flags;
-  /** Version and Reserved */
-  u8 ver_res;
-  /** Reserved */
-  u8 res;
-  /** see vxlan_gpe_protocol_t */
-  u8 protocol;
-  /** VNI and Reserved */
-  u32 vni_res;
+typedef struct {
+    u8 flags;
+    /** Version and Reserved */
+    u8 ver_res;
+    /** Reserved */
+    u8 res;
+    /** see vxlan_gpe_protocol_t */
+    u8 protocol;
+    /** VNI and Reserved */
+    u32 vni_res;
 } vxlan_gpe_header_t;
 
 #define VXLAN_GPE_FLAGS_I 0x08

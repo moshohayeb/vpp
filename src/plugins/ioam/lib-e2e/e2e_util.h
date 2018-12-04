@@ -20,9 +20,9 @@
 
 /* *INDENT-OFF* */
 typedef CLIB_PACKED(struct {
-  u8 e2e_type;
-  u8 reserved;
-  u32 e2e_data;
+    u8 e2e_type;
+    u8 reserved;
+    u32 e2e_data;
 }) ioam_e2e_packet_t;
 /* *INDENT-ON* */
 

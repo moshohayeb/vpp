@@ -43,18 +43,15 @@
  *  the address applied to the interface on which to glean. This
  *  as the source address in packets when the ARP/ND packet is sent
  */
-extern adj_index_t adj_glean_add_or_lock(fib_protocol_t proto,
-                                         vnet_link_t linkt,
-					 u32 sw_if_index,
-					 const ip46_address_t *nh_addr);
+extern adj_index_t adj_glean_add_or_lock(fib_protocol_t proto, vnet_link_t linkt, u32 sw_if_index,
+                                         const ip46_address_t *nh_addr);
 
 /**
  * @brief Get an existing glean
  *
  * @return INVALID if it does not exist
  */
-extern adj_index_t adj_glean_get(fib_protocol_t proto,
-                                 u32 sw_if_index);
+extern adj_index_t adj_glean_get(fib_protocol_t proto, u32 sw_if_index);
 
 /**
  * adj_glean_update_rewrite
@@ -70,7 +67,7 @@ extern void adj_glean_update_rewrite(adj_index_t adj_index);
 /**
  * @brief Format/display a glean adjacency.
  */
-extern u8* format_adj_glean(u8* s, va_list *ap);
+extern u8 *format_adj_glean(u8 *s, va_list *ap);
 
 /**
  * @brief

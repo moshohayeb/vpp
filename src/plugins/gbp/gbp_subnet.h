@@ -18,17 +18,13 @@
 
 #include <plugins/gbp/gbp_types.h>
 
-extern int gbp_subnet_add_del (u32 table_id,
-			       const fib_prefix_t * pfx,
-			       u32 sw_if_index,
-			       epg_id_t epg, u8 is_add, u8 is_internal);
+extern int gbp_subnet_add_del(u32 table_id, const fib_prefix_t *pfx, u32 sw_if_index, epg_id_t epg, u8 is_add,
+                              u8 is_internal);
 
 
-typedef int (*gbp_subnet_cb_t) (u32 table_id,
-				const fib_prefix_t * pfx,
-				u32 sw_if_index,
-				epg_id_t epg, u8 is_internal, void *ctx);
-extern void gbp_subnet_walk (gbp_subnet_cb_t cb, void *ctx);
+typedef int (*gbp_subnet_cb_t)(u32 table_id, const fib_prefix_t *pfx, u32 sw_if_index, epg_id_t epg, u8 is_internal,
+                               void *ctx);
+extern void gbp_subnet_walk(gbp_subnet_cb_t cb, void *ctx);
 
 #endif
 

@@ -30,38 +30,37 @@
  * will run through the list of policies a match will divert the packet,
  * if all miss then we continues down the interface's feature arc
  */
-typedef struct abf_policy_t_
-{
-  /**
-   * Linkage into the FIB graph
-   */
-  fib_node_t ap_node;
+typedef struct abf_policy_t_ {
+    /**
+     * Linkage into the FIB graph
+     */
+    fib_node_t ap_node;
 
-  /**
-   * ACL index to match
-   */
-  u32 ap_acl;
+    /**
+     * ACL index to match
+     */
+    u32 ap_acl;
 
-  /**
-   * The path-list describing how to forward in case of a match
-   */
-  fib_node_index_t ap_pl;
+    /**
+     * The path-list describing how to forward in case of a match
+     */
+    fib_node_index_t ap_pl;
 
-  /**
-   * Sibling index on the path-list
-   */
-  u32 ap_sibling;
+    /**
+     * Sibling index on the path-list
+     */
+    u32 ap_sibling;
 
-  /**
-   * The policy ID - as configured by the client
-   */
-  u32 ap_id;
+    /**
+     * The policy ID - as configured by the client
+     */
+    u32 ap_id;
 } abf_policy_t;
 
 /**
  * Get an ABF object from its VPP index
  */
-extern abf_policy_t *abf_policy_get (index_t index);
+extern abf_policy_t *abf_policy_get(index_t index);
 
 /**
  * Find a ABF object from the client's policy ID
@@ -69,7 +68,7 @@ extern abf_policy_t *abf_policy_get (index_t index);
  * @param policy_id Client's defined policy ID
  * @return VPP's object index
  */
-extern index_t abf_policy_find (u32 policy_id);
+extern index_t abf_policy_find(u32 policy_id);
 
 /**
  * The FIB node type for ABF policies
@@ -83,9 +82,7 @@ extern fib_node_type_t abf_policy_fib_node_type;
  * @param acl_index The ACL the policy with match on
  * @param rpaths The set of paths to add to the forwarding set
  */
-extern void abf_policy_update (u32 policy_id,
-			       u32 acl_index,
-			       const fib_route_path_t * rpaths);
+extern void abf_policy_update(u32 policy_id, u32 acl_index, const fib_route_path_t *rpaths);
 
 /**
  * Delete paths from an ABF Policy. If no more paths exist, the policy
@@ -94,17 +91,17 @@ extern void abf_policy_update (u32 policy_id,
  * @param policy_id User defined Policy ID
  * @param rpaths The set of paths to forward remove
  */
-extern int abf_policy_delete (u32 policy_id, const fib_route_path_t * rpaths);
+extern int abf_policy_delete(u32 policy_id, const fib_route_path_t *rpaths);
 
 /**
  * Callback function invoked during a walk of all policies
  */
-typedef int (*abf_policy_walk_cb_t) (index_t index, void *ctx);
+typedef int (*abf_policy_walk_cb_t)(index_t index, void *ctx);
 
 /**
  * Walk/visit each of the ABF policies
  */
-extern void abf_policy_walk (abf_policy_walk_cb_t cb, void *ctx);
+extern void abf_policy_walk(abf_policy_walk_cb_t cb, void *ctx);
 
 
 /*

@@ -25,11 +25,11 @@
  * Source initialisation Function
  */
 static void
-fib_entry_src_mpls_init (fib_entry_src_t *src)
+fib_entry_src_mpls_init(fib_entry_src_t *src)
 {
     mpls_eos_bit_t eos;
 
-    src->fes_flags = FIB_ENTRY_SRC_FLAG_NONE;
+    src->fes_flags         = FIB_ENTRY_SRC_FLAG_NONE;
     src->u.mpls.fesm_label = MPLS_LABEL_INVALID;
 
     FOR_EACH_MPLS_EOS_BIT(eos)
@@ -42,34 +42,26 @@ fib_entry_src_mpls_init (fib_entry_src_t *src)
  * Source deinitialisation Function
  */
 static void
-fib_entry_src_mpls_deinit (fib_entry_src_t *src)
+fib_entry_src_mpls_deinit(fib_entry_src_t *src)
 {
 }
 
 static void
-fib_entry_src_mpls_remove (fib_entry_src_t *src)
+fib_entry_src_mpls_remove(fib_entry_src_t *src)
 {
-    src->fes_pl = FIB_NODE_INDEX_INVALID;
+    src->fes_pl            = FIB_NODE_INDEX_INVALID;
     src->u.mpls.fesm_label = MPLS_LABEL_INVALID;
 }
 
 static void
-fib_entry_src_mpls_add (fib_entry_src_t *src,
-                        const fib_entry_t *entry,
-                        fib_entry_flag_t flags,
-                        dpo_proto_t proto,
-                        const dpo_id_t *dpo)
+fib_entry_src_mpls_add(fib_entry_src_t *src, const fib_entry_t *entry, fib_entry_flag_t flags, dpo_proto_t proto,
+                       const dpo_id_t *dpo)
 {
-    src->fes_pl =
-        fib_path_list_create_special(proto,
-                                     FIB_PATH_LIST_FLAG_DROP,
-                                     drop_dpo_get(proto));
+    src->fes_pl = fib_path_list_create_special(proto, FIB_PATH_LIST_FLAG_DROP, drop_dpo_get(proto));
 }
 
 static void
-fib_entry_src_mpls_set_data (fib_entry_src_t *src,
-                             const fib_entry_t *entry,
-                             const void *data)
+fib_entry_src_mpls_set_data(fib_entry_src_t *src, const fib_entry_t *entry, const void *data)
 {
     fib_protocol_t payload_proto;
     fib_node_index_t fei;
@@ -81,26 +73,20 @@ fib_entry_src_mpls_set_data (fib_entry_src_t *src,
      * the entry pointer will no longer be valid. so save its index
      */
     payload_proto = entry->fe_prefix.fp_proto;
-    fei = fib_entry_get_index(entry);
-    label = *(mpls_label_t*)data;
+    fei           = fib_entry_get_index(entry);
+    label         = *(mpls_label_t *) data;
 
-    if (MPLS_LABEL_INVALID == label)
-    {
+    if (MPLS_LABEL_INVALID == label) {
         /*
          * removing the local label
          */
         FOR_EACH_MPLS_EOS_BIT(eos)
         {
-            fib_table_entry_delete_index(src->u.mpls.fesm_lfes[eos],
-                                         FIB_SOURCE_SPECIAL);
+            fib_table_entry_delete_index(src->u.mpls.fesm_lfes[eos], FIB_SOURCE_SPECIAL);
         }
-        fib_table_unlock(MPLS_FIB_DEFAULT_TABLE_ID,
-                         FIB_PROTOCOL_MPLS,
-                         FIB_SOURCE_MPLS);
+        fib_table_unlock(MPLS_FIB_DEFAULT_TABLE_ID, FIB_PROTOCOL_MPLS, FIB_SOURCE_MPLS);
         src->u.mpls.fesm_label = label;
-    }
-    else
-    {
+    } else {
         fib_prefix_t prefix = {
             .fp_proto = FIB_PROTOCOL_MPLS,
             .fp_label = label,
@@ -111,27 +97,19 @@ fib_entry_src_mpls_set_data (fib_entry_src_t *src,
         /*
          * adding a new local label. make sure the MPLS fib exists.
          */
-        if (MPLS_LABEL_INVALID == src->u.mpls.fesm_label)
-        {
-            fib_index =
-                fib_table_find_or_create_and_lock(FIB_PROTOCOL_MPLS,
-                                                  MPLS_FIB_DEFAULT_TABLE_ID,
-                                                  FIB_SOURCE_MPLS);
-        }
-        else
-        {
+        if (MPLS_LABEL_INVALID == src->u.mpls.fesm_label) {
+            fib_index = fib_table_find_or_create_and_lock(FIB_PROTOCOL_MPLS, MPLS_FIB_DEFAULT_TABLE_ID, FIB_SOURCE_MPLS);
+        } else {
             fib_index = mpls_fib_index_from_table_id(MPLS_FIB_DEFAULT_TABLE_ID);
 
             /*
              * if this is a change in label, reomve the old one first
              */
-            if (src->u.mpls.fesm_label != label)
-            {
+            if (src->u.mpls.fesm_label != label) {
                 FOR_EACH_MPLS_EOS_BIT(eos)
                 {
                     ASSERT(FIB_NODE_INDEX_INVALID != src->u.mpls.fesm_lfes[eos]);
-                    fib_table_entry_delete_index(src->u.mpls.fesm_lfes[eos],
-                                                 FIB_SOURCE_SPECIAL);
+                    fib_table_entry_delete_index(src->u.mpls.fesm_lfes[eos], FIB_SOURCE_SPECIAL);
                 }
             }
         }
@@ -140,45 +118,36 @@ fib_entry_src_mpls_set_data (fib_entry_src_t *src,
 
         FOR_EACH_MPLS_EOS_BIT(eos)
         {
-            prefix.fp_eos = eos;
+            prefix.fp_eos           = eos;
             prefix.fp_payload_proto = fib_proto_to_dpo(payload_proto);
 
-            fib_entry_contribute_forwarding(fei,
-                                            (eos ?
-                                             FIB_FORW_CHAIN_TYPE_MPLS_EOS :
-                                             FIB_FORW_CHAIN_TYPE_MPLS_NON_EOS),
+            fib_entry_contribute_forwarding(fei, (eos ? FIB_FORW_CHAIN_TYPE_MPLS_EOS : FIB_FORW_CHAIN_TYPE_MPLS_NON_EOS),
                                             &dpo);
             src->u.mpls.fesm_lfes[eos] =
-                fib_table_entry_special_dpo_add(fib_index,
-                                                &prefix,
-                                                FIB_SOURCE_SPECIAL,
-                                                FIB_ENTRY_FLAG_EXCLUSIVE,
-                                                &dpo);
+                fib_table_entry_special_dpo_add(fib_index, &prefix, FIB_SOURCE_SPECIAL, FIB_ENTRY_FLAG_EXCLUSIVE, &dpo);
             dpo_reset(&dpo);
         }
     }
 }
 
 static const void *
-fib_entry_src_mpls_get_data (fib_entry_src_t *src,
-                             const fib_entry_t *entry)
+fib_entry_src_mpls_get_data(fib_entry_src_t *src, const fib_entry_t *entry)
 {
     return (&(src->u.mpls.fesm_label));
 }
 
-static u8*
-fib_entry_src_mpls_format (fib_entry_src_t *src,
-                           u8* s)
+static u8 *
+fib_entry_src_mpls_format(fib_entry_src_t *src, u8 *s)
 {
     return (format(s, " local-label:%d", src->u.mpls.fesm_label));
 }
 
 const static fib_entry_src_vft_t mpls_src_vft = {
-    .fesv_init = fib_entry_src_mpls_init,
-    .fesv_deinit = fib_entry_src_mpls_deinit,
-    .fesv_add = fib_entry_src_mpls_add,
-    .fesv_remove = fib_entry_src_mpls_remove,
-    .fesv_format = fib_entry_src_mpls_format,
+    .fesv_init     = fib_entry_src_mpls_init,
+    .fesv_deinit   = fib_entry_src_mpls_deinit,
+    .fesv_add      = fib_entry_src_mpls_add,
+    .fesv_remove   = fib_entry_src_mpls_remove,
+    .fesv_format   = fib_entry_src_mpls_format,
     .fesv_set_data = fib_entry_src_mpls_set_data,
     .fesv_get_data = fib_entry_src_mpls_get_data,
     /*
@@ -191,7 +160,7 @@ const static fib_entry_src_vft_t mpls_src_vft = {
 };
 
 void
-fib_entry_src_mpls_register (void)
+fib_entry_src_mpls_register(void)
 {
     fib_entry_src_register(FIB_SOURCE_MPLS, &mpls_src_vft);
 }

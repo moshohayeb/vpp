@@ -26,14 +26,14 @@
 
 #include <signal.h>
 
-typedef void (timer_func_t) (any arg, f64 delay);
+typedef void(timer_func_t)(any arg, f64 delay);
 
 /* Arrange for function to be called after time interval (in seconds) has elapsed. */
-extern void timer_call (timer_func_t * func, any arg, f64 time_interval);
+extern void timer_call(timer_func_t *func, any arg, f64 time_interval);
 
 /* Block/unblock timer interrupts. */
-extern void timer_block (sigset_t * save);
-extern void timer_unblock (sigset_t * save);
+extern void timer_block(sigset_t *save);
+extern void timer_unblock(sigset_t *save);
 
 #endif /* included_timer_h */
 

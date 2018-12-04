@@ -23,52 +23,41 @@
 #define BFD_DEBUG (0)
 
 #if BFD_DEBUG
-#define BFD_DEBUG_FILE_DEF            \
-  static const char *__file = NULL;   \
-  {                                   \
-    __file = strrchr (__FILE__, '/'); \
-    if (__file)                       \
-      {                               \
-        ++__file;                     \
-      }                               \
-    else                              \
-      {                               \
-        __file = __FILE__;            \
-      }                               \
-  }
+#define BFD_DEBUG_FILE_DEF                                                                                             \
+    static const char *__file = NULL;                                                                                  \
+    {                                                                                                                  \
+        __file = strrchr(__FILE__, '/');                                                                               \
+        if (__file) {                                                                                                  \
+            ++__file;                                                                                                  \
+        } else {                                                                                                       \
+            __file = __FILE__;                                                                                         \
+        }                                                                                                              \
+    }
 
-#define BFD_DBG(fmt, ...)                                                \
-  do                                                                     \
-    {                                                                    \
-      BFD_DEBUG_FILE_DEF                                                 \
-      static u8 *_s = NULL;                                              \
-      vlib_main_t *vm = vlib_get_main ();                                \
-      _s = format (_s, "%6.02f:DBG:%s:%d:%s():" fmt, vlib_time_now (vm), \
-                   __file, __LINE__, __func__, ##__VA_ARGS__);           \
-      printf ("%.*s\n", vec_len (_s), _s);                               \
-      vec_reset_length (_s);                                             \
-    }                                                                    \
-  while (0);
+#define BFD_DBG(fmt, ...)                                                                                              \
+    do {                                                                                                               \
+        BFD_DEBUG_FILE_DEF                                                                                             \
+        static u8 *_s   = NULL;                                                                                        \
+        vlib_main_t *vm = vlib_get_main();                                                                             \
+        _s = format(_s, "%6.02f:DBG:%s:%d:%s():" fmt, vlib_time_now(vm), __file, __LINE__, __func__, ##__VA_ARGS__);   \
+        printf("%.*s\n", vec_len(_s), _s);                                                                             \
+        vec_reset_length(_s);                                                                                          \
+    } while (0);
 
-#define BFD_ERR(fmt, ...)                                                \
-  do                                                                     \
-    {                                                                    \
-      BFD_DEBUG_FILE_DEF                                                 \
-      static u8 *_s = NULL;                                              \
-      vlib_main_t *vm = vlib_get_main ();                                \
-      _s = format (_s, "%6.02f:ERR:%s:%d:%s():" fmt, vlib_time_now (vm), \
-                   __file, __LINE__, __func__, ##__VA_ARGS__);           \
-      printf ("%.*s\n", vec_len (_s), _s);                               \
-      vec_reset_length (_s);                                             \
-    }                                                                    \
-  while (0);
+#define BFD_ERR(fmt, ...)                                                                                              \
+    do {                                                                                                               \
+        BFD_DEBUG_FILE_DEF                                                                                             \
+        static u8 *_s   = NULL;                                                                                        \
+        vlib_main_t *vm = vlib_get_main();                                                                             \
+        _s = format(_s, "%6.02f:ERR:%s:%d:%s():" fmt, vlib_time_now(vm), __file, __LINE__, __func__, ##__VA_ARGS__);   \
+        printf("%.*s\n", vec_len(_s), _s);                                                                             \
+        vec_reset_length(_s);                                                                                          \
+    } while (0);
 
 #define BFD_CLK_FMT "%luus/%lu clocks/%.2fs"
-#define BFD_CLK_PRN(clocks)                                                \
-  (u64) ((((f64)clocks) / vlib_get_main ()->clib_time.clocks_per_second) * \
-         USEC_PER_SECOND),                                                 \
-      (clocks),                                                            \
-      (((f64)clocks) / vlib_get_main ()->clib_time.clocks_per_second)
+#define BFD_CLK_PRN(clocks)                                                                                            \
+    (u64)((((f64) clocks) / vlib_get_main()->clib_time.clocks_per_second) * USEC_PER_SECOND), (clocks),                \
+        (((f64) clocks) / vlib_get_main()->clib_time.clocks_per_second)
 
 #else
 #define BFD_DBG(...)

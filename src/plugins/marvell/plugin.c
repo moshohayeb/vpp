@@ -20,9 +20,9 @@
 #include <vpp/app/version.h>
 
 /* *INDENT-OFF* */
-VLIB_PLUGIN_REGISTER () = {
-  .version = VPP_BUILD_VER,
-  .description = "Marvell Device Plugin",
+VLIB_PLUGIN_REGISTER() = {
+    .version     = VPP_BUILD_VER,
+    .description = "Marvell Device Plugin",
 };
 /* *INDENT-ON* */
 

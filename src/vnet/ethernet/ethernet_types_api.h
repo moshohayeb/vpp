@@ -27,12 +27,10 @@
  */
 struct _vl_api_mac_address;
 
-extern void mac_address_decode (const struct _vl_api_mac_address *in,
-				mac_address_t * out);
-extern void mac_address_encode (const mac_address_t * in,
-				struct _vl_api_mac_address *out);
+extern void mac_address_decode(const struct _vl_api_mac_address *in, mac_address_t *out);
+extern void mac_address_encode(const mac_address_t *in, struct _vl_api_mac_address *out);
 
-extern u8 *format_vl_api_mac_address (u8 * s, va_list * args);
+extern u8 *format_vl_api_mac_address(u8 *s, va_list *args);
 
 #endif
 

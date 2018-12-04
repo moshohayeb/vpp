@@ -69,23 +69,19 @@ typedef struct bier_imp_t_ {
 
 } bier_imp_t;
 
-extern index_t bier_imp_add_or_lock(const bier_table_id_t *bt,
-                                    bier_bp_t sender,
-                                    const bier_bit_string_t *bs);
+extern index_t bier_imp_add_or_lock(const bier_table_id_t *bt, bier_bp_t sender, const bier_bit_string_t *bs);
 
 extern void bier_imp_unlock(index_t bii);
 extern void bier_imp_lock(index_t bii);
 
-extern u8* format_bier_imp(u8* s, va_list *ap);
+extern u8 *format_bier_imp(u8 *s, va_list *ap);
 
-extern void bier_imp_contribute_forwarding(index_t bii,
-                                           dpo_proto_t proto,
-                                           dpo_id_t *dpo);
+extern void bier_imp_contribute_forwarding(index_t bii, dpo_proto_t proto, dpo_id_t *dpo);
 
 extern bier_imp_t *bier_imp_pool;
 
-always_inline bier_imp_t*
-bier_imp_get (index_t bii)
+always_inline bier_imp_t *
+bier_imp_get(index_t bii)
 {
     return (pool_elt_at_index(bier_imp_pool, bii));
 }

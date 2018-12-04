@@ -23,9 +23,9 @@
 
 #include <vnet/dpo/dpo.h>
 
-extern const dpo_id_t *ip6_ll_dpo_get (void);
+extern const dpo_id_t *ip6_ll_dpo_get(void);
 
-extern void ip6_ll_dpo_module_init (void);
+extern void ip6_ll_dpo_module_init(void);
 
 /*
  * fd.io coding-style-patch-verification: ON

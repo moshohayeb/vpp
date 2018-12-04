@@ -52,15 +52,14 @@
    If you change u32 len -> u64 len, single vectors can
    exceed 2**32 elements. Clib heaps are vectors. */
 
-typedef struct
-{
+typedef struct {
 #if CLIB_VEC64 > 0
-  u64 len;
+    u64 len;
 #else
-  u32 len; /**< Number of elements in vector (NOT its allocated length). */
-  u32 dlmalloc_header_offset;	/**< offset to memory allocator offset  */
+    u32 len;                    /**< Number of elements in vector (NOT its allocated length). */
+    u32 dlmalloc_header_offset; /**< offset to memory allocator offset  */
 #endif
-  u8 vector_data[0];  /**< Vector data . */
+    u8 vector_data[0]; /**< Vector data . */
 } vec_header_t;
 
 /** \brief Find the vector header
@@ -71,16 +70,14 @@ typedef struct
     @param v pointer to a vector
     @return pointer to the vector's vector_header_t
 */
-#define _vec_find(v)	((vec_header_t *) (v) - 1)
+#define _vec_find(v) ((vec_header_t *) (v) -1)
 
-#define _vec_round_size(s) \
-  (((s) + sizeof (uword) - 1) &~ (sizeof (uword) - 1))
+#define _vec_round_size(s) (((s) + sizeof(uword) - 1) & ~(sizeof(uword) - 1))
 
 always_inline uword
-vec_header_bytes (uword header_bytes)
+vec_header_bytes(uword header_bytes)
 {
-  return round_pow2 (header_bytes + sizeof (vec_header_t),
-		     sizeof (vec_header_t));
+    return round_pow2(header_bytes + sizeof(vec_header_t), sizeof(vec_header_t));
 }
 
 /** \brief Find a user vector header
@@ -90,9 +87,9 @@ vec_header_bytes (uword header_bytes)
 */
 
 always_inline void *
-vec_header (void *v, uword header_bytes)
+vec_header(void *v, uword header_bytes)
 {
-  return v - vec_header_bytes (header_bytes);
+    return v - vec_header_bytes(header_bytes);
 }
 
 /** \brief Find the end of user vector header
@@ -102,27 +99,27 @@ vec_header (void *v, uword header_bytes)
 */
 
 always_inline void *
-vec_header_end (void *v, uword header_bytes)
+vec_header_end(void *v, uword header_bytes)
 {
-  return v + vec_header_bytes (header_bytes);
+    return v + vec_header_bytes(header_bytes);
 }
 
 always_inline uword
-vec_aligned_header_bytes (uword header_bytes, uword align)
+vec_aligned_header_bytes(uword header_bytes, uword align)
 {
-  return round_pow2 (header_bytes + sizeof (vec_header_t), align);
+    return round_pow2(header_bytes + sizeof(vec_header_t), align);
 }
 
 always_inline void *
-vec_aligned_header (void *v, uword header_bytes, uword align)
+vec_aligned_header(void *v, uword header_bytes, uword align)
 {
-  return v - vec_aligned_header_bytes (header_bytes, align);
+    return v - vec_aligned_header_bytes(header_bytes, align);
 }
 
 always_inline void *
-vec_aligned_header_end (void *v, uword header_bytes, uword align)
+vec_aligned_header_end(void *v, uword header_bytes, uword align)
 {
-  return v + vec_aligned_header_bytes (header_bytes, align);
+    return v + vec_aligned_header_bytes(header_bytes, align);
 }
 
 
@@ -132,7 +129,7 @@ vec_aligned_header_end (void *v, uword header_bytes, uword align)
    (e.g. _vec_len (v) = 99).
 */
 
-#define _vec_len(v)	(_vec_find(v)->len)
+#define _vec_len(v) (_vec_find(v)->len)
 
 /** \brief Number of elements in vector (rvalue-only, NULL tolerant)
 
@@ -140,60 +137,62 @@ vec_aligned_header_end (void *v, uword header_bytes, uword align)
     If in doubt, use vec_len...
 */
 
-#define vec_len(v)	((v) ? _vec_len(v) : 0)
+#define vec_len(v) ((v) ? _vec_len(v) : 0)
 
 /** \brief Reset vector length to zero
     NULL-pointer tolerant
 */
 
-#define vec_reset_length(v) do { if (v) _vec_len (v) = 0; } while (0)
+#define vec_reset_length(v)                                                                                            \
+    do {                                                                                                               \
+        if (v)                                                                                                         \
+            _vec_len(v) = 0;                                                                                           \
+    } while (0)
 
 /** \brief Number of data bytes in vector. */
 
-#define vec_bytes(v) (vec_len (v) * sizeof (v[0]))
+#define vec_bytes(v) (vec_len(v) * sizeof(v[0]))
 
 /** \brief Total number of bytes that can fit in vector with current allocation. */
 
-#define vec_capacity(v,b)							\
-({										\
-  void * _vec_capacity_v = (void *) (v);					\
-  uword _vec_capacity_b = (b);							\
-  _vec_capacity_b = sizeof (vec_header_t) + _vec_round_size (_vec_capacity_b);	\
-  _vec_capacity_v ? clib_mem_size (_vec_capacity_v - _vec_capacity_b) : 0;	\
-})
+#define vec_capacity(v, b)                                                                                             \
+    ({                                                                                                                 \
+        void *_vec_capacity_v = (void *) (v);                                                                          \
+        uword _vec_capacity_b = (b);                                                                                   \
+        _vec_capacity_b       = sizeof(vec_header_t) + _vec_round_size(_vec_capacity_b);                               \
+        _vec_capacity_v ? clib_mem_size(_vec_capacity_v - _vec_capacity_b) : 0;                                        \
+    })
 
 /** \brief Total number of elements that can fit into vector. */
-#define vec_max_len(v) (vec_capacity(v,0) / sizeof (v[0]))
+#define vec_max_len(v) (vec_capacity(v, 0) / sizeof(v[0]))
 
 /** \brief End (last data address) of vector. */
-#define vec_end(v)	((v) + vec_len (v))
+#define vec_end(v) ((v) + vec_len(v))
 
 /** \brief True if given pointer is within given vector. */
-#define vec_is_member(v,e) ((e) >= (v) && (e) < vec_end (v))
+#define vec_is_member(v, e) ((e) >= (v) && (e) < vec_end(v))
 
 /** \brief Get vector value at index i checking that i is in bounds. */
-#define vec_elt_at_index(v,i)			\
-({						\
-  ASSERT ((i) < vec_len (v));			\
-  (v) + (i);					\
-})
+#define vec_elt_at_index(v, i)                                                                                         \
+    ({                                                                                                                 \
+        ASSERT((i) < vec_len(v));                                                                                      \
+        (v) + (i);                                                                                                     \
+    })
 
 /** \brief Get vector value at index i */
-#define vec_elt(v,i) (vec_elt_at_index(v,i))[0]
+#define vec_elt(v, i) (vec_elt_at_index(v, i))[0]
 
 /** \brief Vector iterator */
-#define vec_foreach(var,vec) for (var = (vec); var < vec_end (vec); var++)
+#define vec_foreach(var, vec) for (var = (vec); var < vec_end(vec); var++)
 
 /** \brief Vector iterator (reverse) */
-#define vec_foreach_backwards(var,vec) \
-for (var = vec_end (vec) - 1; var >= (vec); var--)
+#define vec_foreach_backwards(var, vec) for (var = vec_end(vec) - 1; var >= (vec); var--)
 
 /** \brief Iterate over vector indices. */
-#define vec_foreach_index(var,v) for ((var) = 0; (var) < vec_len (v); (var)++)
+#define vec_foreach_index(var, v) for ((var) = 0; (var) < vec_len(v); (var)++)
 
 /** \brief Iterate over vector indices (reverse). */
-#define vec_foreach_index_backwards(var,v) \
-  for ((var) = vec_len((v)) - 1; (var) >= 0; (var)--)
+#define vec_foreach_index_backwards(var, v) for ((var) = vec_len((v)) - 1; (var) >= 0; (var)--)
 
 #endif /* included_clib_vec_bootstrap_h */
 

@@ -15,7 +15,7 @@
 /**
  * @file
  * @brief L2-GRE over IPSec packet processing.
-*/
+ */
 
 #ifndef included_ipsec_gre_h
 #define included_ipsec_gre_h
@@ -34,50 +34,49 @@ extern vnet_hw_interface_class_t ipsec_gre_hw_interface_class;
 /**
  * @brief IPSec-GRE errors.
  *
-*/
-typedef enum
-{
-#define ipsec_gre_error(n,s) IPSEC_GRE_ERROR_##n,
+ */
+typedef enum {
+#define ipsec_gre_error(n, s) IPSEC_GRE_ERROR_##n,
 #include <vnet/ipsec-gre/error.def>
 #undef ipsec_gre_error
-  IPSEC_GRE_N_ERROR,
+    IPSEC_GRE_N_ERROR,
 } ipsec_gre_error_t;
 
 /**
  * @brief IPSec-GRE tunnel parameters.
  *
-*/
-typedef struct
-{
-  /* Required for pool_get_aligned */
-  CLIB_CACHE_LINE_ALIGN_MARK (cacheline0);
-  ip4_address_t tunnel_src; /**< tunnel IPv4 src address */
-  ip4_address_t tunnel_dst; /**< tunnel IPv4 dst address */
-  u32 local_sa;		    /**< local IPSec SA index */
-  u32 remote_sa;	    /**< remote IPSec SA index */
-  u32 local_sa_id;	    /**< local IPSec SA id */
-  u32 remote_sa_id;	    /**< remote IPSec SA id */
-  u32 hw_if_index;;	    /**< hardware interface index */
-  u32 sw_if_index;;	    /**< software interface index */
+ */
+typedef struct {
+    /* Required for pool_get_aligned */
+    CLIB_CACHE_LINE_ALIGN_MARK(cacheline0);
+    ip4_address_t tunnel_src; /**< tunnel IPv4 src address */
+    ip4_address_t tunnel_dst; /**< tunnel IPv4 dst address */
+    u32 local_sa;             /**< local IPSec SA index */
+    u32 remote_sa;            /**< remote IPSec SA index */
+    u32 local_sa_id;          /**< local IPSec SA id */
+    u32 remote_sa_id;         /**< remote IPSec SA id */
+    u32 hw_if_index;
+    ; /**< hardware interface index */
+    u32 sw_if_index;
+    ; /**< software interface index */
 } ipsec_gre_tunnel_t;
 
 /**
  * @brief IPSec-GRE state.
  *
-*/
-typedef struct
-{
-  ipsec_gre_tunnel_t *tunnels; /**< pool of tunnel instances */
+ */
+typedef struct {
+    ipsec_gre_tunnel_t *tunnels; /**< pool of tunnel instances */
 
-  uword *tunnel_by_key;	 /**< hash mapping src/dst addr pair to tunnel */
+    uword *tunnel_by_key; /**< hash mapping src/dst addr pair to tunnel */
 
-  u32 *free_ipsec_gre_tunnel_hw_if_indices;  /**< free vlib hw_if_indices */
+    u32 *free_ipsec_gre_tunnel_hw_if_indices; /**< free vlib hw_if_indices */
 
-  u32 *tunnel_index_by_sw_if_index;  /**< mapping from sw_if_index to tunnel
-                                          index */
+    u32 *tunnel_index_by_sw_if_index; /**< mapping from sw_if_index to tunnel
+                                           index */
 
-  vlib_main_t *vlib_main;  /**< convenience */
-  vnet_main_t *vnet_main;  /**< convenience */
+    vlib_main_t *vlib_main; /**< convenience */
+    vnet_main_t *vnet_main; /**< convenience */
 } ipsec_gre_main_t;
 
 extern ipsec_gre_main_t ipsec_gre_main;
@@ -91,26 +90,24 @@ extern vnet_device_class_t ipsec_gre_device_class;
 /**
  * @brief IPSec-GRE tunnel add/del arguments.
  *
-*/
-typedef struct
-{
-  u8 is_add; /**< 1 - add, 0 - delete */
+ */
+typedef struct {
+    u8 is_add; /**< 1 - add, 0 - delete */
 
-  ip4_address_t src; /**< tunnel IPv4 src address */
-  ip4_address_t dst; /**< tunnel IPv4 dst address */
-  u32 lsa;	     /**< local IPSec SA id */
-  u32 rsa;	     /**< remote IPSec SA id */
+    ip4_address_t src; /**< tunnel IPv4 src address */
+    ip4_address_t dst; /**< tunnel IPv4 dst address */
+    u32 lsa;           /**< local IPSec SA id */
+    u32 rsa;           /**< remote IPSec SA id */
 } vnet_ipsec_gre_add_del_tunnel_args_t;
 
-int vnet_ipsec_gre_add_del_tunnel
-  (vnet_ipsec_gre_add_del_tunnel_args_t * a, u32 * sw_if_indexp);
+int vnet_ipsec_gre_add_del_tunnel(vnet_ipsec_gre_add_del_tunnel_args_t *a, u32 *sw_if_indexp);
 
 #endif /* included_ipsec_gre_h */
 
 /*
-* fd.io coding-style-patch-verification: ON
-*
-* Local Variables:
-* eval: (c-set-style "gnu")
-* End:
-*/
+ * fd.io coding-style-patch-verification: ON
+ *
+ * Local Variables:
+ * eval: (c-set-style "gnu")
+ * End:
+ */

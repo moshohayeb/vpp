@@ -39,32 +39,31 @@
 #define CLIB_CUCKOO_OPTIMIZE_UNROLL 1
 #define CLIB_CUCKOO_OPTIMIZE_USE_COUNT_LIMITS_SEARCH 1
 
-#if __SSE4_2__ && !defined (__i386__)
+#if __SSE4_2__ && !defined(__i386__)
 #include <x86intrin.h>
 #endif
 
 /** 8 octet key, 8 octet key value pair */
-typedef struct
-{
-  u64 key;   /**< the key */
-  u64 value; /**< the value */
+typedef struct {
+    u64 key;   /**< the key */
+    u64 value; /**< the value */
 } clib_cuckoo_kv_8_8_t;
 
 /** Decide if a clib_cuckoo_kv_8_8_t instance is free
     @param v- pointer to the (key,value) pair
 */
 always_inline int
-clib_cuckoo_kv_is_free_8_8 (const clib_cuckoo_kv_8_8_t * v)
+clib_cuckoo_kv_is_free_8_8(const clib_cuckoo_kv_8_8_t *v)
 {
-  if (v->key == ~0ULL && v->value == ~0ULL)
-    return 1;
-  return 0;
+    if (v->key == ~0ULL && v->value == ~0ULL)
+        return 1;
+    return 0;
 }
 
 always_inline void
-clib_cuckoo_kv_set_free_8_8 (clib_cuckoo_kv_8_8_t * v)
+clib_cuckoo_kv_set_free_8_8(clib_cuckoo_kv_8_8_t *v)
 {
-  memset (v, 0xff, sizeof (*v));
+    memset(v, 0xff, sizeof(*v));
 }
 
 /** Format a clib_cuckoo_kv_8_8_t instance
@@ -73,28 +72,25 @@ clib_cuckoo_kv_set_free_8_8 (clib_cuckoo_kv_8_8_t * v)
     @return s - the u8 * vector under construction
 */
 always_inline u8 *
-format_cuckoo_kvp_8_8 (u8 * s, va_list * args)
+format_cuckoo_kvp_8_8(u8 *s, va_list *args)
 {
-  clib_cuckoo_kv_8_8_t *v = va_arg (*args, clib_cuckoo_kv_8_8_t *);
+    clib_cuckoo_kv_8_8_t *v = va_arg(*args, clib_cuckoo_kv_8_8_t *);
 
-  if (clib_cuckoo_kv_is_free_8_8 (v))
-    {
-      s = format (s, " -- empty -- ", v->key, v->value);
+    if (clib_cuckoo_kv_is_free_8_8(v)) {
+        s = format(s, " -- empty -- ", v->key, v->value);
+    } else {
+        s = format(s, "key %llu value %llu", v->key, v->value);
     }
-  else
-    {
-      s = format (s, "key %llu value %llu", v->key, v->value);
-    }
-  return s;
+    return s;
 }
 
 always_inline u64
-clib_cuckoo_hash_8_8 (clib_cuckoo_kv_8_8_t * v)
+clib_cuckoo_hash_8_8(clib_cuckoo_kv_8_8_t *v)
 {
-#if defined(clib_crc32c_uses_intrinsics) && !defined (__i386__)
-  return crc32_u64 (0, v->key);
+#if defined(clib_crc32c_uses_intrinsics) && !defined(__i386__)
+    return crc32_u64(0, v->key);
 #else
-  return clib_xxhash (v->key);
+    return clib_xxhash(v->key);
 #endif
 }
 
@@ -103,9 +99,9 @@ clib_cuckoo_hash_8_8 (clib_cuckoo_kv_8_8_t * v)
     @param b - second key
 */
 always_inline int
-clib_cuckoo_key_compare_8_8 (u64 a, u64 b)
+clib_cuckoo_key_compare_8_8(u64 a, u64 b)
 {
-  return a == b;
+    return a == b;
 }
 
 #if 0

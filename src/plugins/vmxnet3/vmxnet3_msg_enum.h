@@ -20,11 +20,10 @@
 
 #include <vppinfra/byte_order.h>
 
-#define vl_msg_id(n,h) n,
-typedef enum
-{
+#define vl_msg_id(n, h) n,
+typedef enum {
 #include <vmxnet3/vmxnet3_all_api_h.h>
-  VL_MSG_FIRST_AVAILABLE,
+    VL_MSG_FIRST_AVAILABLE,
 } vl_msg_id_t;
 #undef vl_msg_id
 

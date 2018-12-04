@@ -19,72 +19,65 @@
 #include <igmp/igmp.h>
 
 void
-igmp_clear_config (igmp_config_t * config)
+igmp_clear_config(igmp_config_t *config)
 {
-  igmp_group_t *group;
-  u32 ii;
+    igmp_group_t *group;
+    u32 ii;
 
-  IGMP_DBG ("clear-config: %U",
-	    format_vnet_sw_if_index_name,
-	    vnet_get_main (), config->sw_if_index);
+    IGMP_DBG("clear-config: %U", format_vnet_sw_if_index_name, vnet_get_main(), config->sw_if_index);
 
-  /* *INDENT-OFF* */
-  FOR_EACH_GROUP (group, config,
-    ({
-      igmp_group_clear (group);
-    }));
-  /* *INDENT-ON* */
+    /* *INDENT-OFF* */
+    FOR_EACH_GROUP(group, config, ({ igmp_group_clear(group); }));
+    /* *INDENT-ON* */
 
-  for (ii = 0; ii < IGMP_CONFIG_N_TIMERS; ii++)
-    {
-      igmp_timer_retire (&config->timers[ii]);
+    for (ii = 0; ii < IGMP_CONFIG_N_TIMERS; ii++) {
+        igmp_timer_retire(&config->timers[ii]);
     }
 }
 
 igmp_config_t *
-igmp_config_lookup (u32 sw_if_index)
+igmp_config_lookup(u32 sw_if_index)
 {
-  igmp_main_t *im;
+    igmp_main_t *im;
 
-  im = &igmp_main;
+    im = &igmp_main;
 
-  if (vec_len (im->igmp_config_by_sw_if_index) > sw_if_index)
-    {
-      u32 index;
+    if (vec_len(im->igmp_config_by_sw_if_index) > sw_if_index) {
+        u32 index;
 
-      index = im->igmp_config_by_sw_if_index[sw_if_index];
+        index = im->igmp_config_by_sw_if_index[sw_if_index];
 
-      if (~0 != index)
-	return (vec_elt_at_index (im->configs, index));
+        if (~0 != index)
+            return (vec_elt_at_index(im->configs, index));
     }
-  return NULL;
+    return NULL;
 }
 
 u32
-igmp_config_index (const igmp_config_t * c)
+igmp_config_index(const igmp_config_t *c)
 {
-  return (c - igmp_main.configs);
+    return (c - igmp_main.configs);
 }
 
 igmp_config_t *
-igmp_config_get (u32 index)
+igmp_config_get(u32 index)
 {
-  return (pool_elt_at_index (igmp_main.configs, index));
+    return (pool_elt_at_index(igmp_main.configs, index));
 }
 
 igmp_group_t *
-igmp_group_lookup (igmp_config_t * config, const igmp_key_t * key)
+igmp_group_lookup(igmp_config_t *config, const igmp_key_t *key)
 {
-  uword *p;
-  igmp_group_t *group = NULL;
-  if (!config)
-    return NULL;
+    uword *p;
+    igmp_group_t *group = NULL;
+    if (!config)
+        return NULL;
 
-  p = hash_get_mem (config->igmp_group_by_key, key);
-  if (p)
-    group = pool_elt_at_index (igmp_main.groups, p[0]);
+    p = hash_get_mem(config->igmp_group_by_key, key);
+    if (p)
+        group = pool_elt_at_index(igmp_main.groups, p[0]);
 
-  return group;
+    return group;
 }
 
 /*

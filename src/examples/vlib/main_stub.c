@@ -17,26 +17,26 @@
 #include <math.h>
 
 int
-main (int argc, char *argv[])
+main(int argc, char *argv[])
 {
-  return vlib_unix_main (argc, argv);
+    return vlib_unix_main(argc, argv);
 }
 
 static clib_error_t *
-main_stub_init (vlib_main_t * vm)
+main_stub_init(vlib_main_t *vm)
 {
-  clib_error_t *error;
+    clib_error_t *error;
 
-  if ((error = unix_physmem_init (vm)))
+    if ((error = unix_physmem_init(vm)))
+        return error;
+
+    if ((error = vlib_call_init_function(vm, unix_cli_init)))
+        return error;
+
     return error;
-
-  if ((error = vlib_call_init_function (vm, unix_cli_init)))
-    return error;
-
-  return error;
 }
 
-VLIB_INIT_FUNCTION (main_stub_init);
+VLIB_INIT_FUNCTION(main_stub_init);
 
 #if 0
 /* Node test code. */

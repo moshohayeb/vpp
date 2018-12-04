@@ -34,21 +34,20 @@ typedef u32 qos_egress_map_id_t;
 /**
  * For a given output source a table maps each value of every input source.
  */
-typedef struct qos_egress_map_t_
-{
-  /**
-   * Required for pool_get_aligned
-   */
-  CLIB_CACHE_LINE_ALIGN_MARK (cacheline0);
+typedef struct qos_egress_map_t_ {
+    /**
+     * Required for pool_get_aligned
+     */
+    CLIB_CACHE_LINE_ALIGN_MARK(cacheline0);
 
-  /**
-   * The array of output mapped values;
-   *   output = eq_qos[input-source][input-value]
-   */
-  qos_bits_t qem_output[QOS_N_SOURCES][256];
+    /**
+     * The array of output mapped values;
+     *   output = eq_qos[input-source][input-value]
+     */
+    qos_bits_t qem_output[QOS_N_SOURCES][256];
 } qos_egress_map_t;
 
-extern u8 *format_qos_egress_map (u8 * s, va_list * args);
+extern u8 *format_qos_egress_map(u8 *s, va_list *args);
 
 /**
  * Add a qos-egress map to an interface. If sw_if_index = ~0
@@ -57,15 +56,13 @@ extern u8 *format_qos_egress_map (u8 * s, va_list * args);
  * the egress mapping is applied. For example, is output is MPLS then
  * the QoS markings will occur for MPLS packets.
  */
-extern void qos_egress_map_update (qos_egress_map_id_t tid,
-				   qos_source_t input_source,
-				   qos_bits_t * values);
-extern void qos_egress_map_delete (qos_egress_map_id_t tid);
+extern void qos_egress_map_update(qos_egress_map_id_t tid, qos_source_t input_source, qos_bits_t *values);
+extern void qos_egress_map_delete(qos_egress_map_id_t tid);
 
 /**
  * Get the VPP QoS map index from the user's map-ID
  */
-extern index_t qos_egress_map_find (qos_egress_map_id_t tid);
+extern index_t qos_egress_map_find(qos_egress_map_id_t tid);
 
 /**
  * Data-plane functions

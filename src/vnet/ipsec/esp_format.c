@@ -20,14 +20,12 @@
 #include <vnet/ipsec/esp.h>
 
 u8 *
-format_esp_header (u8 * s, va_list * args)
+format_esp_header(u8 *s, va_list *args)
 {
-  esp_header_t *esp = va_arg (*args, esp_header_t *);
+    esp_header_t *esp = va_arg(*args, esp_header_t *);
 
-  s = format (s, "ESP: spi %u, seq %u",
-	      clib_net_to_host_u32 (esp->spi),
-	      clib_net_to_host_u32 (esp->seq));
-  return s;
+    s = format(s, "ESP: spi %u, seq %u", clib_net_to_host_u32(esp->spi), clib_net_to_host_u32(esp->seq));
+    return s;
 }
 
 /*

@@ -22,84 +22,80 @@
  *  LACP State = TRANSMIT
  */
 static lacp_fsm_state_t lacp_tx_state_transmit[] = {
-  {LACP_ACTION_TRANSMIT, LACP_TX_STATE_TRANSMIT},	// event 0 BEGIN
-  {LACP_ACTION_TRANSMIT, LACP_TX_STATE_TRANSMIT},	// event 1 NTT
+    {LACP_ACTION_TRANSMIT, LACP_TX_STATE_TRANSMIT},   // event 0 BEGIN
+    {LACP_ACTION_TRANSMIT, LACP_TX_STATE_TRANSMIT},   // event 1 NTT
 };
 
 static lacp_fsm_machine_t lacp_tx_fsm_table[] = {
-  {lacp_tx_state_transmit},
+    {lacp_tx_state_transmit},
 };
 
 lacp_machine_t lacp_tx_machine = {
-  lacp_tx_fsm_table,
-  lacp_tx_debug_func,
+    lacp_tx_fsm_table,
+    lacp_tx_debug_func,
 };
 
 int
-lacp_tx_action_transmit (void *p1, void *p2)
+lacp_tx_action_transmit(void *p1, void *p2)
 {
-  vlib_main_t *vm = (vlib_main_t *) p1;
-  slave_if_t *sif = (slave_if_t *) p2;
-  lacp_main_t *lm = &lacp_main;
-  f64 now = vlib_time_now (lm->vlib_main);
+    vlib_main_t *vm = (vlib_main_t *) p1;
+    slave_if_t *sif = (slave_if_t *) p2;
+    lacp_main_t *lm = &lacp_main;
+    f64 now         = vlib_time_now(lm->vlib_main);
 
-  if (!lacp_timer_is_running (sif->periodic_timer))
-    return 0;
+    if (!lacp_timer_is_running(sif->periodic_timer))
+        return 0;
 
-  // No more than 3 LACPDUs per fast interval
-  if (now <= (sif->last_lacpdu_time + 0.333))
-    return 0;
+    // No more than 3 LACPDUs per fast interval
+    if (now <= (sif->last_lacpdu_time + 0.333))
+        return 0;
 
-  if (sif->ntt)
-    {
-      lacp_send_lacp_pdu (vm, sif);
-      lacp_schedule_periodic_timer (lm->vlib_main, sif);
+    if (sif->ntt) {
+        lacp_send_lacp_pdu(vm, sif);
+        lacp_schedule_periodic_timer(lm->vlib_main, sif);
     }
-  sif->ntt = 0;
+    sif->ntt = 0;
 
-  return 0;
+    return 0;
 }
 
 static u8 *
-format_tx_event (u8 * s, va_list * args)
+format_tx_event(u8 *s, va_list *args)
 {
-  static lacp_event_struct lacp_tx_event_array[] = {
-#define _(b, s, n) {.bit = b, .str = #s, },
-    foreach_lacp_tx_event
+    static lacp_event_struct lacp_tx_event_array[] = {
+#define _(b, s, n)                                                                                                     \
+    {                                                                                                                  \
+        .bit = b,                                                                                                      \
+        .str = #s,                                                                                                     \
+    },
+        foreach_lacp_tx_event
 #undef _
-    {.str = NULL}
-  };
-  int e = va_arg (*args, int);
-  lacp_event_struct *event_entry =
-    (lacp_event_struct *) & lacp_tx_event_array;
+        {.str = NULL}};
+    int e                          = va_arg(*args, int);
+    lacp_event_struct *event_entry = (lacp_event_struct *) &lacp_tx_event_array;
 
-  if (e >= (sizeof (lacp_tx_event_array) / sizeof (*event_entry)))
-    s = format (s, "Bad event %d", e);
-  else
-    s = format (s, "%s", event_entry[e].str);
+    if (e >= (sizeof(lacp_tx_event_array) / sizeof(*event_entry)))
+        s = format(s, "Bad event %d", e);
+    else
+        s = format(s, "%s", event_entry[e].str);
 
-  return s;
+    return s;
 }
 
 void
-lacp_tx_debug_func (slave_if_t * sif, int event, int state,
-		    lacp_fsm_state_t * transition)
+lacp_tx_debug_func(slave_if_t *sif, int event, int state, lacp_fsm_state_t *transition)
 {
-  clib_warning ("%U-TX: event %U, old state %U, new state %U",
-		format_vnet_sw_if_index_name, vnet_get_main (),
-		sif->sw_if_index, format_tx_event,
-		event, format_tx_sm_state, state, format_tx_sm_state,
-		transition->next_state);
+    clib_warning("%U-TX: event %U, old state %U, new state %U", format_vnet_sw_if_index_name, vnet_get_main(),
+                 sif->sw_if_index, format_tx_event, event, format_tx_sm_state, state, format_tx_sm_state,
+                 transition->next_state);
 }
 
 void
-lacp_init_tx_machine (vlib_main_t * vm, slave_if_t * sif)
+lacp_init_tx_machine(vlib_main_t *vm, slave_if_t *sif)
 {
-  lacp_machine_dispatch (&lacp_tx_machine, vm, sif, LACP_TX_EVENT_BEGIN,
-			 &sif->tx_state);
-  if (sif->is_passive == 0)
-    lacp_machine_dispatch (&lacp_tx_machine, vm, sif, LACP_TX_EVENT_NTT,
-			   &sif->tx_state);
+    lacp_machine_dispatch(&lacp_tx_machine, vm, sif, LACP_TX_EVENT_BEGIN, &sif->tx_state);
+    if (sif->is_passive == 0)
+        lacp_machine_dispatch(&lacp_tx_machine, vm, sif, LACP_TX_EVENT_NTT, &sif->tx_state);
 }
 
 /*

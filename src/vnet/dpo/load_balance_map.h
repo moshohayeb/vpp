@@ -56,16 +56,14 @@ typedef struct load_balance_map_t_ {
     u32 lbm_locks;
 } load_balance_map_t;
 
-extern index_t load_balance_map_add_or_lock(u32 n_buckets,
-                                            u32 sum_of_weights,
-                                            const load_balance_path_t *norm_paths);
+extern index_t load_balance_map_add_or_lock(u32 n_buckets, u32 sum_of_weights, const load_balance_path_t *norm_paths);
 
 extern void load_balance_map_lock(index_t lmbi);
 extern void load_balance_map_unlock(index_t lbmi);
 
 extern void load_balance_map_path_state_change(fib_node_index_t path_index);
 
-extern u8* format_load_balance_map(u8 *s, va_list *ap);
+extern u8 *format_load_balance_map(u8 *s, va_list *ap);
 extern void load_balance_map_show_mem(void);
 
 /**
@@ -73,17 +71,16 @@ extern void load_balance_map_show_mem(void);
  */
 extern load_balance_map_t *load_balance_map_pool;
 
-static inline load_balance_map_t*
-load_balance_map_get (index_t lbmi)
+static inline load_balance_map_t *
+load_balance_map_get(index_t lbmi)
 {
     return (pool_elt_at_index(load_balance_map_pool, lbmi));
 }
 
 static inline u16
-load_balance_map_translate (index_t lbmi,
-                            u16 bucket)
+load_balance_map_translate(index_t lbmi, u16 bucket)
 {
-    load_balance_map_t*lbm;
+    load_balance_map_t *lbm;
 
     lbm = load_balance_map_get(lbmi);
 
@@ -91,23 +88,18 @@ load_balance_map_translate (index_t lbmi,
 }
 
 static inline const dpo_id_t *
-load_balance_get_fwd_bucket (const load_balance_t *lb,
-                             u16 bucket)
+load_balance_get_fwd_bucket(const load_balance_t *lb, u16 bucket)
 {
     ASSERT(bucket < lb->lb_n_buckets);
 
-    if (INDEX_INVALID != lb->lb_map)
-    {
+    if (INDEX_INVALID != lb->lb_map) {
         bucket = load_balance_map_translate(lb->lb_map, bucket);
     }
 
-    if (PREDICT_TRUE(LB_HAS_INLINE_BUCKETS(lb)))
-    {
-	return (&lb->lb_buckets_inline[bucket]);
-    }
-    else
-    {
-	return (&lb->lb_buckets[bucket]);
+    if (PREDICT_TRUE(LB_HAS_INLINE_BUCKETS(lb))) {
+        return (&lb->lb_buckets_inline[bucket]);
+    } else {
+        return (&lb->lb_buckets[bucket]);
     }
 }
 

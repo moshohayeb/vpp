@@ -60,8 +60,7 @@ typedef struct bier_fmask_bits_t_ {
 /**
  * Flags on fmask
  */
-typedef enum bier_fmask_attributes_t_
-{
+typedef enum bier_fmask_attributes_t_ {
     BIER_FMASK_ATTR_FIRST,
     BIER_FMASK_ATTR_FORWARDING = BIER_FMASK_ATTR_FIRST,
     BIER_FMASK_ATTR_DISP,
@@ -69,22 +68,18 @@ typedef enum bier_fmask_attributes_t_
     BIER_FMASK_ATTR_LAST = BIER_FMASK_ATTR_DISP,
 } bier_fmask_attributes_t;
 
-#define BIER_FMASK_ATTR_NAMES {                         \
-     [BIER_FMASK_ATTR_FORWARDING] = "forwarding",       \
-     [BIER_FMASK_ATTR_DISP] = "disposition",            \
-     [BIER_FMASK_ATTR_MPLS] = "mpls",                   \
-}
+#define BIER_FMASK_ATTR_NAMES                                                                                          \
+    {                                                                                                                  \
+        [BIER_FMASK_ATTR_FORWARDING] = "forwarding", [BIER_FMASK_ATTR_DISP] = "disposition",                           \
+        [BIER_FMASK_ATTR_MPLS] = "mpls",                                                                               \
+    }
 
-#define FOR_EACH_BIER_FMASK_ATTR(_item)          \
-    for (_item =  BIER_FMASK_ATTR_FIRST;         \
-         _item <= BIER_FMASK_ATTR_LAST;          \
-         _item++)
+#define FOR_EACH_BIER_FMASK_ATTR(_item) for (_item = BIER_FMASK_ATTR_FIRST; _item <= BIER_FMASK_ATTR_LAST; _item++)
 
-typedef enum bier_fmask_flags_t_
-{
+typedef enum bier_fmask_flags_t_ {
     BIER_FMASK_FLAG_FORWARDING = (1 << BIER_FMASK_ATTR_FORWARDING),
-    BIER_FMASK_FLAG_DISP = (1 << BIER_FMASK_ATTR_DISP),
-    BIER_FMASK_FLAG_MPLS = (1 << BIER_FMASK_ATTR_MPLS),
+    BIER_FMASK_FLAG_DISP       = (1 << BIER_FMASK_ATTR_DISP),
+    BIER_FMASK_FLAG_MPLS       = (1 << BIER_FMASK_ATTR_MPLS),
 } bier_fmask_flags_t;
 
 /**
@@ -150,23 +145,17 @@ extern void bier_fmask_unlink(index_t bfmi, bier_bp_t bp);
 extern void bier_fmask_unlock(index_t bfmi);
 extern void bier_fmask_lock(index_t bfmi);
 
-extern index_t bier_fmask_create_and_lock(const bier_fmask_id_t *fmid,
-                                          const fib_route_path_t *rpath);
+extern index_t bier_fmask_create_and_lock(const bier_fmask_id_t *fmid, const fib_route_path_t *rpath);
 
-extern u8* format_bier_fmask(u8 *s, va_list *ap);
+extern u8 *format_bier_fmask(u8 *s, va_list *ap);
 
-extern void bier_fmask_contribute_forwarding(index_t bfmi,
-                                             dpo_id_t *dpo);
+extern void bier_fmask_contribute_forwarding(index_t bfmi, dpo_id_t *dpo);
 
-extern u32 bier_fmask_child_add (fib_node_index_t fib_entry_index,
-                                 fib_node_type_t child_type,
-                                 fib_node_index_t child_index);
-extern void bier_fmask_child_remove (fib_node_index_t fib_entry_index,
-                                     u32 sibling_index);
-extern void bier_fmask_get_stats (index_t bfmi, u64 * packets, u64 * bytes);
-extern void bier_fmask_encode (index_t bfmi,
-                               bier_table_id_t *btid,
-                               fib_route_path_encode_t *rpath);
+extern u32 bier_fmask_child_add(fib_node_index_t fib_entry_index, fib_node_type_t child_type,
+                                fib_node_index_t child_index);
+extern void bier_fmask_child_remove(fib_node_index_t fib_entry_index, u32 sibling_index);
+extern void bier_fmask_get_stats(index_t bfmi, u64 *packets, u64 *bytes);
+extern void bier_fmask_encode(index_t bfmi, bier_table_id_t *btid, fib_route_path_encode_t *rpath);
 
 /*
  * provided for fast data-path access
@@ -174,7 +163,7 @@ extern void bier_fmask_encode (index_t bfmi,
 bier_fmask_t *bier_fmask_pool;
 
 static inline bier_fmask_t *
-bier_fmask_get (u32 index)
+bier_fmask_get(u32 index)
 {
     return (pool_elt_at_index(bier_fmask_pool, index));
 }

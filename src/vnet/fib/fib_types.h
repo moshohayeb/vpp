@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (c) 2016 Cisco and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,16 +34,15 @@ typedef u32 fib_node_index_t;
  * Protocol Type. packed so it consumes a u8 only
  */
 typedef enum fib_protocol_t_ {
-    FIB_PROTOCOL_IP4 = DPO_PROTO_IP4,
-    FIB_PROTOCOL_IP6 = DPO_PROTO_IP6,
+    FIB_PROTOCOL_IP4  = DPO_PROTO_IP4,
+    FIB_PROTOCOL_IP6  = DPO_PROTO_IP6,
     FIB_PROTOCOL_MPLS = DPO_PROTO_MPLS,
-}  __attribute__ ((packed)) fib_protocol_t;
+} __attribute__((packed)) fib_protocol_t;
 
-#define FIB_PROTOCOLS {			\
-    [FIB_PROTOCOL_IP4] = "ipv4",	\
-    [FIB_PROTOCOL_IP6] = "ipv6",        \
-    [FIB_PROTOCOL_MPLS] = "MPLS",       \
-}
+#define FIB_PROTOCOLS                                                                                                  \
+    {                                                                                                                  \
+        [FIB_PROTOCOL_IP4] = "ipv4", [FIB_PROTOCOL_IP6] = "ipv6", [FIB_PROTOCOL_MPLS] = "MPLS",                        \
+    }
 
 /**
  * Definition outside of enum so it does not need to be included in non-defaulted
@@ -60,17 +59,11 @@ typedef enum fib_protocol_t_ {
 /**
  * Not part of the enum so it does not have to be handled in switch statements
  */
-#define FIB_PROTOCOL_NONE (FIB_PROTOCOL_MAX+1)
+#define FIB_PROTOCOL_NONE (FIB_PROTOCOL_MAX + 1)
 
-#define FOR_EACH_FIB_PROTOCOL(_item)    \
-    for (_item = FIB_PROTOCOL_IP4;      \
-	 _item <= FIB_PROTOCOL_MPLS;    \
-	 _item++)
+#define FOR_EACH_FIB_PROTOCOL(_item) for (_item = FIB_PROTOCOL_IP4; _item <= FIB_PROTOCOL_MPLS; _item++)
 
-#define FOR_EACH_FIB_IP_PROTOCOL(_item)    \
-    for (_item = FIB_PROTOCOL_IP4;         \
-	 _item <= FIB_PROTOCOL_IP6;        \
-	 _item++)
+#define FOR_EACH_FIB_IP_PROTOCOL(_item) for (_item = FIB_PROTOCOL_IP4; _item <= FIB_PROTOCOL_IP6; _item++)
 
 /**
  * @brief Convert from boolean is_ip6 to FIB protocol.
@@ -79,7 +72,7 @@ typedef enum fib_protocol_t_ {
 static inline fib_protocol_t
 fib_ip_proto(bool is_ip6)
 {
-  return (is_ip6) ? FIB_PROTOCOL_IP6 : FIB_PROTOCOL_IP4;
+    return (is_ip6) ? FIB_PROTOCOL_IP6 : FIB_PROTOCOL_IP4;
 }
 
 /**
@@ -95,7 +88,7 @@ extern fib_protocol_t fib_proto_from_ip46(ip46_type_t iproto);
 /**
  * @brief Convert from a protocol to a link type
  */
-vnet_link_t fib_proto_to_link (fib_protocol_t proto);
+vnet_link_t fib_proto_to_link(fib_protocol_t proto);
 
 /**
  * FIB output chain type. When a child object requests a forwarding contribution
@@ -145,32 +138,25 @@ typedef enum fib_forward_chain_type_t_ {
      * and thus their array of per-chain-type DPOs can be sized smaller.
      */
     FIB_FORW_CHAIN_TYPE_NSH,
-}  __attribute__ ((packed)) fib_forward_chain_type_t;
+} __attribute__((packed)) fib_forward_chain_type_t;
 
-#define FIB_FORW_CHAINS {					\
-    [FIB_FORW_CHAIN_TYPE_ETHERNET]      = "ethernet",     	\
-    [FIB_FORW_CHAIN_TYPE_BIER]          = "bier",     	        \
-    [FIB_FORW_CHAIN_TYPE_UNICAST_IP4]   = "unicast-ip4",	\
-    [FIB_FORW_CHAIN_TYPE_UNICAST_IP6]   = "unicast-ip6",	\
-    [FIB_FORW_CHAIN_TYPE_MCAST_IP4]     = "multicast-ip4",	\
-    [FIB_FORW_CHAIN_TYPE_MCAST_IP6]     = "multicast-ip6",	\
-    [FIB_FORW_CHAIN_TYPE_MPLS_NON_EOS]  = "mpls-neos",	        \
-    [FIB_FORW_CHAIN_TYPE_MPLS_EOS]      = "mpls-eos",	        \
-    [FIB_FORW_CHAIN_TYPE_NSH]           = "nsh",                \
-}
+#define FIB_FORW_CHAINS                                                                                                \
+    {                                                                                                                  \
+        [FIB_FORW_CHAIN_TYPE_ETHERNET] = "ethernet", [FIB_FORW_CHAIN_TYPE_BIER] = "bier",                              \
+        [FIB_FORW_CHAIN_TYPE_UNICAST_IP4] = "unicast-ip4", [FIB_FORW_CHAIN_TYPE_UNICAST_IP6] = "unicast-ip6",          \
+        [FIB_FORW_CHAIN_TYPE_MCAST_IP4] = "multicast-ip4", [FIB_FORW_CHAIN_TYPE_MCAST_IP6] = "multicast-ip6",          \
+        [FIB_FORW_CHAIN_TYPE_MPLS_NON_EOS] = "mpls-neos", [FIB_FORW_CHAIN_TYPE_MPLS_EOS] = "mpls-eos",                 \
+        [FIB_FORW_CHAIN_TYPE_NSH] = "nsh",                                                                             \
+    }
 
-#define FIB_FORW_CHAIN_NUM (FIB_FORW_CHAIN_TYPE_NSH+1)
-#define FIB_FORW_CHAIN_MPLS_NUM (FIB_FORW_CHAIN_TYPE_MPLS_EOS+1)
+#define FIB_FORW_CHAIN_NUM (FIB_FORW_CHAIN_TYPE_NSH + 1)
+#define FIB_FORW_CHAIN_MPLS_NUM (FIB_FORW_CHAIN_TYPE_MPLS_EOS + 1)
 
-#define FOR_EACH_FIB_FORW_CHAIN(_item)			  \
-    for (_item = FIB_FORW_CHAIN_TYPE_UNICAST_IP4;   	  \
-	 _item <= FIB_FORW_CHAIN_TYPE_NSH;		  \
-	 _item++)
+#define FOR_EACH_FIB_FORW_CHAIN(_item)                                                                                 \
+    for (_item = FIB_FORW_CHAIN_TYPE_UNICAST_IP4; _item <= FIB_FORW_CHAIN_TYPE_NSH; _item++)
 
-#define FOR_EACH_FIB_FORW_MPLS_CHAIN(_item)		  \
-    for (_item = FIB_FORW_CHAIN_TYPE_UNICAST_IP4;   	  \
-	 _item <= FIB_FORW_CHAIN_TYPE_MPLS_EOS;		  \
-	 _item++)
+#define FOR_EACH_FIB_FORW_MPLS_CHAIN(_item)                                                                            \
+    for (_item = FIB_FORW_CHAIN_TYPE_UNICAST_IP4; _item <= FIB_FORW_CHAIN_TYPE_MPLS_EOS; _item++)
 
 /**
  * @brief Convert from a chain type to the adjacency's link type
@@ -217,43 +203,40 @@ typedef struct fib_prefix_t_ {
     u8 ___fp___pad;
 
     union {
-	/**
-	 * The address type is not deriveable from the fp_addr member.
-	 * If it's v4, then the first 3 u32s of the address will be 0.
-	 * v6 addresses (even v4 mapped ones) have at least 2 u32s assigned
-	 * to non-zero values. true. but when it's all zero, one cannot decide.
-	 */
-	ip46_address_t fp_addr;
+        /**
+         * The address type is not deriveable from the fp_addr member.
+         * If it's v4, then the first 3 u32s of the address will be 0.
+         * v6 addresses (even v4 mapped ones) have at least 2 u32s assigned
+         * to non-zero values. true. but when it's all zero, one cannot decide.
+         */
+        ip46_address_t fp_addr;
 
-	struct {
-	    mpls_label_t fp_label;
-	    mpls_eos_bit_t fp_eos;
-	    /**
-	     * This protocol determines the payload protocol of packets
-	     * that will be forwarded by this entry once the label is popped.
-	     * For a non-eos entry it will be MPLS.
-	     */
-	    dpo_proto_t fp_payload_proto;
-	};
+        struct {
+            mpls_label_t fp_label;
+            mpls_eos_bit_t fp_eos;
+            /**
+             * This protocol determines the payload protocol of packets
+             * that will be forwarded by this entry once the label is popped.
+             * For a non-eos entry it will be MPLS.
+             */
+            dpo_proto_t fp_payload_proto;
+        };
     };
 } fib_prefix_t;
 
-STATIC_ASSERT(STRUCT_OFFSET_OF(fib_prefix_t, fp_addr) == 4,
-	      "FIB Prefix's address is 4 byte aligned.");
+STATIC_ASSERT(STRUCT_OFFSET_OF(fib_prefix_t, fp_addr) == 4, "FIB Prefix's address is 4 byte aligned.");
 
 /**
  * \brief Compare two prefixes for equality
  */
-extern int fib_prefix_cmp(const fib_prefix_t *p1,
-			  const fib_prefix_t *p2);
+extern int fib_prefix_cmp(const fib_prefix_t *p1, const fib_prefix_t *p2);
 
 /**
  * \brief Compare two prefixes for covering relationship
  *
  * \return non-zero if the first prefix is a cover for the second
  */
-extern int fib_prefix_is_cover(const fib_prefix_t *p1,
-			       const fib_prefix_t *p2);
+extern int fib_prefix_is_cover(const fib_prefix_t *p1, const fib_prefix_t *p2);
 
 /**
  * \brief Return true is the prefix is a host prefix
@@ -264,11 +247,10 @@ extern int fib_prefix_is_host(const fib_prefix_t *p);
 /**
  * \brief Host prefix from ip
  */
-extern void fib_prefix_from_ip46_addr (const ip46_address_t *addr,
-			   fib_prefix_t *pfx);
+extern void fib_prefix_from_ip46_addr(const ip46_address_t *addr, fib_prefix_t *pfx);
 
-extern u8 * format_fib_prefix(u8 * s, va_list * args);
-extern u8 * format_fib_forw_chain_type(u8 * s, va_list * args);
+extern u8 *format_fib_prefix(u8 *s, va_list *args);
+extern u8 *format_fib_forw_chain_type(u8 *s, va_list *args);
 
 extern dpo_proto_t fib_proto_to_dpo(fib_protocol_t fib_proto);
 extern fib_protocol_t dpo_proto_to_fib(dpo_proto_t dpo_proto);
@@ -298,25 +280,22 @@ typedef enum fib_special_type_t_ {
      * Marker. Add new types before this one, then update it.
      */
     FIB_SPECIAL_TYPE_LAST = FIB_SPECIAL_TYPE_DROP,
-} __attribute__ ((packed)) fib_special_type_t;
+} __attribute__((packed)) fib_special_type_t;
 
 /**
  * The maximum number of types
  */
 #define FIB_SPEICAL_TYPE_MAX (FIB_SPEICAL_TYPE_LAST + 1)
 
-#define FOR_EACH_FIB_SPEICAL_TYPE(_item)		\
-    for (_item = FIB_TYPE_SPEICAL_FIRST;		\
-	 _item <= FIB_SPEICAL_TYPE_LAST; _item++)
+#define FOR_EACH_FIB_SPEICAL_TYPE(_item) for (_item = FIB_TYPE_SPEICAL_FIRST; _item <= FIB_SPEICAL_TYPE_LAST; _item++)
 
-extern u8 * format_fib_protocol(u8 * s, va_list *ap);
-extern u8 * format_vnet_link(u8 *s, va_list *ap);
+extern u8 *format_fib_protocol(u8 *s, va_list *ap);
+extern u8 *format_vnet_link(u8 *s, va_list *ap);
 
 /**
  * Path flags from the control plane
  */
-typedef enum fib_route_path_flags_t_
-{
+typedef enum fib_route_path_flags_t_ {
     FIB_ROUTE_PATH_FLAG_NONE = 0,
     /**
      * Recursion constraint of via a host prefix
@@ -395,8 +374,7 @@ typedef u32 fib_rpf_id_t;
 /**
  * MPLS LSP mode - only valid at the head and tail
  */
-typedef enum fib_mpls_lsp_mode_t_
-{
+typedef enum fib_mpls_lsp_mode_t_ {
     /**
      * Pipe Mode - the default.
      *  TTL and DSCP markings are not carried between the layers
@@ -409,21 +387,20 @@ typedef enum fib_mpls_lsp_mode_t_
     FIB_MPLS_LSP_MODE_UNIFORM,
 } __attribute__((packed)) fib_mpls_lsp_mode_t;
 
-#define FIB_MPLS_LSP_MODES {			\
-    [FIB_MPLS_LSP_MODE_PIPE]     = "pipe",     	\
-    [FIB_MPLS_LSP_MODE_UNIFORM]  = "uniform",   \
-}
+#define FIB_MPLS_LSP_MODES                                                                                             \
+    {                                                                                                                  \
+        [FIB_MPLS_LSP_MODE_PIPE] = "pipe", [FIB_MPLS_LSP_MODE_UNIFORM] = "uniform",                                    \
+    }
 
 /**
  * Format an LSP mode type
  */
-extern u8 * format_fib_mpls_lsp_mode(u8 *s, va_list *ap);
+extern u8 *format_fib_mpls_lsp_mode(u8 *s, va_list *ap);
 
 /**
  * Configuration for each label value in the output-stack
  */
-typedef struct fib_mpls_label_t_
-{
+typedef struct fib_mpls_label_t_ {
     /**
      * The label value
      */
@@ -448,10 +425,10 @@ typedef struct fib_mpls_label_t_
 /**
  * Format an MPLS label
  */
-extern u8 * format_fib_mpls_label(u8 *s, va_list *ap);
+extern u8 *format_fib_mpls_label(u8 *s, va_list *ap);
 
 /**
- * @brief 
+ * @brief
  * A representation of a path as described by a route producer.
  * These paramenters will determine the path 'type', of which there are:
  * 1) Attached-next-hop:
@@ -525,9 +502,9 @@ typedef struct fib_route_path_t_ {
             fib_mpls_label_t *frp_label_stack;
 
             /**
-	     * Exclusive DPO
-	     */
-	    dpo_id_t dpo;
+             * Exclusive DPO
+             */
+            dpo_id_t dpo;
         };
         /**
          * A path that resolves via a BIER Table.
@@ -570,15 +547,18 @@ typedef struct fib_route_path_t_ {
 /**
  * Unformat a fib_route_path_t from CLI input
  */
-extern uword unformat_fib_route_path(unformat_input_t * input, va_list * args);
+extern uword unformat_fib_route_path(unformat_input_t *input, va_list *args);
 
 /**
  * A help string to list the FIB path options
  */
-#define FIB_ROUTE_PATH_HELP "[next-hop-address] [next-hop-interface] [next-hop-table <value>] [weight <value>] [preference <value>] [udp-encap-id <value>] [ip4-lookup-in-table <value>] [ip6-lookup-in-table <value>] [mpls-lookup-in-table <value>] [resolve-via-host] [resolve-via-connected] [rx-ip4 <interface>] [out-labels <value value value>]"
+#define FIB_ROUTE_PATH_HELP                                                                                            \
+    "[next-hop-address] [next-hop-interface] [next-hop-table <value>] [weight <value>] [preference <value>] "          \
+    "[udp-encap-id <value>] [ip4-lookup-in-table <value>] [ip6-lookup-in-table <value>] [mpls-lookup-in-table "        \
+    "<value>] [resolve-via-host] [resolve-via-connected] [rx-ip4 <interface>] [out-labels <value value value>]"
 
 /**
- * @brief 
+ * @brief
  * A representation of a fib path for fib_path_encode to convey the information to the caller
  */
 typedef struct fib_route_path_encode_t_ {
@@ -589,8 +569,7 @@ typedef struct fib_route_path_encode_t_ {
 /**
  * return code to control pat-hlist walk
  */
-typedef enum fib_path_list_walk_rc_t_
-{
+typedef enum fib_path_list_walk_rc_t_ {
     FIB_PATH_LIST_WALK_STOP,
     FIB_PATH_LIST_WALK_CONTINUE,
 } fib_path_list_walk_rc_t;
@@ -598,8 +577,7 @@ typedef enum fib_path_list_walk_rc_t_
 /**
  * A list of path-extensions
  */
-typedef struct fib_path_ext_list_t_
-{
+typedef struct fib_path_ext_list_t_ {
     struct fib_path_ext_t_ *fpel_exts;
 } fib_path_ext_list_t;
 

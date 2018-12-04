@@ -23,8 +23,7 @@
 #include <vnet/dpo/dpo.h>
 #include <vnet/ip/ip6.h>
 
-typedef struct receive_dpo_t_
-{
+typedef struct receive_dpo_t_ {
     /**
      * required for pool_get_aligned.
      *  memebers used in the switch path come first!
@@ -47,10 +46,7 @@ typedef struct receive_dpo_t_
     u16 rd_locks;
 } receive_dpo_t;
 
-extern void receive_dpo_add_or_lock (dpo_proto_t proto,
-                                     u32 sw_if_index,
-                                     const ip46_address_t *nh_addr,
-                                     dpo_id_t *dpo);
+extern void receive_dpo_add_or_lock(dpo_proto_t proto, u32 sw_if_index, const ip46_address_t *nh_addr, dpo_id_t *dpo);
 
 extern void receive_dpo_module_init(void);
 
@@ -60,7 +56,7 @@ extern void receive_dpo_module_init(void);
 receive_dpo_t *receive_dpo_pool;
 
 static inline receive_dpo_t *
-receive_dpo_get (index_t index)
+receive_dpo_get(index_t index)
 {
     return (pool_elt_at_index(receive_dpo_pool, index));
 }

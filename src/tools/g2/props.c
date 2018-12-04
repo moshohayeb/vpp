@@ -1,4 +1,4 @@
-/* 
+/*
  *------------------------------------------------------------------
  * Copyright (c) 1997-2016 Cisco and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-static char *sxerox (char *s);
+static char *sxerox(char *s);
 void exit(int);
 
 #define NBUCKETS 97
@@ -31,26 +31,27 @@ typedef struct prop_ {
     char *value;
 } prop_t;
 
-static prop_t *buckets [NBUCKETS];
+static prop_t *buckets[NBUCKETS];
 static int hash_shifts[4] = {24, 16, 8, 0};
 
 /*
- * getprop 
+ * getprop
  */
 
-char *getprop (char *name)
+char *
+getprop(char *name)
 {
     unsigned char *cp;
-    unsigned long hash=0;
+    unsigned long hash = 0;
     prop_t *bp;
-    int i=0;
+    int i = 0;
 
     for (cp = (unsigned char *) name; *cp; cp++)
-        hash ^= (*cp)<<(hash_shifts[(i++)&0x3]);
+        hash ^= (*cp) << (hash_shifts[(i++) & 0x3]);
 
-    bp = buckets [hash%NBUCKETS];
+    bp = buckets[hash % NBUCKETS];
 
-    while (bp && strcmp (bp->name, name)) {
+    while (bp && strcmp(bp->name, name)) {
         bp = bp->next;
     }
 
@@ -64,10 +65,11 @@ char *getprop (char *name)
  * getprop_default
  */
 
-char *getprop_default (char *name, char *def)
+char *
+getprop_default(char *name, char *def)
 {
     char *rv;
-    rv = getprop (name);
+    rv = getprop(name);
     if (rv)
         return (rv);
     else
@@ -78,65 +80,68 @@ char *getprop_default (char *name, char *def)
  * addprop
  */
 
-void addprop (char *name, char *value)
+void
+addprop(char *name, char *value)
 {
     unsigned char *cp;
-    unsigned long hash=0;
+    unsigned long hash = 0;
     prop_t **bpp;
     prop_t *bp;
-    int i=0;
+    int i = 0;
 
-    bp = (prop_t *)g_malloc (sizeof (prop_t));
+    bp = (prop_t *) g_malloc(sizeof(prop_t));
 
-    bp->next = 0;
-    bp->name = sxerox (name);
-    bp->value = sxerox (value);
+    bp->next  = 0;
+    bp->name  = sxerox(name);
+    bp->value = sxerox(value);
 
-    for (cp = (unsigned char *)name; *cp; cp++)
-        hash ^= (*cp)<<(hash_shifts[(i++)&0x3]);
+    for (cp = (unsigned char *) name; *cp; cp++)
+        hash ^= (*cp) << (hash_shifts[(i++) & 0x3]);
 
-    bpp = &buckets [hash%NBUCKETS];
+    bpp = &buckets[hash % NBUCKETS];
 
     if (*bpp == NULL)
         *bpp = bp;
     else {
         bp->next = *bpp;
-        *bpp = bp;
+        *bpp     = bp;
     }
 }
 
 /*
- * sxerox 
+ * sxerox
  */
 
-static char *sxerox (char *s)
+static char *
+sxerox(char *s)
 {
-    char *rv = (char *) g_malloc (strlen (s) + 1);
-    strcpy (rv, s);
+    char *rv = (char *) g_malloc(strlen(s) + 1);
+    strcpy(rv, s);
     return rv;
 }
 
 /*
- * readprops 
+ * readprops
  */
 
 #define START 0
-#define READNAME  1
+#define READNAME 1
 #define READVALUE 2
 #define C_COMMENT 3
 #define CPP_COMMENT 4
 
-int readprops (char *filename)
+int
+readprops(char *filename)
 {
     FILE *ifp;
     unsigned char c;
-    int state=START;
-    int linenum=1;
-    char namebuf [128];
-    char valbuf [512];
+    int state   = START;
+    int linenum = 1;
+    char namebuf[128];
+    char valbuf[512];
     int i;
 
-    ifp = fopen (filename, "r");
+    ifp = fopen(filename, "r");
 
     if (ifp == NULL)
         return (-1);
@@ -144,13 +149,13 @@ int readprops (char *filename)
     while (1) {
 
     readchar:
-        c = getc (ifp);
+        c = getc(ifp);
 
     again:
         switch (state) {
         case START:
-            if (feof (ifp)) {
-                fclose (ifp);
+            if (feof(ifp)) {
+                fclose(ifp);
                 return (0);
             }
 
@@ -161,12 +166,12 @@ int readprops (char *filename)
                 linenum++;
                 goto readchar;
             }
-            if (isalpha (c) || (c == '_')) {
+            if (isalpha(c) || (c == '_')) {
                 state = READNAME;
                 goto again;
             }
             if (c == '/') {
-                c = getc (ifp);
+                c = getc(ifp);
                 if (c == '/') {
                     state = CPP_COMMENT;
                     goto readchar;
@@ -174,20 +179,18 @@ int readprops (char *filename)
                     state = C_COMMENT;
                     goto readchar;
                 } else {
-                    fprintf (stderr, "unknown token '/' line %d\n",
-                             linenum);
-                    exit (1);
+                    fprintf(stderr, "unknown token '/' line %d\n", linenum);
+                    exit(1);
                 }
             }
-            fprintf (stderr, "unknown token '%c' line %d\n",
-                     c, linenum);
-            exit (1);
+            fprintf(stderr, "unknown token '%c' line %d\n", c, linenum);
+            exit(1);
             break;
-            
+
         case CPP_COMMENT:
             while (1) {
-                c = getc (ifp);
-                if (feof (ifp))
+                c = getc(ifp);
+                if (feof(ifp))
                     return (0);
                 if (c == '\n') {
                     linenum++;
@@ -199,15 +202,14 @@ int readprops (char *filename)
 
         case C_COMMENT:
             while (1) {
-                c = getc (ifp);
-                if (feof (ifp)) {
-                    fprintf (stderr, "unterminated comment, line %d\n",
-                             linenum);
-                    exit (1);
+                c = getc(ifp);
+                if (feof(ifp)) {
+                    fprintf(stderr, "unterminated comment, line %d\n", linenum);
+                    exit(1);
                 }
                 if (c == '*') {
                 staragain:
-                    c = getc (ifp);
+                    c = getc(ifp);
                     if (c == '/') {
                         state = START;
                         goto readchar;
@@ -217,63 +219,59 @@ int readprops (char *filename)
                 }
             }
             break;
-                    
+
         case READNAME:
-            i = 0;
+            i            = 0;
             namebuf[i++] = c;
             while (1) {
-                c = getc (ifp);
-                if (feof (ifp)) {
-                    fprintf (stderr, "EOF while reading a name, line %d\n",
-                             linenum);
-                    exit (1);
+                c = getc(ifp);
+                if (feof(ifp)) {
+                    fprintf(stderr, "EOF while reading a name, line %d\n", linenum);
+                    exit(1);
                 }
-                if ((!isalnum (c)) && (c != '_')) {
-                    namebuf [i] = 0;
-                    state = READVALUE;
+                if ((!isalnum(c)) && (c != '_')) {
+                    namebuf[i] = 0;
+                    state      = READVALUE;
                     goto again;
                 }
-                namebuf [i++] = c;
+                namebuf[i++] = c;
             }
             break;
 
         case READVALUE:
             i = 0;
             while ((c == ' ') || (c == '\t') || (c == '=')) {
-                c = getc (ifp);
-                if (feof (ifp)) {
-                    fprintf (stderr, "EOF while reading a value, line %d\n",
-                             linenum);
-                    exit (1);
+                c = getc(ifp);
+                if (feof(ifp)) {
+                    fprintf(stderr, "EOF while reading a value, line %d\n", linenum);
+                    exit(1);
                 }
             }
             goto firsttime;
             while (1) {
-                c = getc (ifp);
+                c = getc(ifp);
 
             firsttime:
                 if (c == '\\') {
-                    c = getc (ifp);
-                    if (feof (ifp)) {
-                        fprintf (stderr, "EOF after '\\', line %d\n",
-                                 linenum);
-                        exit (1);
+                    c = getc(ifp);
+                    if (feof(ifp)) {
+                        fprintf(stderr, "EOF after '\\', line %d\n", linenum);
+                        exit(1);
                     }
                     valbuf[i++] = c;
                     continue;
                 }
                 if (c == '\n') {
                     linenum++;
-                    while (valbuf [i-1] == ' ' || valbuf[i-1] == '\t')
+                    while (valbuf[i - 1] == ' ' || valbuf[i - 1] == '\t')
                         i--;
                     valbuf[i] = 0;
-                    addprop (namebuf, valbuf);
+                    addprop(namebuf, valbuf);
                     state = START;
                     goto readchar;
                 }
                 valbuf[i++] = c;
             }
-
         }
     }
 }

@@ -18,38 +18,37 @@
 
 #include <vnet/ethernet/ethernet.h>
 
-typedef struct mac_address_t_
-{
-  u8 bytes[6];
+typedef struct mac_address_t_ {
+    u8 bytes[6];
 } mac_address_t;
 
 extern const mac_address_t ZERO_MAC_ADDRESS;
 
 static_always_inline void
-mac_address_from_bytes (mac_address_t * mac, const u8 * bytes)
+mac_address_from_bytes(mac_address_t *mac, const u8 *bytes)
 {
-  clib_memcpy (mac->bytes, bytes, sizeof (*mac));
+    clib_memcpy(mac->bytes, bytes, sizeof(*mac));
 }
 
 static_always_inline int
-mac_address_is_zero (const mac_address_t * mac)
+mac_address_is_zero(const mac_address_t *mac)
 {
-  return (ethernet_mac_address_is_zero (mac->bytes));
+    return (ethernet_mac_address_is_zero(mac->bytes));
 }
 
 static_always_inline u64
-mac_address_as_u64 (const mac_address_t * mac)
+mac_address_as_u64(const mac_address_t *mac)
 {
-  return (ethernet_mac_address_u64 (mac->bytes));
+    return (ethernet_mac_address_u64(mac->bytes));
 }
 
 static_always_inline void
-mac_address_from_u64 (u64 u, mac_address_t * mac)
+mac_address_from_u64(u64 u, mac_address_t *mac)
 {
-  ethernet_mac_address_from_u64 (u, mac->bytes);
+    ethernet_mac_address_from_u64(u, mac->bytes);
 }
 
-extern u8 *format_mac_address_t (u8 * s, va_list * args);
+extern u8 *format_mac_address_t(u8 *s, va_list *args);
 
 #endif
 

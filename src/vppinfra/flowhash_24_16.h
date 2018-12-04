@@ -25,53 +25,51 @@
 #include <vppinfra/crc32.h>
 
 typedef struct {
-  u64 as_u64[3];
+    u64 as_u64[3];
 } flowhash_skey_24_16_t;
 
 typedef struct {
-  u64 as_u64[3];
+    u64 as_u64[3];
 } flowhash_lkey_24_16_t;
 
 typedef struct {
-  u64 as_u64[2];
+    u64 as_u64[2];
 } flowhash_value_24_16_t;
 
 #define FLOWHASH_TYPE _24_16
 #include <vppinfra/flowhash_template.h>
 #undef FLOWHASH_TYPE
 
-static_always_inline
-u32 flowhash_hash_24_16(flowhash_lkey_24_16_t *k)
+static_always_inline u32
+flowhash_hash_24_16(flowhash_lkey_24_16_t *k)
 {
 #ifdef clib_crc32c_uses_intrinsics
-  return clib_crc32c ((u8 *) &k->as_u64[0], 24);
+    return clib_crc32c((u8 *) &k->as_u64[0], 24);
 #else
-  u64 val = 0;
-  val ^= k->as_u64[0];
-  val ^= k->as_u64[1];
-  val ^= k->as_u64[2];
-  return (u32)clib_xxhash (val);
+    u64 val = 0;
+    val ^= k->as_u64[0];
+    val ^= k->as_u64[1];
+    val ^= k->as_u64[2];
+    return (u32) clib_xxhash(val);
 #endif
 }
 
-static_always_inline
-u8 flowhash_cmp_key_24_16(flowhash_skey_24_16_t *a,
-                          flowhash_lkey_24_16_t *b)
+static_always_inline u8
+flowhash_cmp_key_24_16(flowhash_skey_24_16_t *a, flowhash_lkey_24_16_t *b)
 {
-  u8 val = 0;
-  val |= (a->as_u64[0] != b->as_u64[0]);
-  val |= (a->as_u64[1] != b->as_u64[1]);
-  val |= (a->as_u64[2] != b->as_u64[2]);
-  return val;
+    u8 val = 0;
+    val |= (a->as_u64[0] != b->as_u64[0]);
+    val |= (a->as_u64[1] != b->as_u64[1]);
+    val |= (a->as_u64[2] != b->as_u64[2]);
+    return val;
 }
 
-static_always_inline
-void flowhash_cpy_key_24_16(flowhash_skey_24_16_t *dst,
-        	                    flowhash_lkey_24_16_t *src)
+static_always_inline void
+flowhash_cpy_key_24_16(flowhash_skey_24_16_t *dst, flowhash_lkey_24_16_t *src)
 {
-  dst->as_u64[0] = src->as_u64[0];
-  dst->as_u64[1] = src->as_u64[1];
-  dst->as_u64[2] = src->as_u64[2];
+    dst->as_u64[0] = src->as_u64[0];
+    dst->as_u64[1] = src->as_u64[1];
+    dst->as_u64[2] = src->as_u64[2];
 }
 
 #endif /* SRC_VPPINFRA_FLOWHASH_24_16_H_ */

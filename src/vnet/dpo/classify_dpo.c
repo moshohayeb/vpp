@@ -23,7 +23,7 @@
 classify_dpo_t *classify_dpo_pool;
 
 static classify_dpo_t *
-classify_dpo_alloc (void)
+classify_dpo_alloc(void)
 {
     classify_dpo_t *cd;
 
@@ -34,40 +34,37 @@ classify_dpo_alloc (void)
 }
 
 static index_t
-classify_dpo_get_index (classify_dpo_t *cd)
+classify_dpo_get_index(classify_dpo_t *cd)
 {
     return (cd - classify_dpo_pool);
 }
 
 index_t
-classify_dpo_create (dpo_proto_t proto,
-                     u32 classify_table_index)
+classify_dpo_create(dpo_proto_t proto, u32 classify_table_index)
 {
     classify_dpo_t *cd;
 
-    cd = classify_dpo_alloc();
-    cd->cd_proto = proto;
+    cd                 = classify_dpo_alloc();
+    cd->cd_proto       = proto;
     cd->cd_table_index = classify_table_index;
 
     return (classify_dpo_get_index(cd));
 }
 
-u8*
-format_classify_dpo (u8 *s, va_list *args)
+u8 *
+format_classify_dpo(u8 *s, va_list *args)
 {
-    index_t index = va_arg (*args, index_t);
-    CLIB_UNUSED(u32 indent) = va_arg (*args, u32);
+    index_t index           = va_arg(*args, index_t);
+    CLIB_UNUSED(u32 indent) = va_arg(*args, u32);
     classify_dpo_t *cd;
 
     cd = classify_dpo_get(index);
 
-    return (format(s, "%U-classify:[%d]:table:%d",
-		   format_dpo_proto, cd->cd_proto,
-		   index, cd->cd_table_index));
+    return (format(s, "%U-classify:[%d]:table:%d", format_dpo_proto, cd->cd_proto, index, cd->cd_table_index));
 }
 
 static void
-classify_dpo_lock (dpo_id_t *dpo)
+classify_dpo_lock(dpo_id_t *dpo)
 {
     classify_dpo_t *cd;
 
@@ -77,7 +74,7 @@ classify_dpo_lock (dpo_id_t *dpo)
 }
 
 static void
-classify_dpo_unlock (dpo_id_t *dpo)
+classify_dpo_unlock(dpo_id_t *dpo)
 {
     classify_dpo_t *cd;
 
@@ -85,47 +82,40 @@ classify_dpo_unlock (dpo_id_t *dpo)
 
     cd->cd_locks--;
 
-    if (0 == cd->cd_locks)
-    {
-	pool_put(classify_dpo_pool, cd);
+    if (0 == cd->cd_locks) {
+        pool_put(classify_dpo_pool, cd);
     }
 }
 
 static void
-classify_dpo_mem_show (void)
+classify_dpo_mem_show(void)
 {
-    fib_show_memory_usage("Classify",
-			  pool_elts(classify_dpo_pool),
-			  pool_len(classify_dpo_pool),
-			  sizeof(classify_dpo_t));
+    fib_show_memory_usage("Classify", pool_elts(classify_dpo_pool), pool_len(classify_dpo_pool), sizeof(classify_dpo_t));
 }
 
 const static dpo_vft_t cd_vft = {
-    .dv_lock = classify_dpo_lock,
-    .dv_unlock = classify_dpo_unlock,
-    .dv_format = format_classify_dpo,
+    .dv_lock     = classify_dpo_lock,
+    .dv_unlock   = classify_dpo_unlock,
+    .dv_format   = format_classify_dpo,
     .dv_mem_show = classify_dpo_mem_show,
 };
 
-const static char* const classify_ip4_nodes[] =
-{
+const static char *const classify_ip4_nodes[] = {
     "ip4-classify",
     NULL,
 };
-const static char* const classify_ip6_nodes[] =
-{
+const static char *const classify_ip6_nodes[] = {
     "ip6-classify",
     NULL,
 };
-const static char* const * const classify_nodes[DPO_PROTO_NUM] =
-{
+const static char *const *const classify_nodes[DPO_PROTO_NUM] = {
     [DPO_PROTO_IP4]  = classify_ip4_nodes,
     [DPO_PROTO_IP6]  = classify_ip6_nodes,
     [DPO_PROTO_MPLS] = NULL,
 };
 
 void
-classify_dpo_module_init (void)
+classify_dpo_module_init(void)
 {
     dpo_register(DPO_CLASSIFY, &cd_vft, classify_nodes);
 }

@@ -22,94 +22,89 @@
 #include <nat/nat.h>
 #include <nat/nat64_db.h>
 
-#define foreach_nat64_tcp_ses_state            \
-  _(0, CLOSED, "closed")                       \
-  _(1, V4_INIT, "v4-init")                     \
-  _(2, V6_INIT, "v6-init")                     \
-  _(3, ESTABLISHED, "established")             \
-  _(4, V4_FIN_RCV, "v4-fin-rcv")               \
-  _(5, V6_FIN_RCV, "v6-fin-rcv")               \
-  _(6, V6_FIN_V4_FIN_RCV, "v6-fin-v4-fin-rcv") \
-  _(7, TRANS, "trans")
+#define foreach_nat64_tcp_ses_state                                                                                    \
+    _(0, CLOSED, "closed")                                                                                             \
+    _(1, V4_INIT, "v4-init")                                                                                           \
+    _(2, V6_INIT, "v6-init")                                                                                           \
+    _(3, ESTABLISHED, "established")                                                                                   \
+    _(4, V4_FIN_RCV, "v4-fin-rcv")                                                                                     \
+    _(5, V6_FIN_RCV, "v6-fin-rcv")                                                                                     \
+    _(6, V6_FIN_V4_FIN_RCV, "v6-fin-v4-fin-rcv")                                                                       \
+    _(7, TRANS, "trans")
 
-typedef enum
-{
+typedef enum {
 #define _(v, N, s) NAT64_TCP_STATE_##N = v,
-  foreach_nat64_tcp_ses_state
+    foreach_nat64_tcp_ses_state
 #undef _
 } nat64_tcp_ses_state_t;
 
-enum
-{
-  NAT64_CLEANER_RESCHEDULE = 1,
+enum {
+    NAT64_CLEANER_RESCHEDULE = 1,
 } nat64_cleaner_process_event_e;
 
-typedef struct
-{
-  ip6_address_t prefix;
-  u8 plen;
-  u32 vrf_id;
-  u32 fib_index;
+typedef struct {
+    ip6_address_t prefix;
+    u8 plen;
+    u32 vrf_id;
+    u32 fib_index;
 } nat64_prefix_t;
 
-typedef struct
-{
-  ip6_address_t in_addr;
-  u16 in_port;
-  ip4_address_t out_addr;
-  u16 out_port;
-  u32 fib_index;
-  u32 thread_index;
-  u8 proto;
-  u8 is_add;
-  u8 done;
+typedef struct {
+    ip6_address_t in_addr;
+    u16 in_port;
+    ip4_address_t out_addr;
+    u16 out_port;
+    u32 fib_index;
+    u32 thread_index;
+    u8 proto;
+    u8 is_add;
+    u8 done;
 } nat64_static_bib_to_update_t;
 
-typedef struct
-{
-  /** Interface pool */
-  snat_interface_t *interfaces;
+typedef struct {
+    /** Interface pool */
+    snat_interface_t *interfaces;
 
-  /** Address pool vector */
-  snat_address_t *addr_pool;
+    /** Address pool vector */
+    snat_address_t *addr_pool;
 
-  /** sw_if_indices whose interface addresses should be auto-added */
-  u32 *auto_add_sw_if_indices;
+    /** sw_if_indices whose interface addresses should be auto-added */
+    u32 *auto_add_sw_if_indices;
 
-  /** Pref64 vector */
-  nat64_prefix_t *pref64;
+    /** Pref64 vector */
+    nat64_prefix_t *pref64;
 
-  /** BIB and session DB per thread */
-  nat64_db_t *db;
+    /** BIB and session DB per thread */
+    nat64_db_t *db;
 
-  /** Worker handoff */
-  u32 fq_in2out_index;
-  u32 fq_out2in_index;
+    /** Worker handoff */
+    u32 fq_in2out_index;
+    u32 fq_out2in_index;
 
-  /** Pool of static BIB entries to be added/deleted in worker threads */
-  nat64_static_bib_to_update_t *static_bibs;
+    /** Pool of static BIB entries to be added/deleted in worker threads */
+    nat64_static_bib_to_update_t *static_bibs;
 
-  u32 error_node_index;
+    u32 error_node_index;
 
-  /** config parameters */
-  u32 bib_buckets;
-  u32 bib_memory_size;
-  u32 st_buckets;
-  u32 st_memory_size;
+    /** config parameters */
+    u32 bib_buckets;
+    u32 bib_memory_size;
+    u32 st_buckets;
+    u32 st_memory_size;
 
-  /** values of various timeouts */
-  u32 udp_timeout;
-  u32 icmp_timeout;
-  u32 tcp_trans_timeout;
-  u32 tcp_est_timeout;
+    /** values of various timeouts */
+    u32 udp_timeout;
+    u32 icmp_timeout;
+    u32 tcp_trans_timeout;
+    u32 tcp_est_timeout;
 
-  /* Total count of interfaces enabled */
-  u32 total_enabled_count;
-  /* The process node which orcherstrates the cleanup */
-  u32 nat64_expire_walk_node_index;
+    /* Total count of interfaces enabled */
+    u32 total_enabled_count;
+    /* The process node which orcherstrates the cleanup */
+    u32 nat64_expire_walk_node_index;
 
-  ip4_main_t *ip4_main;
-  snat_main_t *sm;
+    ip4_main_t *ip4_main;
+    snat_main_t *sm;
 } nat64_main_t;
 
 extern nat64_main_t nat64_main;
@@ -125,13 +120,13 @@ extern vlib_node_registration_t nat64_out2in_node;
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_add_del_pool_addr (ip4_address_t * addr, u32 vrf_id, u8 is_add);
+int nat64_add_del_pool_addr(ip4_address_t *addr, u32 vrf_id, u8 is_add);
 
 /**
  * @brief Call back function when walking addresses in NAT64 pool, non-zero
  * return value stop walk.
  */
-typedef int (*nat64_pool_addr_walk_fn_t) (snat_address_t * addr, void *ctx);
+typedef int (*nat64_pool_addr_walk_fn_t)(snat_address_t *addr, void *ctx);
 
 /**
  * @brief Walk NAT64 pool.
@@ -139,7 +134,7 @@ typedef int (*nat64_pool_addr_walk_fn_t) (snat_address_t * addr, void *ctx);
  * @param fn The function to invoke on each entry visited.
  * @param ctx A context passed in the visit function.
  */
-void nat64_pool_addr_walk (nat64_pool_addr_walk_fn_t fn, void *ctx);
+void nat64_pool_addr_walk(nat64_pool_addr_walk_fn_t fn, void *ctx);
 
 /**
  * @brief NAT64 pool address from specific (DHCP addressed) interface.
@@ -149,7 +144,7 @@ void nat64_pool_addr_walk (nat64_pool_addr_walk_fn_t fn, void *ctx);
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_add_interface_address (u32 sw_if_index, int is_add);
+int nat64_add_interface_address(u32 sw_if_index, int is_add);
 
 /**
  * @brief Enable/disable NAT64 feature on the interface.
@@ -160,13 +155,13 @@ int nat64_add_interface_address (u32 sw_if_index, int is_add);
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_add_del_interface (u32 sw_if_index, u8 is_inside, u8 is_add);
+int nat64_add_del_interface(u32 sw_if_index, u8 is_inside, u8 is_add);
 
 /**
  * @brief Call back function when walking interfaces with NAT64 feature,
  * non-zero return value stop walk.
  */
-typedef int (*nat64_interface_walk_fn_t) (snat_interface_t * i, void *ctx);
+typedef int (*nat64_interface_walk_fn_t)(snat_interface_t *i, void *ctx);
 
 /**
  * @brief Walk NAT64 interfaces.
@@ -174,7 +169,7 @@ typedef int (*nat64_interface_walk_fn_t) (snat_interface_t * i, void *ctx);
  * @param fn The function to invoke on each entry visited.
  * @param ctx A context passed in the visit function.
  */
-void nat64_interfaces_walk (nat64_interface_walk_fn_t fn, void *ctx);
+void nat64_interfaces_walk(nat64_interface_walk_fn_t fn, void *ctx);
 
 /**
  * @brief Initialize NAT64.
@@ -183,7 +178,7 @@ void nat64_interfaces_walk (nat64_interface_walk_fn_t fn, void *ctx);
  *
  * @return error code.
  */
-clib_error_t *nat64_init (vlib_main_t * vm);
+clib_error_t *nat64_init(vlib_main_t *vm);
 
 /**
  * @brief Add/delete static NAT64 BIB entry.
@@ -198,10 +193,8 @@ clib_error_t *nat64_init (vlib_main_t * vm);
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_add_del_static_bib_entry (ip6_address_t * in_addr,
-				    ip4_address_t * out_addr, u16 in_port,
-				    u16 out_port, u8 proto, u32 vrf_id,
-				    u8 is_add);
+int nat64_add_del_static_bib_entry(ip6_address_t *in_addr, ip4_address_t *out_addr, u16 in_port, u16 out_port, u8 proto,
+                                   u32 vrf_id, u8 is_add);
 
 /**
  * @brief Alloce IPv4 address and port pair from NAT64 pool.
@@ -214,9 +207,7 @@ int nat64_add_del_static_bib_entry (ip6_address_t * in_addr,
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_alloc_out_addr_and_port (u32 fib_index, snat_protocol_t proto,
-				   ip4_address_t * addr, u16 * port,
-				   u32 thread_index);
+int nat64_alloc_out_addr_and_port(u32 fib_index, snat_protocol_t proto, ip4_address_t *addr, u16 *port, u32 thread_index);
 
 /**
  * @brief Set UDP session timeout.
@@ -225,14 +216,14 @@ int nat64_alloc_out_addr_and_port (u32 fib_index, snat_protocol_t proto,
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_set_udp_timeout (u32 timeout);
+int nat64_set_udp_timeout(u32 timeout);
 
 /**
  * @brief Get UDP session timeout.
  *
  * @returns UDP session timeout in seconds.
  */
-u32 nat64_get_udp_timeout (void);
+u32 nat64_get_udp_timeout(void);
 
 /**
  * @brief Set ICMP session timeout.
@@ -241,14 +232,14 @@ u32 nat64_get_udp_timeout (void);
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_set_icmp_timeout (u32 timeout);
+int nat64_set_icmp_timeout(u32 timeout);
 
 /**
  * @brief Get ICMP session timeout.
  *
  * @returns ICMP session timeout in seconds.
  */
-u32 nat64_get_icmp_timeout (void);
+u32 nat64_get_icmp_timeout(void);
 
 /**
  * @brief Set TCP session timeouts.
@@ -258,21 +249,21 @@ u32 nat64_get_icmp_timeout (void);
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_set_tcp_timeouts (u32 trans, u32 est);
+int nat64_set_tcp_timeouts(u32 trans, u32 est);
 
 /**
  * @brief Get TCP transitory timeout.
  *
  * @returns TCP transitory timeout in seconds.
  */
-u32 nat64_get_tcp_trans_timeout (void);
+u32 nat64_get_tcp_trans_timeout(void);
 
 /**
  * @brief Get TCP established timeout.
  *
  * @returns TCP established timeout in seconds.
  */
-u32 nat64_get_tcp_est_timeout (void);
+u32 nat64_get_tcp_est_timeout(void);
 
 /**
  * @brief Reset NAT64 session timeout.
@@ -280,8 +271,7 @@ u32 nat64_get_tcp_est_timeout (void);
  * @param ste Session table entry.
  * @param vm VLIB main.
  **/
-void nat64_session_reset_timeout (nat64_db_st_entry_t * ste,
-				  vlib_main_t * vm);
+void nat64_session_reset_timeout(nat64_db_st_entry_t *ste, vlib_main_t *vm);
 
 /**
  * @brief Set NAT64 TCP session state.
@@ -290,8 +280,7 @@ void nat64_session_reset_timeout (nat64_db_st_entry_t * ste,
  * @param tcp TCP header.
  * @param is_ip6 1 if IPv6 packet, 0 if IPv4.
  */
-void nat64_tcp_session_set_state (nat64_db_st_entry_t * ste,
-				  tcp_header_t * tcp, u8 is_ip6);
+void nat64_tcp_session_set_state(nat64_db_st_entry_t *ste, tcp_header_t *tcp, u8 is_ip6);
 
 /**
  * @brief Add/delete NAT64 prefix.
@@ -303,14 +292,13 @@ void nat64_tcp_session_set_state (nat64_db_st_entry_t * ste,
  *
  * @returns 0 on success, non-zero value otherwise.
  */
-int nat64_add_del_prefix (ip6_address_t * prefix, u8 plen, u32 vrf_id,
-			  u8 is_add);
+int nat64_add_del_prefix(ip6_address_t *prefix, u8 plen, u32 vrf_id, u8 is_add);
 
 /**
  * @brief Call back function when walking addresses in NAT64 prefixes, non-zero
  * return value stop walk.
  */
-typedef int (*nat64_prefix_walk_fn_t) (nat64_prefix_t * pref64, void *ctx);
+typedef int (*nat64_prefix_walk_fn_t)(nat64_prefix_t *pref64, void *ctx);
 
 /**
  * @brief Walk NAT64 prefixes.
@@ -318,7 +306,7 @@ typedef int (*nat64_prefix_walk_fn_t) (nat64_prefix_t * pref64, void *ctx);
  * @param fn The function to invoke on each entry visited.
  * @param ctx A context passed in the visit function.
  */
-void nat64_prefix_walk (nat64_prefix_walk_fn_t fn, void *ctx);
+void nat64_prefix_walk(nat64_prefix_walk_fn_t fn, void *ctx);
 
 /**
  * Compose IPv4-embedded IPv6 addresses.
@@ -326,8 +314,7 @@ void nat64_prefix_walk (nat64_prefix_walk_fn_t fn, void *ctx);
  * @param ip4 IPv4 address.
  * @param fib_index Tenant FIB index.
  */
-void nat64_compose_ip6 (ip6_address_t * ip6, ip4_address_t * ip4,
-			u32 fib_index);
+void nat64_compose_ip6(ip6_address_t *ip6, ip4_address_t *ip4, u32 fib_index);
 
 /**
  * Extract IPv4 address from the IPv4-embedded IPv6 addresses.
@@ -336,8 +323,7 @@ void nat64_compose_ip6 (ip6_address_t * ip6, ip4_address_t * ip4,
  * @param ip4 IPv4 address.
  * @param fib_index Tenant FIB index.
  */
-void nat64_extract_ip4 (ip6_address_t * ip6, ip4_address_t * ip4,
-			u32 fib_index);
+void nat64_extract_ip4(ip6_address_t *ip6, ip4_address_t *ip4, u32 fib_index);
 
 /**
  * @brief Set NAT64 hash tables configuration.
@@ -347,8 +333,7 @@ void nat64_extract_ip4 (ip6_address_t * ip6, ip4_address_t * ip4,
  * @param st_buckets Number of session table hash buckets.
  * @param st_memory_size Memory size of session table hash.
  */
-void nat64_set_hash (u32 bib_buckets, u32 bib_memory_size, u32 st_buckets,
-		     u32 st_memory_size);
+void nat64_set_hash(u32 bib_buckets, u32 bib_memory_size, u32 st_buckets, u32 st_memory_size);
 
 /**
  * @brief Get worker thread index for NAT64 in2out.
@@ -357,7 +342,7 @@ void nat64_set_hash (u32 bib_buckets, u32 bib_memory_size, u32 st_buckets,
  *
  * @returns worker thread index.
  */
-u32 nat64_get_worker_in2out (ip6_address_t * addr);
+u32 nat64_get_worker_in2out(ip6_address_t *addr);
 
 /**
  * @brief Get worker thread index for NAT64 out2in.
@@ -366,7 +351,7 @@ u32 nat64_get_worker_in2out (ip6_address_t * addr);
  *
  * @returns worker thread index.
  */
-u32 nat64_get_worker_out2in (ip4_header_t * ip);
+u32 nat64_get_worker_out2in(ip4_header_t *ip);
 
 #endif /* __included_nat64_h__ */
 

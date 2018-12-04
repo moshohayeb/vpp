@@ -23,10 +23,9 @@
 
 #include <vppinfra/byte_order.h>
 
-#define vl_msg_id(n,h) n,
-typedef enum
-{
-  VL_ILLEGAL_MESSAGE_ID = 0,
+#define vl_msg_id(n, h) n,
+typedef enum {
+    VL_ILLEGAL_MESSAGE_ID = 0,
 #include <vlibmemory/vl_memory_api_h.h>
 } vl_msg_id_t;
 #undef vl_msg_id

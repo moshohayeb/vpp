@@ -17,12 +17,10 @@
 
 /* Macros to check compiler version */
 #if defined(__GNUC__)
-#define COMPILER_VERSION_GTE(major, minor) \
-  (__GNUC__ > (major) || (__GNUC__ == (major) && __GNUC_MINOR__ >= (minor)))
+#define COMPILER_VERSION_GTE(major, minor) (__GNUC__ > (major) || (__GNUC__ == (major) && __GNUC_MINOR__ >= (minor)))
 #elif defined(__clang__)
-#define COMPILER_VERSION_GTE(major, minor) \
-  (__clang_major__ > (major) ||            \
-   (__clang_major__ == (major) && __clang_minor__ >= (minor)))
+#define COMPILER_VERSION_GTE(major, minor)                                                                             \
+    (__clang_major__ > (major) || (__clang_major__ == (major) && __clang_minor__ >= (minor)))
 #else /* disable all warning customization for all other compilers */
 #define COMPILER_VERSION_GTE(maj, min) 0
 #endif
@@ -55,26 +53,25 @@
  * GCC option to locally ignore warning was introduced in gcc-4.6
  * gcc.gnu.org/gcc-4.6/changes.html
  */
-#define WARN_PRAGMA(x) _Pragma (WARN_TOSTR (GCC diagnostic x))
-#define WARN_OFF(x)                                    \
-  WARN_PRAGMA (push) WARN_PRAGMA (ignored "-Wpragmas") \
-  WARN_PRAGMA (push) WARN_PRAGMA (ignored WARN_TOSTR (-W##x))
-#define WARN_ON(x)  \
-  WARN_PRAGMA (pop) \
-  WARN_PRAGMA (pop)
+#define WARN_PRAGMA(x) _Pragma(WARN_TOSTR(GCC diagnostic x))
+#define WARN_OFF(x)                                                                                                    \
+    WARN_PRAGMA(push) WARN_PRAGMA(ignored "-Wpragmas") WARN_PRAGMA(push) WARN_PRAGMA(ignored WARN_TOSTR(-W##x))
+#define WARN_ON(x)                                                                                                     \
+    WARN_PRAGMA(pop)                                                                                                   \
+    WARN_PRAGMA(pop)
 
 #elif defined(__clang__) && COMPILER_VERSION_GTE(3, 3)
 /*
  * clang option to locally ignore warning was introduced in clang-3.3
  * releases.llvm.org/3.3/tools/clang/docs/UsersManual.html#controlling-diagnostics-via-pragmas
  */
-#define WARN_PRAGMA(x) _Pragma (WARN_TOSTR (clang diagnostic x))
-#define WARN_OFF(x)                                                   \
-  WARN_PRAGMA (push) WARN_PRAGMA (ignored "-Wunknown-warning-option") \
-  WARN_PRAGMA (push) WARN_PRAGMA (ignored WARN_TOSTR (-W##x))
-#define WARN_ON(x)  \
-  WARN_PRAGMA (pop) \
-  WARN_PRAGMA (pop)
+#define WARN_PRAGMA(x) _Pragma(WARN_TOSTR(clang diagnostic x))
+#define WARN_OFF(x)                                                                                                    \
+    WARN_PRAGMA(push)                                                                                                  \
+    WARN_PRAGMA(ignored "-Wunknown-warning-option") WARN_PRAGMA(push) WARN_PRAGMA(ignored WARN_TOSTR(-W##x))
+#define WARN_ON(x)                                                                                                     \
+    WARN_PRAGMA(pop)                                                                                                   \
+    WARN_PRAGMA(pop)
 #else
 /* Ignore WARN_* instruction for all other compilers */
 #define WARN_OFF(x)
@@ -86,8 +83,8 @@
  * Use those specific macros for the warnings that are only supported by clang
  */
 #ifdef __clang__
-#define WARN_OFF_CLANG(x) WARN_OFF (x)
-#define WARN_ON_CLANG(x) WARN_ON (x)
+#define WARN_OFF_CLANG(x) WARN_OFF(x)
+#define WARN_ON_CLANG(x) WARN_ON(x)
 #else
 #define WARN_OFF_CLANG(x)
 #define WARN_ON_CLANG(x)

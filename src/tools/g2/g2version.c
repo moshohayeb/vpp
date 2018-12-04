@@ -1,4 +1,4 @@
-/* 
+/*
  *------------------------------------------------------------------
  * Copyright (c) 2005-2016 Cisco and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,5 +15,4 @@
  */
 
 const char *version_string = "G2 (x86_64 GNU/Linux) major version 3.0";
-const char *minor_v_string = 
-    "Changed Thu Dec 14 17:18:36 EST 2017";
+const char *minor_v_string = "Changed Thu Dec 14 17:18:36 EST 2017";

@@ -19,14 +19,14 @@
 #include <vnet/bier/bier_hdr_inlines.h>
 
 typedef enum {
-#define bier_error(n,s) BIER_INPUT_ERROR_##n,
+#define bier_error(n, s) BIER_INPUT_ERROR_##n,
 #include <vnet/bier/bier_input_error.def>
 #undef bier_error
     BIER_INPUT_N_ERROR,
 } bier_input_error_t;
 
-static char * bier_error_strings[] = {
-#define bier_error(n,s) s,
+static char *bier_error_strings[] = {
+#define bier_error(n, s) s,
 #include <vnet/bier/bier_input_error.def>
 #undef bier_error
 };
@@ -42,15 +42,13 @@ vlib_node_registration_t bier_input_node;
 /**
  * @brief Packet trace record for BIER input
  */
-typedef struct bier_input_trace_t_
-{
+typedef struct bier_input_trace_t_ {
     u32 next_index;
     u32 bt_index;
 } bier_input_trace_t;
 
 static int
-bier_hdr_validate (bier_hdr_t *bier_hdr,
-                   bier_hdr_len_id_t expected_length)
+bier_hdr_validate(bier_hdr_t *bier_hdr, bier_hdr_len_id_t expected_length)
 {
     /*
      * checks:
@@ -66,13 +64,11 @@ bier_hdr_validate (bier_hdr_t *bier_hdr,
 }
 
 static uword
-bier_input (vlib_main_t * vm,
-            vlib_node_runtime_t * node,
-            vlib_frame_t * from_frame)
+bier_input(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *from_frame)
 {
-    u32 n_left_from, next_index, * from, * to_next;
+    u32 n_left_from, next_index, *from, *to_next;
 
-    from = vlib_frame_vector_args (from_frame);
+    from        = vlib_frame_vector_args(from_frame);
     n_left_from = from_frame->n_vectors;
 
     /*
@@ -80,30 +76,27 @@ bier_input (vlib_main_t * vm,
      */
     next_index = node->cached_next_index;
 
-    while (n_left_from > 0)
-    {
+    while (n_left_from > 0) {
         u32 n_left_to_next;
 
-        vlib_get_next_frame (vm, node, next_index,
-                             to_next, n_left_to_next);
+        vlib_get_next_frame(vm, node, next_index, to_next, n_left_to_next);
 
-        while (n_left_from > 0 && n_left_to_next > 0)
-        {
+        while (n_left_from > 0 && n_left_to_next > 0) {
             const bier_table_t *bt0;
-            vlib_buffer_t * b0;
-            bier_hdr_t * bh0;
+            vlib_buffer_t *b0;
+            bier_hdr_t *bh0;
             u32 bi0, next0;
             u32 bt_index0;
 
-            bi0 = from[0];
+            bi0        = from[0];
             to_next[0] = bi0;
             from += 1;
             to_next += 1;
             n_left_from -= 1;
             n_left_to_next -= 1;
 
-            b0 = vlib_get_buffer (vm, bi0);
-            bh0 = vlib_buffer_get_current (b0);
+            b0  = vlib_get_buffer(vm, bi0);
+            bh0 = vlib_buffer_get_current(b0);
             bier_hdr_ntoh(bh0);
 
             /*
@@ -111,65 +104,59 @@ bier_input (vlib_main_t * vm,
              * index for the BIER table as the tx adjacency
              */
             bt_index0 = vnet_buffer(b0)->ip.adj_index[VLIB_TX];
-            bt0 = bier_table_get(bt_index0);
+            bt0       = bier_table_get(bt_index0);
 
-            if (PREDICT_TRUE(bier_hdr_validate(bh0, bt0->bt_id.bti_hdr_len)))
-            {
+            if (PREDICT_TRUE(bier_hdr_validate(bh0, bt0->bt_id.bti_hdr_len))) {
                 next0 = BIER_INPUT_NEXT_BIER_LOOKUP;
             } else {
-                next0 = BIER_INPUT_NEXT_DROP;
+                next0     = BIER_INPUT_NEXT_DROP;
                 b0->error = node->errors[BIER_INPUT_ERROR_INVALID_HEADER];
             }
 
-            if (PREDICT_FALSE(b0->flags & VLIB_BUFFER_IS_TRACED))
-            {
+            if (PREDICT_FALSE(b0->flags & VLIB_BUFFER_IS_TRACED)) {
                 bier_input_trace_t *tr;
 
-                tr = vlib_add_trace (vm, node, b0, sizeof (*tr));
+                tr             = vlib_add_trace(vm, node, b0, sizeof(*tr));
                 tr->next_index = next0;
-                tr->bt_index = bt_index0;
+                tr->bt_index   = bt_index0;
             }
 
-            vlib_validate_buffer_enqueue_x1 (vm, node, next_index,
-                                             to_next, n_left_to_next,
-                                             bi0, next0);
+            vlib_validate_buffer_enqueue_x1(vm, node, next_index, to_next, n_left_to_next, bi0, next0);
         }
 
-        vlib_put_next_frame (vm, node, next_index, n_left_to_next);
+        vlib_put_next_frame(vm, node, next_index, n_left_to_next);
     }
 
-    vlib_node_increment_counter (vm, bier_input_node.index,
-                                 BIER_INPUT_ERROR_PKTS_VALID,
-                                 from_frame->n_vectors);
+    vlib_node_increment_counter(vm, bier_input_node.index, BIER_INPUT_ERROR_PKTS_VALID, from_frame->n_vectors);
     return (from_frame->n_vectors);
 }
 
 static u8 *
-format_bier_input_trace (u8 * s, va_list * args)
+format_bier_input_trace(u8 *s, va_list *args)
 {
-    CLIB_UNUSED (vlib_main_t * vm) = va_arg (*args, vlib_main_t *);
-    CLIB_UNUSED (vlib_node_t * node) = va_arg (*args, vlib_node_t *);
-    bier_input_trace_t * t = va_arg (*args, bier_input_trace_t *);
+    CLIB_UNUSED(vlib_main_t * vm)   = va_arg(*args, vlib_main_t *);
+    CLIB_UNUSED(vlib_node_t * node) = va_arg(*args, vlib_node_t *);
+    bier_input_trace_t *t           = va_arg(*args, bier_input_trace_t *);
 
-    s = format (s, " next [%d], BIER Table index %d",
-                t->next_index, t->bt_index);
+    s = format(s, " next [%d], BIER Table index %d", t->next_index, t->bt_index);
     return s;
 }
 
-VLIB_REGISTER_NODE (bier_input_node) = {
+VLIB_REGISTER_NODE(bier_input_node) = {
     .function = bier_input,
-    .name = "bier-input",
+    .name     = "bier-input",
     /* Takes a vector of packets. */
-    .vector_size = sizeof (u32),
+    .vector_size = sizeof(u32),
 
-    .n_errors = BIER_INPUT_N_ERROR,
+    .n_errors      = BIER_INPUT_N_ERROR,
     .error_strings = bier_error_strings,
 
     .n_next_nodes = BIER_INPUT_N_NEXT,
-    .next_nodes = {
-        [BIER_INPUT_NEXT_BIER_LOOKUP] = "bier-lookup",
-        [BIER_INPUT_NEXT_DROP] = "bier-drop",
-    },
+    .next_nodes =
+        {
+            [BIER_INPUT_NEXT_BIER_LOOKUP] = "bier-lookup",
+            [BIER_INPUT_NEXT_DROP]        = "bier-drop",
+        },
 
     .format_trace = format_bier_input_trace,
 };

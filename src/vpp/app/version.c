@@ -29,76 +29,69 @@
 
 /** The image version string */
 char *vpe_version_string =
-  "vpp v" VPP_BUILD_VER
-  " built by " VPP_BUILD_USER " on " VPP_BUILD_HOST " at " VPP_BUILD_DATE;
+    "vpp v" VPP_BUILD_VER " built by " VPP_BUILD_USER " on " VPP_BUILD_HOST " at " VPP_BUILD_DATE;
 
 /** The name of the compiler */
 static char *vpe_compiler =
 #if defined(__INTEL_COMPILER)
 #define __(x) #x
 #define _(x) __(x)
-  "icc " _(__INTEL_COMPILER) " (" __VERSION__ ")";
+    "icc " _(__INTEL_COMPILER) " (" __VERSION__ ")";
 #undef _
 #undef __
 #elif defined(__clang__)
-  "Clang/LLVM " __clang_version__;
-#elif defined (__GNUC__)
-  "GCC " __VERSION__;
+    "Clang/LLVM " __clang_version__;
+#elif defined(__GNUC__)
+    "GCC " __VERSION__;
 #else
-  "unknown compiler";
+    "unknown compiler";
 #endif
 
 /** \brief Display image version info, a debug CLI command function
  */
 static clib_error_t *
-show_vpe_version_command_fn (vlib_main_t * vm,
-			     unformat_input_t * input,
-			     vlib_cli_command_t * cmd)
+show_vpe_version_command_fn(vlib_main_t *vm, unformat_input_t *input, vlib_cli_command_t *cmd)
 {
-  int i;
-  int verbose = 0;
-  int cmdline = 0;
-  int indent = 2;
-  char **argv = (char **) vm->argv;
+    int i;
+    int verbose = 0;
+    int cmdline = 0;
+    int indent  = 2;
+    char **argv = (char **) vm->argv;
 
-  while (unformat_check_input (input) != UNFORMAT_END_OF_INPUT)
-    {
-      if (unformat (input, "verbose %=", &verbose, 1))
-	;
-      else if (unformat (input, "cmdline %=", &cmdline, 1))
-	;
-      else
-	break;
+    while (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
+        if (unformat(input, "verbose %=", &verbose, 1))
+            ;
+        else if (unformat(input, "cmdline %=", &cmdline, 1))
+            ;
+        else
+            break;
     }
 
-  if (verbose)
-    {
-#define _(a,b,c) vlib_cli_output (vm, "%-25s " b, a ":", c);
-      _("Version", "%s", "v" VPP_BUILD_VER);
-      _("Compiled by", "%s", VPP_BUILD_USER);
-      _("Compile host", "%s", VPP_BUILD_HOST);
-      _("Compile date", "%s", VPP_BUILD_DATE);
-      _("Compile location", "%s", VPP_BUILD_TOPDIR);
-      _("Compiler", "%s", vpe_compiler);
-      _("Current PID", "%d", getpid ());
+    if (verbose) {
+#define _(a, b, c) vlib_cli_output(vm, "%-25s " b, a ":", c);
+        _("Version", "%s", "v" VPP_BUILD_VER);
+        _("Compiled by", "%s", VPP_BUILD_USER);
+        _("Compile host", "%s", VPP_BUILD_HOST);
+        _("Compile date", "%s", VPP_BUILD_DATE);
+        _("Compile location", "%s", VPP_BUILD_TOPDIR);
+        _("Compiler", "%s", vpe_compiler);
+        _("Current PID", "%d", getpid());
 #undef _
     }
-  if (cmdline)
-    {
-      vlib_cli_output (vm, "%-25s", "Command line arguments:");
+    if (cmdline) {
+        vlib_cli_output(vm, "%-25s", "Command line arguments:");
 
-      for (i = 0; argv[i]; i++)
-	{
-	  if (strstr (argv[i], "{"))
-	    indent += 2;
-	  vlib_cli_output (vm, "%U%s", format_white_space, indent, argv[i]);
-	  if (strstr (argv[i], "}"))
-	    indent -= 2;
-	}
+        for (i = 0; argv[i]; i++) {
+            if (strstr(argv[i], "{"))
+                indent += 2;
+            vlib_cli_output(vm, "%U%s", format_white_space, indent, argv[i]);
+            if (strstr(argv[i], "}"))
+                indent -= 2;
+        }
     }
-  if ((verbose + cmdline) == 0)
-    vlib_cli_output (vm, "%s", vpe_version_string);
-  return 0;
+    if ((verbose + cmdline) == 0)
+        vlib_cli_output(vm, "%s", vpe_version_string);
+    return 0;
 }
 
 /*?
@@ -134,32 +127,32 @@ show_vpe_version_command_fn (vlib_main_t * vm,
 ?*/
 
 /* *INDENT-OFF* */
-VLIB_CLI_COMMAND (show_vpe_version_command, static) = {
-  .path = "show version",
-  .short_help = "show version [verbose] [cmdline]",
-  .function = show_vpe_version_command_fn,
+VLIB_CLI_COMMAND(show_vpe_version_command, static) = {
+    .path       = "show version",
+    .short_help = "show version [verbose] [cmdline]",
+    .function   = show_vpe_version_command_fn,
 };
 /* *INDENT-ON* */
 
 /** Return the image build directory name */
 char *
-vpe_api_get_build_directory (void)
+vpe_api_get_build_directory(void)
 {
-  return VPP_BUILD_TOPDIR;
+    return VPP_BUILD_TOPDIR;
 }
 
 /** Return the image version string */
 char *
-vpe_api_get_version (void)
+vpe_api_get_version(void)
 {
-  return VPP_BUILD_VER;
+    return VPP_BUILD_VER;
 }
 
 /** return the build date */
 char *
-vpe_api_get_build_date (void)
+vpe_api_get_build_date(void)
 {
-  return VPP_BUILD_DATE;
+    return VPP_BUILD_DATE;
 }
 
 /*

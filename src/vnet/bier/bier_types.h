@@ -42,10 +42,10 @@ typedef enum bier_table_type_t_ {
     BIER_TABLE_MPLS_TE,
 } __attribute__((packed)) bier_table_type_t;
 
-#define BIER_TABLE_TYPES {              \
-    [BIER_TABLE_MPLS_SPF] = "mpls-spf", \
-    [BIER_TABLE_MPLS_TE]  = "mpls-te",  \
-}
+#define BIER_TABLE_TYPES                                                                                               \
+    {                                                                                                                  \
+        [BIER_TABLE_MPLS_SPF] = "mpls-spf", [BIER_TABLE_MPLS_TE] = "mpls-te",                                          \
+    }
 
 /**
  * bier_hdr_len_id_t enumerator
@@ -66,21 +66,14 @@ typedef enum bier_hdr_len_id_t_ {
     BIER_HDR_LEN_INVALID,
 } __attribute__((packed)) bier_hdr_len_id_t;
 
-#define BIER_HDR_LEN_IDS {             \
-    [BIER_HDR_LEN_INVALID] = "invalid",\
-    [BIER_HDR_LEN_64]      = "64",     \
-    [BIER_HDR_LEN_128]     = "128",    \
-    [BIER_HDR_LEN_256]     = "256",    \
-    [BIER_HDR_LEN_512]     = "512",    \
-    [BIER_HDR_LEN_1024]    = "1024",   \
-    [BIER_HDR_LEN_2048]    = "2048",   \
-    [BIER_HDR_LEN_4096]    = "4096",   \
-}
+#define BIER_HDR_LEN_IDS                                                                                               \
+    {                                                                                                                  \
+        [BIER_HDR_LEN_INVALID] = "invalid", [BIER_HDR_LEN_64] = "64", [BIER_HDR_LEN_128] = "128",                      \
+        [BIER_HDR_LEN_256] = "256", [BIER_HDR_LEN_512] = "512", [BIER_HDR_LEN_1024] = "1024",                          \
+        [BIER_HDR_LEN_2048] = "2048", [BIER_HDR_LEN_4096] = "4096",                                                    \
+    }
 
-#define FOR_EACH_BIER_HDR_LEN(_len)    \
-    for (_item = BIER_HDR_LEN_64;      \
-         _item <= BIER_HDR_LEN_4096;   \
-         _item++)
+#define FOR_EACH_BIER_HDR_LEN(_len) for (_item = BIER_HDR_LEN_64; _item <= BIER_HDR_LEN_4096; _item++)
 
 /**
  * Format the header length field
@@ -91,7 +84,8 @@ extern u8 *format_bier_hdr_len_id(u8 *s, va_list *ap);
  * convert from prefix len to hdr ID
  */
 static inline bier_hdr_len_id_t
-bier_prefix_len_to_hdr_id (u16 prfx_len) {
+bier_prefix_len_to_hdr_id(u16 prfx_len)
+{
 
     switch (prfx_len) {
     case 7:
@@ -116,7 +110,7 @@ bier_prefix_len_to_hdr_id (u16 prfx_len) {
 }
 
 static inline bier_hdr_len_id_t
-bier_hdr_byte_len_to_id (u32 bytes)
+bier_hdr_byte_len_to_id(u32 bytes)
 {
     switch (bytes) {
     case 8:
@@ -139,7 +133,7 @@ bier_hdr_byte_len_to_id (u32 bytes)
 }
 
 static inline bier_hdr_len_id_t
-bier_hdr_bit_len_to_id (u32 bytes)
+bier_hdr_bit_len_to_id(u32 bytes)
 {
     switch (bytes) {
     case 64:
@@ -165,10 +159,10 @@ bier_hdr_bit_len_to_id (u32 bytes)
  * bier_hdr_len_num_buckets_t enumerator
  **/
 typedef enum bier_hdr_len_num_buckets_t_ {
-    BIER_HDR_BUCKETS_64 = 8,
-    BIER_HDR_BUCKETS_128 = 16,
-    BIER_HDR_BUCKETS_256 = 32,
-    BIER_HDR_BUCKETS_512 = 64,
+    BIER_HDR_BUCKETS_64   = 8,
+    BIER_HDR_BUCKETS_128  = 16,
+    BIER_HDR_BUCKETS_256  = 32,
+    BIER_HDR_BUCKETS_512  = 64,
     BIER_HDR_BUCKETS_1024 = 128,
     BIER_HDR_BUCKETS_2048 = 256,
     BIER_HDR_BUCKETS_4096 = 512,
@@ -191,22 +185,16 @@ typedef enum bier_hdr_proto_id_t_ {
 
 #define BIER_HDR_N_PROTO (BIER_HDR_PROTO_OAM + 1)
 
-#define BIER_HDR_PROTO_ID_NAMES {                               \
-    [BIER_HDR_PROTO_INVALID] = "invalid",			\
-    [BIER_HDR_PROTO_MPLS_DOWN_STREAM] = "mpls-down-stream",     \
-    [BIER_HDR_PROTO_MPLS_UP_STREAM] = "mpls-up-stream",         \
-    [BIER_HDR_PROTO_ETHERNET] = "ethernet",                     \
-    [BIER_HDR_PROTO_IPV4] = "ipv4",                             \
-    [BIER_HDR_PROTO_IPV6] = "ipv6",                             \
-    [BIER_HDR_PROTO_VXLAN] = "vxlan",                           \
-    [BIER_HDR_PROTO_CTRL] = "control-plane",                    \
-    [BIER_HDR_PROTO_OAM] = "oam",                               \
-}
+#define BIER_HDR_PROTO_ID_NAMES                                                                                        \
+    {                                                                                                                  \
+        [BIER_HDR_PROTO_INVALID] = "invalid", [BIER_HDR_PROTO_MPLS_DOWN_STREAM] = "mpls-down-stream",                  \
+        [BIER_HDR_PROTO_MPLS_UP_STREAM] = "mpls-up-stream", [BIER_HDR_PROTO_ETHERNET] = "ethernet",                    \
+        [BIER_HDR_PROTO_IPV4] = "ipv4", [BIER_HDR_PROTO_IPV6] = "ipv6", [BIER_HDR_PROTO_VXLAN] = "vxlan",              \
+        [BIER_HDR_PROTO_CTRL] = "control-plane", [BIER_HDR_PROTO_OAM] = "oam",                                         \
+    }
 
-#define FOR_EACH_BIER_HDR_PROTO(_proto)                 \
-    for (_proto = BIER_HDR_PROTO_MPLS_DOWN_STREAM;      \
-         _proto <= BIER_HDR_PROTO_OAM;                  \
-         _proto++)
+#define FOR_EACH_BIER_HDR_PROTO(_proto)                                                                                \
+    for (_proto = BIER_HDR_PROTO_MPLS_DOWN_STREAM; _proto <= BIER_HDR_PROTO_OAM; _proto++)
 
 /**
  * Format the header length field
@@ -229,8 +217,8 @@ typedef enum bier_hdr_version_t_ {
  * bier_hdr_code_t enumerator
  **/
 typedef enum bier_hdr_code_t_ {
-    BIER_HDR_CODE_OAM_IPV4 = 0,
-    BIER_HDR_CODE_OAM_IPV6 = 1,
+    BIER_HDR_CODE_OAM_IPV4  = 0,
+    BIER_HDR_CODE_OAM_IPV6  = 1,
     BIER_HDR_CODE_CTRL_IPV4 = 2,
     BIER_HDR_CODE_CTRL_IPV6 = 3,
 } __attribute__((packed)) bier_hdr_code_t;
@@ -239,7 +227,7 @@ typedef enum bier_hdr_code_t_ {
  * bier_hdr_oam_sub_code_t enumerator
  */
 typedef enum bier_hdr_oam_sub_code_t_ {
-    BIER_HDR_SUB_CODE_OAM_PING_REQ = 0,
+    BIER_HDR_SUB_CODE_OAM_PING_REQ  = 0,
     BIER_HDR_SUB_CODE_OAM_PING_RESP = 1,
 } __attribute__((packed)) bier_hdr_oam_sub_code_t;
 
@@ -247,7 +235,7 @@ typedef enum bier_hdr_oam_sub_code_t_ {
  * bier_hdr_ctrl_sub_code_t enumerator
  */
 typedef enum bier_hdr_ctrl_sub_code_t_ {
-    BIER_HDR_SUB_CODE_CTRL_MEMBER_REQ = 0,
+    BIER_HDR_SUB_CODE_CTRL_MEMBER_REQ   = 0,
     BIER_HDR_SUB_CODE_CTRL_ATTACHED_NET = 1,
 } __attribute__((packed)) bier_hdr_ctrl_sub_code_t;
 
@@ -418,7 +406,7 @@ typedef struct bier_table_id_t_ {
      */
     bier_hdr_len_id_t bti_hdr_len;
 
-   /**
+    /**
      * The type of the table; SPF or TE, MPLS or IPv6
      */
     bier_table_type_t bti_type;
@@ -432,8 +420,7 @@ extern u8 *format_bier_table_id(u8 *s, va_list *ap);
 /**
  * Compare to BIER table IDs for equality
  */
-extern int bier_table_id_cmp(const bier_table_id_t *btid1,
-                             const bier_table_id_t *btid2);
+extern int bier_table_id_cmp(const bier_table_id_t *btid1, const bier_table_id_t *btid2);
 
 /**
  * Conversion functions for the enumerated bit-string length
@@ -470,14 +457,10 @@ extern bier_hdr_proto_id_t bier_bift_id_get_bit_string_length(bier_bift_id_t bif
 /**
  * Encode a BIFT-ID as per draft-wijnandsxu-bier-non-mpls-bift-encoding-00.txt
  */
-extern bier_bift_id_t bier_bift_id_encode(bier_table_set_id_t set,
-                                          bier_table_sub_domain_id_t sd,
-                                          bier_hdr_len_id_t bsl);
-extern void bier_bift_id_decode(bier_bift_id_t id,
-                                bier_table_set_id_t *set,
-                                bier_table_sub_domain_id_t *sd,
+extern bier_bift_id_t bier_bift_id_encode(bier_table_set_id_t set, bier_table_sub_domain_id_t sd, bier_hdr_len_id_t bsl);
+extern void bier_bift_id_decode(bier_bift_id_t id, bier_table_set_id_t *set, bier_table_sub_domain_id_t *sd,
                                 bier_hdr_len_id_t *bsl);
 
-extern u8* format_bier_bift_id(u8 *s, va_list *ap);
+extern u8 *format_bier_bift_id(u8 *s, va_list *ap);
 
 #endif /* __BIER_TYPES_H__ */

@@ -19,27 +19,26 @@
 #include <vnet/vnet.h>
 #include <vnet/ip/ip.h>
 
-typedef struct
-{
-  /* LI collector info */
-  ip4_address_t *src_addrs;
-  ip4_address_t *collectors;
-  u16 *ports;
+typedef struct {
+    /* LI collector info */
+    ip4_address_t *src_addrs;
+    ip4_address_t *collectors;
+    u16 *ports;
 
-  /* Hit node index */
-  u32 hit_node_index;
+    /* Hit node index */
+    u32 hit_node_index;
 
-  /* convenience */
-  vlib_main_t *vlib_main;
-  vnet_main_t *vnet_main;
+    /* convenience */
+    vlib_main_t *vlib_main;
+    vnet_main_t *vnet_main;
 } li_main_t;
 
 extern li_main_t li_main;
 
 /* *INDENT-OFF* */
 typedef CLIB_PACKED(struct {
-  ip4_header_t ip4;
-  udp_header_t udp;
+    ip4_header_t ip4;
+    udp_header_t udp;
 }) ip4_udp_header_t;
 /* *INDENT-ON* */
 

@@ -17,18 +17,18 @@
 
 /* Format SCTP header. */
 u8 *
-format_sctp_header (u8 * s, va_list * args)
+format_sctp_header(u8 *s, va_list *args)
 {
-  return NULL;
+    return NULL;
 }
 
 u8 *
-format_sctp_tx_trace (u8 * s, va_list * args)
+format_sctp_tx_trace(u8 *s, va_list *args)
 {
-  CLIB_UNUSED (vlib_main_t * vm) = va_arg (*args, vlib_main_t *);
-  CLIB_UNUSED (vlib_node_t * node) = va_arg (*args, vlib_node_t *);
+    CLIB_UNUSED(vlib_main_t * vm)   = va_arg(*args, vlib_main_t *);
+    CLIB_UNUSED(vlib_node_t * node) = va_arg(*args, vlib_node_t *);
 
-  return NULL;
+    return NULL;
 }
 
 /*

@@ -110,50 +110,49 @@
  */
 
 #ifndef IPPROTO_IPV6_ROUTE
-#define IPPROTO_IPV6_ROUTE        43
+#define IPPROTO_IPV6_ROUTE 43
 #endif
 
-#define ROUTING_HEADER_TYPE_SR    4
+#define ROUTING_HEADER_TYPE_SR 4
 
-typedef struct
-{
-  /* Protocol for next header. */
-  u8 protocol;
-  /*
-   * Length of routing header in 8 octet units,
-   * not including the first 8 octets
-   */
-  u8 length;
+typedef struct {
+    /* Protocol for next header. */
+    u8 protocol;
+    /*
+     * Length of routing header in 8 octet units,
+     * not including the first 8 octets
+     */
+    u8 length;
 
-  /* Type of routing header; type 4 = segement routing */
-  u8 type;
+    /* Type of routing header; type 4 = segement routing */
+    u8 type;
 
-  /* Next segment in the segment list */
-  u8 segments_left;
+    /* Next segment in the segment list */
+    u8 segments_left;
 
-  /* Pointer to the first segment in the header */
-  u8 first_segment;
+    /* Pointer to the first segment in the header */
+    u8 first_segment;
 
-  /* Flag bits */
-#define IP6_SR_HEADER_FLAG_PROTECTED  (0x40)
-#define IP6_SR_HEADER_FLAG_OAM        (0x20)
-#define IP6_SR_HEADER_FLAG_ALERT      (0x10)
-#define IP6_SR_HEADER_FLAG_HMAC       (0x80)
+    /* Flag bits */
+#define IP6_SR_HEADER_FLAG_PROTECTED (0x40)
+#define IP6_SR_HEADER_FLAG_OAM (0x20)
+#define IP6_SR_HEADER_FLAG_ALERT (0x10)
+#define IP6_SR_HEADER_FLAG_HMAC (0x80)
 
-  /* values 0x0, 0x4 - 0x7 are reserved */
-  u8 flags;
-  u16 reserved;
+    /* values 0x0, 0x4 - 0x7 are reserved */
+    u8 flags;
+    u16 reserved;
 
-  /* The segment elts */
-  ip6_address_t segments[0];
-} __attribute__ ((packed)) ip6_sr_header_t;
+    /* The segment elts */
+    ip6_address_t segments[0];
+} __attribute__((packed)) ip6_sr_header_t;
 
 /*
-* fd.io coding-style-patch-verification: ON
-*
-* Local Variables:
-* eval: (c-set-style "gnu")
-* End:
-*/
+ * fd.io coding-style-patch-verification: ON
+ *
+ * Local Variables:
+ * eval: (c-set-style "gnu")
+ * End:
+ */
 
 #endif /* included_vnet_sr_packet_h */

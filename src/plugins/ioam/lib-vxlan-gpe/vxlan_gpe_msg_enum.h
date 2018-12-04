@@ -17,7 +17,7 @@
 
 #include <vppinfra/byte_order.h>
 
-#define vl_msg_id(n,h) n,
+#define vl_msg_id(n, h) n,
 typedef enum {
 #include <ioam/lib-vxlan-gpe/vxlan_gpe_all_api_h.h>
     /* We'll want to know how many messages IDs we need... */

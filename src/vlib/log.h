@@ -20,29 +20,27 @@
 
 typedef u32 vlib_log_class_t;
 
-#define foreach_vlib_log_level \
-  _(0, EMERG, emerg) \
-  _(1, ALERT, alert) \
-  _(2, CRIT, crit) \
-  _(3, ERR, err) \
-  _(4, WARNING, warn) \
-  _(5, NOTICE, notice) \
-  _(6, INFO, info) \
-  _(7, DEBUG, debug) \
-  _(8, DISABLED, disabled)
+#define foreach_vlib_log_level                                                                                         \
+    _(0, EMERG, emerg)                                                                                                 \
+    _(1, ALERT, alert)                                                                                                 \
+    _(2, CRIT, crit)                                                                                                   \
+    _(3, ERR, err)                                                                                                     \
+    _(4, WARNING, warn)                                                                                                \
+    _(5, NOTICE, notice)                                                                                               \
+    _(6, INFO, info)                                                                                                   \
+    _(7, DEBUG, debug)                                                                                                 \
+    _(8, DISABLED, disabled)
 
-typedef enum
-{
-#define _(n,uc,lc) VLIB_LOG_LEVEL_##uc = n,
-  foreach_vlib_log_level
+typedef enum {
+#define _(n, uc, lc) VLIB_LOG_LEVEL_##uc = n,
+    foreach_vlib_log_level
 #undef _
 } vlib_log_level_t;
 
 
-vlib_log_class_t vlib_log_register_class (char *vlass, char *subclass);
-u32 vlib_log_get_indent ();
-void vlib_log (vlib_log_level_t level, vlib_log_class_t class, char *fmt,
-	       ...);
+vlib_log_class_t vlib_log_register_class(char *vlass, char *subclass);
+u32 vlib_log_get_indent();
+void vlib_log(vlib_log_level_t level, vlib_log_class_t class, char *fmt, ...);
 
 #define vlib_log_emerg(...) vlib_log(VLIB_LOG_LEVEL_EMERG, __VA_ARGS__)
 #define vlib_log_alert(...) vlib_log(VLIB_LOG_LEVEL_ALERT, __VA_ARGS__)

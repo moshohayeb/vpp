@@ -18,38 +18,32 @@
 #ifndef included_ip_neighbor_h
 #define included_ip_neighbor_h
 
-#define IP_SCAN_DISABLED	0
-#define IP_SCAN_V4_NEIGHBORS	(1 << 0)
-#define IP_SCAN_V6_NEIGHBORS	(1 << 1)
-#define IP_SCAN_V46_NEIGHBORS	(IP_SCAN_V4_NEIGHBORS | IP_SCAN_V6_NEIGHBORS)
+#define IP_SCAN_DISABLED 0
+#define IP_SCAN_V4_NEIGHBORS (1 << 0)
+#define IP_SCAN_V6_NEIGHBORS (1 << 1)
+#define IP_SCAN_V46_NEIGHBORS (IP_SCAN_V4_NEIGHBORS | IP_SCAN_V6_NEIGHBORS)
 
-typedef struct
-{
-  u8 mode;			/* 0: disable, 1: ip4, 2: ip6, 3: both */
-  u8 scan_interval;		/* neighbor scan interval in minutes */
-  u8 max_proc_time;		/* max processing time per run, in usecs */
-  u8 max_update;		/* max probe/delete operations per run */
-  u8 scan_int_delay;		/* delay in msecs, to resume scan on max */
-  u8 stale_threshold;		/* Threashold in minutes to delete nei entry */
+typedef struct {
+    u8 mode;            /* 0: disable, 1: ip4, 2: ip6, 3: both */
+    u8 scan_interval;   /* neighbor scan interval in minutes */
+    u8 max_proc_time;   /* max processing time per run, in usecs */
+    u8 max_update;      /* max probe/delete operations per run */
+    u8 scan_int_delay;  /* delay in msecs, to resume scan on max */
+    u8 stale_threshold; /* Threashold in minutes to delete nei entry */
 } ip_neighbor_scan_arg_t;
 
-void ip_neighbor_scan_enable_disable (ip_neighbor_scan_arg_t * arg);
+void ip_neighbor_scan_enable_disable(ip_neighbor_scan_arg_t *arg);
 
-typedef enum ip_neighbor_flags_t_
-{
-  IP_NEIGHBOR_FLAG_NODE = 0,
-  IP_NEIGHBOR_FLAG_STATIC = (1 << 0),
-  IP_NEIGHBOR_FLAG_NO_ADJ_FIB = (1 << 1),
+typedef enum ip_neighbor_flags_t_ {
+    IP_NEIGHBOR_FLAG_NODE       = 0,
+    IP_NEIGHBOR_FLAG_STATIC     = (1 << 0),
+    IP_NEIGHBOR_FLAG_NO_ADJ_FIB = (1 << 1),
 } ip_neighbor_flags_t;
 
-extern int ip_neighbor_add (const ip46_address_t * ip,
-			    u8 is_ip6,
-			    const u8 * mac,
-			    u32 sw_if_index,
-			    ip_neighbor_flags_t flags, u32 * stats_index);
+extern int ip_neighbor_add(const ip46_address_t *ip, u8 is_ip6, const u8 *mac, u32 sw_if_index,
+                           ip_neighbor_flags_t flags, u32 *stats_index);
 
-extern int ip_neighbor_del (const ip46_address_t * ip,
-			    u8 is_ip6, u32 sw_if_index);
+extern int ip_neighbor_del(const ip46_address_t *ip, u8 is_ip6, u32 sw_if_index);
 
 #endif /* included_ip_neighbor_h */
 

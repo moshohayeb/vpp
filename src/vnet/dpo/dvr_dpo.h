@@ -27,8 +27,7 @@
  * so it can pick up the necessary VLAN tags of the egress interface.
  * This re-injection is done with an output feature.
  */
-typedef struct dvr_dpo_t_
-{
+typedef struct dvr_dpo_t_ {
     /**
      * The Software interface index that the packets will output on
      */
@@ -45,9 +44,7 @@ typedef struct dvr_dpo_t_
     u16 dd_locks;
 } dvr_dpo_t;
 
-extern void dvr_dpo_add_or_lock (u32 sw_if_index,
-                                 dpo_proto_t dproto,
-                                 dpo_id_t *dpo);
+extern void dvr_dpo_add_or_lock(u32 sw_if_index, dpo_proto_t dproto, dpo_id_t *dpo);
 
 extern void dvr_dpo_module_init(void);
 
@@ -57,7 +54,7 @@ extern void dvr_dpo_module_init(void);
 dvr_dpo_t *dvr_dpo_pool;
 
 static inline dvr_dpo_t *
-dvr_dpo_get (index_t index)
+dvr_dpo_get(index_t index)
 {
     return (pool_elt_at_index(dvr_dpo_pool, index));
 }

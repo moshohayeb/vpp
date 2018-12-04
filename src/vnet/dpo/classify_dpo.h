@@ -23,8 +23,7 @@
 /**
  * A representation of an MPLS label for imposition in the data-path
  */
-typedef struct classify_dpo_t
-{
+typedef struct classify_dpo_t {
     /**
      * required for pool_get_aligned.
      */
@@ -40,10 +39,9 @@ typedef struct classify_dpo_t
     u16 cd_locks;
 } classify_dpo_t;
 
-extern index_t classify_dpo_create(dpo_proto_t proto,
-                                   u32 classify_table_index);
+extern index_t classify_dpo_create(dpo_proto_t proto, u32 classify_table_index);
 
-extern u8* format_classify_dpo(u8 *s, va_list *args);
+extern u8 *format_classify_dpo(u8 *s, va_list *args);
 
 /*
  * Encapsulation violation for fast data-path access
@@ -51,7 +49,7 @@ extern u8* format_classify_dpo(u8 *s, va_list *args);
 extern classify_dpo_t *classify_dpo_pool;
 
 static inline classify_dpo_t *
-classify_dpo_get (index_t index)
+classify_dpo_get(index_t index)
 {
     return (pool_elt_at_index(classify_dpo_pool, index));
 }

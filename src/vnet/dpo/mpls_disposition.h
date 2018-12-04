@@ -24,8 +24,7 @@
 /**
  * A representation of an MPLS label for imposition in the data-path
  */
-typedef struct mpls_disp_dpo_t
-{
+typedef struct mpls_disp_dpo_t {
     /**
      * required for pool_get_aligned.
      *  memebers used in the switch path come first!
@@ -64,7 +63,7 @@ typedef struct mpls_disp_dpo_t
  * can be pushed in one object.
  */
 _Static_assert((sizeof(mpls_disp_dpo_t) <= CLIB_CACHE_LINE_BYTES),
-	       "MPLS Disposition DPO is larger than one cache line.");
+               "MPLS Disposition DPO is larger than one cache line.");
 
 /**
  * @brief Create an MPLS label object
@@ -75,13 +74,10 @@ _Static_assert((sizeof(mpls_disp_dpo_t) <= CLIB_CACHE_LINE_BYTES),
  * @param mode The LSP mode; pipe or uniform
  * @param dpo The parent of the created MPLS label object
  */
-extern void mpls_disp_dpo_create(dpo_proto_t payload_proto,
-                                 fib_rpf_id_t rpf_id,
-                                 fib_mpls_lsp_mode_t mode,
-                                 const dpo_id_t *parent,
-                                 dpo_id_t *dpo);
+extern void mpls_disp_dpo_create(dpo_proto_t payload_proto, fib_rpf_id_t rpf_id, fib_mpls_lsp_mode_t mode,
+                                 const dpo_id_t *parent, dpo_id_t *dpo);
 
-extern u8* format_mpls_disp_dpo(u8 *s, va_list *args);
+extern u8 *format_mpls_disp_dpo(u8 *s, va_list *args);
 
 
 /*
@@ -90,7 +86,7 @@ extern u8* format_mpls_disp_dpo(u8 *s, va_list *args);
 extern mpls_disp_dpo_t *mpls_disp_dpo_pool;
 
 static inline mpls_disp_dpo_t *
-mpls_disp_dpo_get (index_t index)
+mpls_disp_dpo_get(index_t index)
 {
     return (pool_elt_at_index(mpls_disp_dpo_pool, index));
 }

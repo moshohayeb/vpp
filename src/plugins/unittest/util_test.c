@@ -16,32 +16,29 @@
 #include <vlib/vlib.h>
 
 static clib_error_t *
-test_crash_command_fn (vlib_main_t * vm,
-		       unformat_input_t * input, vlib_cli_command_t * cmd)
+test_crash_command_fn(vlib_main_t *vm, unformat_input_t *input, vlib_cli_command_t *cmd)
 {
-  u64 *p = (u64 *) 0xdefec8ed;
+    u64 *p = (u64 *) 0xdefec8ed;
 
-  /* *INDENT-OFF* */
-  ELOG_TYPE_DECLARE (e) =
-    {
-      .format = "deliberate crash: touching %x",
-      .format_args = "i4",
+    /* *INDENT-OFF* */
+    ELOG_TYPE_DECLARE(e) = {
+        .format      = "deliberate crash: touching %x",
+        .format_args = "i4",
     };
-  /* *INDENT-ON* */
-  elog (&vm->elog_main, &e, 0xdefec8ed);
+    /* *INDENT-ON* */
+    elog(&vm->elog_main, &e, 0xdefec8ed);
 
-  *p = 0xdeadbeef;
+    *p = 0xdeadbeef;
 
-  /* Not so much... */
-  return 0;
+    /* Not so much... */
+    return 0;
 }
 
 /* *INDENT-OFF* */
-VLIB_CLI_COMMAND (test_crash_command, static) =
-{
-  .path = "test crash",
-  .short_help = "crash the bus!",
-  .function = test_crash_command_fn,
+VLIB_CLI_COMMAND(test_crash_command, static) = {
+    .path       = "test crash",
+    .short_help = "crash the bus!",
+    .function   = test_crash_command_fn,
 };
 /* *INDENT-ON* */
 

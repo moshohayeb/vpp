@@ -26,8 +26,7 @@
  * use case for non-MPLS networks
  */
 #define BIER_BIFT_N_ENTRIES (1 << 20)
-typedef struct bier_bfit_table_t_
-{
+typedef struct bier_bfit_table_t_ {
     /**
      * Forwarding information for each BIFT ID
      */
@@ -40,8 +39,7 @@ typedef struct bier_bfit_table_t_
 } bier_bfit_table_t;
 
 
-extern void bier_bift_table_entry_add(bier_bift_id_t id,
-                                      const dpo_id_t *dpo);
+extern void bier_bift_table_entry_add(bier_bift_id_t id, const dpo_id_t *dpo);
 
 extern void bier_bift_table_entry_remove(bier_bift_id_t id);
 
@@ -50,8 +48,8 @@ extern void bier_bift_table_entry_remove(bier_bift_id_t id);
  */
 extern bier_bfit_table_t *bier_bift_table;
 
-static inline const dpo_id_t*
-bier_bift_dp_lookup (bier_bift_id_t key_host_order)
+static inline const dpo_id_t *
+bier_bift_dp_lookup(bier_bift_id_t key_host_order)
 {
     return (&bier_bift_table->bblt_dpos[vnet_mpls_uc_get_label(key_host_order)]);
 }

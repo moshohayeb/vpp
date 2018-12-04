@@ -38,64 +38,59 @@
  *
  */
 
-typedef struct trace_profile_
-{
-  u8 valid:1;
-  u8 trace_type;
-  u8 num_elts;
-  /* Configured node-id */
-  u32 node_id;
-  u32 app_data;
-  u32 trace_tsp;
+typedef struct trace_profile_ {
+    u8 valid : 1;
+    u8 trace_type;
+    u8 num_elts;
+    /* Configured node-id */
+    u32 node_id;
+    u32 app_data;
+    u32 trace_tsp;
 } trace_profile;
 
-typedef struct
-{
-  /* Name of the default profile list in use */
-  trace_profile profile;
+typedef struct {
+    /* Name of the default profile list in use */
+    trace_profile profile;
 
-  /* API message ID base */
-  u16 msg_id_base;
+    /* API message ID base */
+    u16 msg_id_base;
 
-  /* convenience */
-  vlib_main_t *vlib_main;
-  vnet_main_t *vnet_main;
+    /* convenience */
+    vlib_main_t *vlib_main;
+    vnet_main_t *vnet_main;
 } trace_main_t;
 
 
 /*
  * Initialize Trace profile
  */
-int trace_util_init (void);
+int trace_util_init(void);
 
 
 /* setup and clean up profile */
-int trace_profile_create (trace_profile * profile, u8 trace_type, u8 num_elts,
-			  u32 trace_tsp, u32 node_id, u32 app_data);
+int trace_profile_create(trace_profile *profile, u8 trace_type, u8 num_elts, u32 trace_tsp, u32 node_id, u32 app_data);
 
-void clear_trace_profiles (void);
+void clear_trace_profiles(void);
 
 /* *INDENT-OFF* */
-typedef CLIB_PACKED (struct
-{
-  u8 ioam_trace_type;
-  u8 data_list_elts_left;
-  u32 elts[0]; /* Variable type. So keep it generic */
+typedef CLIB_PACKED(struct {
+    u8 ioam_trace_type;
+    u8 data_list_elts_left;
+    u32 elts[0]; /* Variable type. So keep it generic */
 }) ioam_trace_hdr_t;
 /* *INDENT-ON* */
 
 
+#define BIT_TTL_NODEID (1 << 0)
+#define BIT_ING_INTERFACE (1 << 1)
+#define BIT_EGR_INTERFACE (1 << 2)
+#define BIT_TIMESTAMP (1 << 3)
+#define BIT_APPDATA (1 << 4)
+#define BIT_LOOPBACK (1 << 5)
+#define BIT_LOOPBACK_REPLY (1 << 6)
+#define TRACE_TYPE_MASK 0x7F /* Mask of all above bits */
 
-#define    BIT_TTL_NODEID       (1<<0)
-#define    BIT_ING_INTERFACE    (1<<1)
-#define    BIT_EGR_INTERFACE    (1<<2)
-#define    BIT_TIMESTAMP        (1<<3)
-#define    BIT_APPDATA          (1<<4)
-#define    BIT_LOOPBACK         (1<<5)
-#define    BIT_LOOPBACK_REPLY   (1<<6)
-#define    TRACE_TYPE_MASK      0x7F	/* Mask of all above bits */
-
-#define    TRACE_TYPE_IF_TS_APP_LOOP    0x3F
+#define TRACE_TYPE_IF_TS_APP_LOOP 0x3F
 
 /*
      0x00011111  iOAM-trace-type is 0x00011111 then the format of node
@@ -113,14 +108,13 @@ typedef CLIB_PACKED (struct
          +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 */
-#define   TRACE_TYPE_IF_TS_APP   0x1f
-typedef struct
-{
-  u32 ttl_node_id;
-  u16 ingress_if;
-  u16 egress_if;
-  u32 timestamp;
-  u32 app_data;
+#define TRACE_TYPE_IF_TS_APP 0x1f
+typedef struct {
+    u32 ttl_node_id;
+    u16 ingress_if;
+    u16 egress_if;
+    u32 timestamp;
+    u32 app_data;
 } ioam_trace_if_ts_app_t;
 
 /*
@@ -135,12 +129,11 @@ typedef struct
 
 */
 
-#define   TRACE_TYPE_IF   0x03
-typedef struct
-{
-  u32 ttl_node_id;
-  u16 ingress_if;
-  u16 egress_if;
+#define TRACE_TYPE_IF 0x03
+typedef struct {
+    u32 ttl_node_id;
+    u16 ingress_if;
+    u16 egress_if;
 } ioam_trace_if_t;
 
 /*
@@ -155,11 +148,10 @@ typedef struct
 
 */
 
-#define   TRACE_TYPE_TS   0x09
-typedef struct
-{
-  u32 ttl_node_id;
-  u32 timestamp;
+#define TRACE_TYPE_TS 0x09
+typedef struct {
+    u32 ttl_node_id;
+    u32 timestamp;
 } ioam_trace_ts_t;
 
 /*
@@ -176,11 +168,10 @@ typedef struct
 */
 
 
-#define   TRACE_TYPE_APP   0x11
-typedef struct
-{
-  u32 ttl_node_id;
-  u32 app_data;
+#define TRACE_TYPE_APP 0x11
+typedef struct {
+    u32 ttl_node_id;
+    u32 app_data;
 } ioam_trace_app_t;
 
 /*
@@ -197,53 +188,52 @@ typedef struct
          +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
 
-#define   TRACE_TYPE_TS_APP   0x19
-typedef struct
-{
-  u32 ttl_node_id;
-  u32 timestamp;
-  u32 app_data;
+#define TRACE_TYPE_TS_APP 0x19
+typedef struct {
+    u32 ttl_node_id;
+    u32 timestamp;
+    u32 app_data;
 } ioam_trace_ts_app_t;
 
 static inline u8
-fetch_trace_data_size (u16 trace_type)
+fetch_trace_data_size(u16 trace_type)
 {
-  u8 trace_data_size = 0;
+    u8 trace_data_size = 0;
 
-  if ((trace_type & TRACE_TYPE_IF_TS_APP) == TRACE_TYPE_IF_TS_APP)
-    trace_data_size = sizeof (ioam_trace_if_ts_app_t);
-  else if ((trace_type & TRACE_TYPE_IF) == TRACE_TYPE_IF)
-    trace_data_size = sizeof (ioam_trace_if_t);
-  else if ((trace_type & TRACE_TYPE_TS) == TRACE_TYPE_TS)
-    trace_data_size = sizeof (ioam_trace_ts_t);
-  else if ((trace_type & TRACE_TYPE_APP) == TRACE_TYPE_APP)
-    trace_data_size = sizeof (ioam_trace_app_t);
-  else if ((trace_type & TRACE_TYPE_TS_APP) == TRACE_TYPE_TS_APP)
-    trace_data_size = sizeof (ioam_trace_ts_app_t);
+    if ((trace_type & TRACE_TYPE_IF_TS_APP) == TRACE_TYPE_IF_TS_APP)
+        trace_data_size = sizeof(ioam_trace_if_ts_app_t);
+    else if ((trace_type & TRACE_TYPE_IF) == TRACE_TYPE_IF)
+        trace_data_size = sizeof(ioam_trace_if_t);
+    else if ((trace_type & TRACE_TYPE_TS) == TRACE_TYPE_TS)
+        trace_data_size = sizeof(ioam_trace_ts_t);
+    else if ((trace_type & TRACE_TYPE_APP) == TRACE_TYPE_APP)
+        trace_data_size = sizeof(ioam_trace_app_t);
+    else if ((trace_type & TRACE_TYPE_TS_APP) == TRACE_TYPE_TS_APP)
+        trace_data_size = sizeof(ioam_trace_ts_app_t);
 
-  return trace_data_size;
+    return trace_data_size;
 }
 
 always_inline void
-ioam_trace_set_bit (ioam_trace_hdr_t * trace_hdr, u8 trace_bit)
+ioam_trace_set_bit(ioam_trace_hdr_t *trace_hdr, u8 trace_bit)
 {
-  trace_hdr->ioam_trace_type |= trace_bit;
+    trace_hdr->ioam_trace_type |= trace_bit;
 }
 
 always_inline void
-ioam_trace_reset_bit (ioam_trace_hdr_t * trace_hdr, u8 trace_bit)
+ioam_trace_reset_bit(ioam_trace_hdr_t *trace_hdr, u8 trace_bit)
 {
-  trace_hdr->ioam_trace_type &= (~trace_bit);
+    trace_hdr->ioam_trace_type &= (~trace_bit);
 }
 
-int ioam_trace_get_sizeof_handler (u32 * result);
-int ip6_trace_profile_setup (void);
-int ip6_trace_profile_cleanup (void);
+int ioam_trace_get_sizeof_handler(u32 *result);
+int ip6_trace_profile_setup(void);
+int ip6_trace_profile_cleanup(void);
 
-#define TSP_SECONDS              0
-#define TSP_MILLISECONDS         1
-#define TSP_MICROSECONDS         2
-#define TSP_NANOSECONDS          3
+#define TSP_SECONDS 0
+#define TSP_MILLISECONDS 1
+#define TSP_MICROSECONDS 2
+#define TSP_NANOSECONDS 3
 
 #endif
 

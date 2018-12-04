@@ -18,4 +18,3 @@
 #ifdef vl_printfun
 #include <acl/manual_fns.h>
 #endif
-

@@ -20,32 +20,29 @@
 #include <vnet/ip/ip.h>
 
 
-
-#define VXLAN_GPE_OPTION_TYPE_IOAM_TRACE   59
+#define VXLAN_GPE_OPTION_TYPE_IOAM_TRACE 59
 #define VXLAN_GPE_OPTION_TYPE_IOAM_PROOF_OF_TRANSIT 60
 
 /**
  * @brief VXLAN GPE Extension (iOAM) Header definition
  */
-typedef struct
-{
-  u8 type;
-  u8 length;
-  /** Reserved */
-  u8 reserved;
-  /** see vxlan_gpe_protocol_t */
-  u8 protocol;
+typedef struct {
+    u8 type;
+    u8 length;
+    /** Reserved */
+    u8 reserved;
+    /** see vxlan_gpe_protocol_t */
+    u8 protocol;
 } vxlan_gpe_ioam_hdr_t;
 
 /*
  * @brief VxLAN GPE iOAM Option definition
  */
-typedef struct
-{
-  /* Option Type */
-  u8 type;
-  /* Length in octets of the option data field */
-  u8 length;
+typedef struct {
+    /* Option Type */
+    u8 type;
+    /* Length in octets of the option data field */
+    u8 length;
 } vxlan_gpe_ioam_option_t;
 
 

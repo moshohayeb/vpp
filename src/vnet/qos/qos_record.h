@@ -18,8 +18,8 @@
 
 #include <vnet/qos/qos_types.h>
 
-extern int qos_record_disable (u32 sw_if_index, qos_source_t input_source);
-extern int qos_record_enable (u32 sw_if_index, qos_source_t input_source);
+extern int qos_record_disable(u32 sw_if_index, qos_source_t input_source);
+extern int qos_record_enable(u32 sw_if_index, qos_source_t input_source);
 
 #endif
 

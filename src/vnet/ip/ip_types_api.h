@@ -31,25 +31,19 @@ struct _vl_api_address;
 struct _vl_api_prefix;
 struct _vl_api_mprefix;
 
-extern ip46_type_t ip_address_decode (const struct _vl_api_address *in,
-				      ip46_address_t * out);
-extern void ip_address_encode (const ip46_address_t * in,
-			       ip46_type_t type, struct _vl_api_address *out);
+extern ip46_type_t ip_address_decode(const struct _vl_api_address *in, ip46_address_t *out);
+extern void ip_address_encode(const ip46_address_t *in, ip46_type_t type, struct _vl_api_address *out);
 
-extern void ip_prefix_decode (const struct _vl_api_prefix *in,
-			      fib_prefix_t * out);
-extern void ip_prefix_encode (const fib_prefix_t * in,
-			      struct _vl_api_prefix *out);
+extern void ip_prefix_decode(const struct _vl_api_prefix *in, fib_prefix_t *out);
+extern void ip_prefix_encode(const fib_prefix_t *in, struct _vl_api_prefix *out);
 
-extern void ip_mprefix_decode (const struct _vl_api_mprefix *in,
-			       mfib_prefix_t * out);
-extern void ip_mprefix_encode (const mfib_prefix_t * in,
-			       struct _vl_api_mprefix *out);
+extern void ip_mprefix_decode(const struct _vl_api_mprefix *in, mfib_prefix_t *out);
+extern void ip_mprefix_encode(const mfib_prefix_t *in, struct _vl_api_mprefix *out);
 
-extern u8 *format_vl_api_address (u8 * s, va_list * args);
-extern u8 *format_vl_api_address_union (u8 * s, va_list * args);
-extern u8 *format_vl_api_prefix (u8 * s, va_list * args);
-extern u8 *format_vl_api_mprefix (u8 * s, va_list * args);
+extern u8 *format_vl_api_address(u8 *s, va_list *args);
+extern u8 *format_vl_api_address_union(u8 *s, va_list *args);
+extern u8 *format_vl_api_prefix(u8 *s, va_list *args);
+extern u8 *format_vl_api_mprefix(u8 *s, va_list *args);
 
 #endif
 

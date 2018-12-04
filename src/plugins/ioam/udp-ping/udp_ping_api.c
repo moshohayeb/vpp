@@ -41,13 +41,13 @@
 #undef vl_endianfun
 
 /* instantiate all the print functions we know about */
-#define vl_print(handle, ...) vlib_cli_output (handle, __VA_ARGS__)
+#define vl_print(handle, ...) vlib_cli_output(handle, __VA_ARGS__)
 #define vl_printfun
 #include <ioam/udp-ping/udp_ping_all_api_h.h>
 #undef vl_printfun
 
 /* Get the API version number */
-#define vl_api_version(n,v) static u32 api_version=(v);
+#define vl_api_version(n, v) static u32 api_version = (v);
 #include <ioam/udp-ping/udp_ping_all_api_h.h>
 #undef vl_api_version
 
@@ -55,71 +55,59 @@
 #include <vlibapi/api_helper_macros.h>
 
 /* List of message types that this module understands */
-#define foreach_udp_ping_api_msg                                      \
-    _(UDP_PING_ADD_DEL, udp_ping_add_del)                                     \
-    _(UDP_PING_EXPORT, udp_ping_export)                                     \
+#define foreach_udp_ping_api_msg                                                                                       \
+    _(UDP_PING_ADD_DEL, udp_ping_add_del)                                                                              \
+    _(UDP_PING_EXPORT, udp_ping_export)
 
 static void
-vl_api_udp_ping_add_del_t_handler (vl_api_udp_ping_add_del_t * mp)
+vl_api_udp_ping_add_del_t_handler(vl_api_udp_ping_add_del_t *mp)
 {
-  ip46_address_t dst, src;
-  int rv = 0;
-  udp_ping_main_t *sm = &udp_ping_main;
-  vl_api_udp_ping_add_del_reply_t *rmp;
+    ip46_address_t dst, src;
+    int rv              = 0;
+    udp_ping_main_t *sm = &udp_ping_main;
+    vl_api_udp_ping_add_del_reply_t *rmp;
 
-  if (mp->is_ipv4)
-    {
-      rv = -1;			//Not supported
-      goto ERROROUT;
+    if (mp->is_ipv4) {
+        rv = -1;   // Not supported
+        goto ERROROUT;
     }
 
-  clib_memcpy ((void *) &src.ip6, (void *) mp->src_ip_address,
-	       sizeof (ip6_address_t));
-  clib_memcpy ((void *) &dst.ip6, (void *) mp->dst_ip_address,
-	       sizeof (ip6_address_t));
+    clib_memcpy((void *) &src.ip6, (void *) mp->src_ip_address, sizeof(ip6_address_t));
+    clib_memcpy((void *) &dst.ip6, (void *) mp->dst_ip_address, sizeof(ip6_address_t));
 
-  ip46_udp_ping_set_flow (src, dst,
-			  ntohs (mp->start_src_port),
-			  ntohs (mp->end_src_port),
-			  ntohs (mp->start_dst_port),
-			  ntohs (mp->end_dst_port),
-			  ntohs (mp->interval), mp->fault_det, mp->dis);
-  rv = 0;			//FIXME
+    ip46_udp_ping_set_flow(src, dst, ntohs(mp->start_src_port), ntohs(mp->end_src_port), ntohs(mp->start_dst_port),
+                           ntohs(mp->end_dst_port), ntohs(mp->interval), mp->fault_det, mp->dis);
+    rv = 0;   // FIXME
 
 ERROROUT:
-  REPLY_MACRO (VL_API_UDP_PING_ADD_DEL_REPLY);
+    REPLY_MACRO(VL_API_UDP_PING_ADD_DEL_REPLY);
 }
 
 static void
-vl_api_udp_ping_export_t_handler (vl_api_udp_ping_export_t * mp)
+vl_api_udp_ping_export_t_handler(vl_api_udp_ping_export_t *mp)
 {
-  udp_ping_main_t *sm = &udp_ping_main;
-  int rv = 0;
-  vl_api_udp_ping_export_reply_t *rmp;
+    udp_ping_main_t *sm = &udp_ping_main;
+    int rv              = 0;
+    vl_api_udp_ping_export_reply_t *rmp;
 
-  (void) udp_ping_flow_create (!mp->enable);
-  rv = 0;			//FIXME
+    (void) udp_ping_flow_create(!mp->enable);
+    rv = 0;   // FIXME
 
-  REPLY_MACRO (VL_API_UDP_PING_EXPORT_REPLY);
+    REPLY_MACRO(VL_API_UDP_PING_EXPORT_REPLY);
 }
 
 /* Set up the API message handling tables */
 static clib_error_t *
-udp_ping_api_hookup (vlib_main_t * vm)
+udp_ping_api_hookup(vlib_main_t *vm)
 {
-  udp_ping_main_t *sm = &udp_ping_main;
-#define _(N,n)                                                  \
-    vl_msg_api_set_handlers((VL_API_##N + sm->msg_id_base),     \
-                            #n,					\
-                            vl_api_##n##_t_handler,              \
-                            vl_noop_handler,                     \
-                            vl_api_##n##_t_endian,               \
-                            vl_api_##n##_t_print,                \
-                            sizeof(vl_api_##n##_t), 1);
-  foreach_udp_ping_api_msg;
+    udp_ping_main_t *sm = &udp_ping_main;
+#define _(N, n)                                                                                                        \
+    vl_msg_api_set_handlers((VL_API_##N + sm->msg_id_base), #n, vl_api_##n##_t_handler, vl_noop_handler,               \
+                            vl_api_##n##_t_endian, vl_api_##n##_t_print, sizeof(vl_api_##n##_t), 1);
+    foreach_udp_ping_api_msg;
 #undef _
 
-  return 0;
+    return 0;
 }
 
 #define vl_msg_name_crc_list
@@ -127,38 +115,36 @@ udp_ping_api_hookup (vlib_main_t * vm)
 #undef vl_msg_name_crc_list
 
 static void
-setup_message_id_table (udp_ping_main_t * sm, api_main_t * am)
+setup_message_id_table(udp_ping_main_t *sm, api_main_t *am)
 {
-#define _(id,n,crc) \
-  vl_msg_api_add_msg_name_crc (am, #n "_" #crc, id + sm->msg_id_base);
-  foreach_vl_msg_name_crc_udp_ping;
+#define _(id, n, crc) vl_msg_api_add_msg_name_crc(am, #n "_" #crc, id + sm->msg_id_base);
+    foreach_vl_msg_name_crc_udp_ping;
 #undef _
 }
 
 static clib_error_t *
-udp_ping_api_init (vlib_main_t * vm)
+udp_ping_api_init(vlib_main_t *vm)
 {
-  udp_ping_main_t *sm = &udp_ping_main;
-  clib_error_t *error = 0;
-  u8 *name;
+    udp_ping_main_t *sm = &udp_ping_main;
+    clib_error_t *error = 0;
+    u8 *name;
 
-  name = format (0, "udp_ping_%08x%c", api_version, 0);
+    name = format(0, "udp_ping_%08x%c", api_version, 0);
 
-  /* Ask for a correctly-sized block of API message decode slots */
-  sm->msg_id_base = vl_msg_api_get_msg_ids
-    ((char *) name, VL_MSG_FIRST_AVAILABLE);
+    /* Ask for a correctly-sized block of API message decode slots */
+    sm->msg_id_base = vl_msg_api_get_msg_ids((char *) name, VL_MSG_FIRST_AVAILABLE);
 
-  error = udp_ping_api_hookup (vm);
+    error = udp_ping_api_hookup(vm);
 
-  /* Add our API messages to the global name_crc hash table */
-  setup_message_id_table (sm, &api_main);
+    /* Add our API messages to the global name_crc hash table */
+    setup_message_id_table(sm, &api_main);
 
-  vec_free (name);
+    vec_free(name);
 
-  return error;
+    return error;
 }
 
-VLIB_INIT_FUNCTION (udp_ping_api_init);
+VLIB_INIT_FUNCTION(udp_ping_api_init);
 
 /*
  * fd.io coding-style-patch-verification: ON

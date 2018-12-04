@@ -48,11 +48,10 @@ unformat_function_t unformat_ip_protocol;
 format_function_t format_tcp_udp_port;
 unformat_function_t unformat_tcp_udp_port;
 
-typedef enum format_ip_adjacency_flags_t_
-{
-  FORMAT_IP_ADJACENCY_NONE,
-  FORMAT_IP_ADJACENCY_BRIEF = FORMAT_IP_ADJACENCY_NONE,
-  FORMAT_IP_ADJACENCY_DETAIL = (1 << 0),
+typedef enum format_ip_adjacency_flags_t_ {
+    FORMAT_IP_ADJACENCY_NONE,
+    FORMAT_IP_ADJACENCY_BRIEF  = FORMAT_IP_ADJACENCY_NONE,
+    FORMAT_IP_ADJACENCY_DETAIL = (1 << 0),
 } format_ip_adjacency_flags_t;
 
 format_function_t format_ip_adjacency;
@@ -100,8 +99,7 @@ unformat_function_t unformat_pg_ip6_header;
 /* Format a TCP/UDP headers. */
 format_function_t format_tcp_header, format_udp_header, format_sctp_header;
 
-unformat_function_t unformat_pg_tcp_header, unformat_pg_udp_header,
-  unformat_pg_sctp_header;
+unformat_function_t unformat_pg_tcp_header, unformat_pg_udp_header, unformat_pg_sctp_header;
 
 #endif /* included_ip_format_h */
 

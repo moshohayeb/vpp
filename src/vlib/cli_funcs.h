@@ -41,10 +41,10 @@
 #define included_vlib_cli_funcs_h
 
 always_inline void *
-vlib_cli_get_parse_rule_result (vlib_main_t * vm, uword index)
+vlib_cli_get_parse_rule_result(vlib_main_t *vm, uword index)
 {
-  vlib_cli_main_t *cm = &vm->cli_main;
-  return vec_elt (cm->parse_rule_data, index);
+    vlib_cli_main_t *cm = &vm->cli_main;
+    return vec_elt(cm->parse_rule_data, index);
 }
 
 #endif /* included_vlib_cli_funcs_h */

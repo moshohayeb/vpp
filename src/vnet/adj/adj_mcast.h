@@ -43,9 +43,7 @@
  * @param sw_if_index
  *  The interface on which to mcast
  */
-extern adj_index_t adj_mcast_add_or_lock(fib_protocol_t proto,
-                                         vnet_link_t link_type,
-					 u32 sw_if_index);
+extern adj_index_t adj_mcast_add_or_lock(fib_protocol_t proto, vnet_link_t link_type, u32 sw_if_index);
 
 /**
  * @brief
@@ -61,9 +59,7 @@ extern adj_index_t adj_mcast_add_or_lock(fib_protocol_t proto,
  *  The offset in the rewrite a which to write in packet's
  *  IP Address
  */
-extern void adj_mcast_update_rewrite(adj_index_t adj_index,
-                                     u8 *rewrite,
-                                     u8 offset);
+extern void adj_mcast_update_rewrite(adj_index_t adj_index, u8 *rewrite, u8 offset);
 
 /**
  * @brief
@@ -86,26 +82,18 @@ extern void adj_mcast_update_rewrite(adj_index_t adj_index,
  * @param
  *  The new rewrite
  */
-extern void adj_mcast_midchain_update_rewrite(adj_index_t adj_index,
-                                              adj_midchain_fixup_t fixup,
-                                              const void *fixup_data,
-                                              adj_flags_t flags,
-                                              u8 *rewrite,
-                                              u8 offset,
-                                              u32 mask);
+extern void adj_mcast_midchain_update_rewrite(adj_index_t adj_index, adj_midchain_fixup_t fixup, const void *fixup_data,
+                                              adj_flags_t flags, u8 *rewrite, u8 offset, u32 mask);
 /**
  * @brief Walk the multicast Adjacencies on a given interface
  */
-extern void adj_mcast_walk (u32 sw_if_index,
-                            fib_protocol_t adj_nh_proto,
-                            adj_walk_cb_t cb,
-                            void *ctx);
+extern void adj_mcast_walk(u32 sw_if_index, fib_protocol_t adj_nh_proto, adj_walk_cb_t cb, void *ctx);
 
 /**
  * @brief Format/display a mcast adjacency.
  */
-extern u8* format_adj_mcast(u8* s, va_list *ap);
-extern u8* format_adj_mcast_midchain(u8* s, va_list *ap);
+extern u8 *format_adj_mcast(u8 *s, va_list *ap);
+extern u8 *format_adj_mcast_midchain(u8 *s, va_list *ap);
 
 /**
  * @brief Get the sze of the mcast adj DB. Test purposes only.

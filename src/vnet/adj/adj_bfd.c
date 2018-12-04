@@ -23,24 +23,22 @@
  * Distillation of the BFD session states into a go/no-go for using
  * the associated tracked adjacency
  */
-typedef enum adj_bfd_state_t_
-{
+typedef enum adj_bfd_state_t_ {
     ADJ_BFD_STATE_DOWN,
     ADJ_BFD_STATE_UP,
 } adj_bfd_state_t;
 
-#define ADJ_BFD_STATES {                        \
-    [ADJ_BFD_STATE_DOWN] = "down",              \
-    [ADJ_BFD_STATE_UP]   = "up",                \
-}
+#define ADJ_BFD_STATES                                                                                                 \
+    {                                                                                                                  \
+        [ADJ_BFD_STATE_DOWN] = "down", [ADJ_BFD_STATE_UP] = "up",                                                      \
+    }
 
 static const char *adj_bfd_state_names[] = ADJ_BFD_STATES;
 
 /**
  * BFD delegate daa
  */
-typedef struct adj_bfd_delegate_t_
-{
+typedef struct adj_bfd_delegate_t_ {
     /**
      * BFD session state
      */
@@ -54,34 +52,31 @@ typedef struct adj_bfd_delegate_t_
 
 /**
  * Pool of delegates
-*/
+ */
 static adj_bfd_delegate_t *abd_pool;
 
-static inline adj_bfd_delegate_t*
-adj_bfd_from_base (adj_delegate_t *ad)
+static inline adj_bfd_delegate_t *
+adj_bfd_from_base(adj_delegate_t *ad)
 {
-    if (NULL != ad)
-    {
+    if (NULL != ad) {
         return (pool_elt_at_index(abd_pool, ad->ad_index));
     }
     return (NULL);
 }
 
-static inline const adj_bfd_delegate_t*
-adj_bfd_from_const_base (const adj_delegate_t *ad)
+static inline const adj_bfd_delegate_t *
+adj_bfd_from_const_base(const adj_delegate_t *ad)
 {
-    if (NULL != ad)
-    {
+    if (NULL != ad) {
         return (pool_elt_at_index(abd_pool, ad->ad_index));
     }
     return (NULL);
 }
 
 static adj_bfd_state_t
-adj_bfd_bfd_state_to_fib (bfd_state_e bstate)
+adj_bfd_bfd_state_to_fib(bfd_state_e bstate)
 {
-    switch (bstate)
-    {
+    switch (bstate) {
     case BFD_STATE_up:
         return (ADJ_BFD_STATE_UP);
     case BFD_STATE_down:
@@ -93,7 +88,7 @@ adj_bfd_bfd_state_to_fib (bfd_state_e bstate)
 }
 
 static void
-adj_bfd_update_walk (adj_index_t ai)
+adj_bfd_update_walk(adj_index_t ai)
 {
     /*
      * initiate a backwalk of dependent children
@@ -111,8 +106,7 @@ adj_bfd_update_walk (adj_index_t ai)
  * would be static but for the fact it's called from the unit-tests
  */
 void
-adj_bfd_notify (bfd_listen_event_e event,
-                const bfd_session_t *session)
+adj_bfd_notify(bfd_listen_event_e event, const bfd_session_t *session)
 {
     const bfd_udp_key_t *key;
     adj_bfd_delegate_t *abd;
@@ -120,8 +114,7 @@ adj_bfd_notify (bfd_listen_event_e event,
     adj_delegate_t *aed;
     adj_index_t ai;
 
-    if (BFD_HOP_TYPE_SINGLE != session->hop_type)
-    {
+    if (BFD_HOP_TYPE_SINGLE != session->hop_type) {
         /*
          * multi-hop BFD sessions attach directly to the FIB entry
          * single-hop adj to the associate adjacency.
@@ -131,34 +124,23 @@ adj_bfd_notify (bfd_listen_event_e event,
 
     key = &session->udp.key;
 
-    fproto = (ip46_address_is_ip4 (&key->peer_addr) ?
-              FIB_PROTOCOL_IP4:
-              FIB_PROTOCOL_IP6);
+    fproto = (ip46_address_is_ip4(&key->peer_addr) ? FIB_PROTOCOL_IP4 : FIB_PROTOCOL_IP6);
 
     /*
      * find the adj that corresponds to the BFD session.
      */
-    ai = adj_nbr_add_or_lock(fproto,
-                             fib_proto_to_link(fproto),
-                             &key->peer_addr,
-                             key->sw_if_index);
+    ai = adj_nbr_add_or_lock(fproto, fib_proto_to_link(fproto), &key->peer_addr, key->sw_if_index);
 
-    switch (event)
-    {
+    switch (event) {
     case BFD_LISTEN_EVENT_CREATE:
         /*
          * The creation of a new session
          */
-        if ((ADJ_INDEX_INVALID != ai) &&
-            (aed = adj_delegate_get(adj_get(ai),
-                                    ADJ_DELEGATE_BFD)))
-        {
+        if ((ADJ_INDEX_INVALID != ai) && (aed = adj_delegate_get(adj_get(ai), ADJ_DELEGATE_BFD))) {
             /*
              * already got state for this adj
              */
-        }
-        else
-        {
+        } else {
             /*
              * lock the adj. add the delegate.
              * Lockinging the adj prevents it being removed and thus maintains
@@ -192,8 +174,7 @@ adj_bfd_notify (bfd_listen_event_e event,
          */
         abd = adj_bfd_from_base(adj_delegate_get(adj_get(ai), ADJ_DELEGATE_BFD));
 
-        if (NULL != abd)
-        {
+        if (NULL != abd) {
             abd->abd_state = adj_bfd_bfd_state_to_fib(session->local_state);
             adj_bfd_update_walk(ai);
         }
@@ -209,8 +190,7 @@ adj_bfd_notify (bfd_listen_event_e event,
          */
         abd = adj_bfd_from_base(adj_delegate_get(adj_get(ai), ADJ_DELEGATE_BFD));
 
-        if (NULL != abd)
-        {
+        if (NULL != abd) {
             /*
              * has an associated BFD tracking delegate
              * remove the BFD tracking deletgate, update children, then
@@ -236,21 +216,18 @@ adj_bfd_notify (bfd_listen_event_e event,
 }
 
 int
-adj_bfd_is_up (adj_index_t ai)
+adj_bfd_is_up(adj_index_t ai)
 {
     const adj_bfd_delegate_t *abd;
 
     abd = adj_bfd_from_base(adj_delegate_get(adj_get(ai), ADJ_DELEGATE_BFD));
 
-    if (NULL == abd)
-    {
+    if (NULL == abd) {
         /*
          * no BFD tracking - resolved
          */
         return (!0);
-    }
-    else
-    {
+    } else {
         /*
          * defer to the state of the BFD tracking
          */
@@ -262,34 +239,32 @@ adj_bfd_is_up (adj_index_t ai)
  * Print a delegate that represents BFD tracking
  */
 static u8 *
-adj_delegate_fmt_bfd (const adj_delegate_t *aed, u8 *s)
+adj_delegate_fmt_bfd(const adj_delegate_t *aed, u8 *s)
 {
     const adj_bfd_delegate_t *abd = adj_bfd_from_const_base(aed);
 
-    s = format(s, "BFD:[state:%s index:%d]",
-               adj_bfd_state_names[abd->abd_state],
-               abd->abd_index);
+    s = format(s, "BFD:[state:%s index:%d]", adj_bfd_state_names[abd->abd_state], abd->abd_index);
 
     return (s);
 }
 
 const static adj_delegate_vft_t adj_delegate_vft = {
-  .adv_format = adj_delegate_fmt_bfd,
+    .adv_format = adj_delegate_fmt_bfd,
 };
 
 static clib_error_t *
-adj_bfd_main_init (vlib_main_t * vm)
+adj_bfd_main_init(vlib_main_t *vm)
 {
-    clib_error_t * error = NULL;
+    clib_error_t *error = NULL;
 
-    if ((error = vlib_call_init_function (vm, bfd_main_init)))
+    if ((error = vlib_call_init_function(vm, bfd_main_init)))
         return (error);
 
     bfd_register_listener(adj_bfd_notify);
 
-    adj_delegate_register_type (ADJ_DELEGATE_BFD, &adj_delegate_vft);
+    adj_delegate_register_type(ADJ_DELEGATE_BFD, &adj_delegate_vft);
 
     return (error);
 }
 
-VLIB_INIT_FUNCTION (adj_bfd_main_init);
+VLIB_INIT_FUNCTION(adj_bfd_main_init);

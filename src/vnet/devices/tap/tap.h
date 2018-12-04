@@ -19,64 +19,61 @@
 #define _VNET_DEVICES_VIRTIO_TAP_H_
 
 #ifndef MIN
-#define MIN(x,y) (((x)<(y))?(x):(y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #endif
 
-typedef struct
-{
-  u32 id;
-  u8 mac_addr_set;
-  u8 mac_addr[6];
-  u16 rx_ring_sz;
-  u16 tx_ring_sz;
-  u8 *host_namespace;
-  u8 *host_if_name;
-  u8 host_mac_addr[6];
-  u8 *host_bridge;
-  ip4_address_t host_ip4_addr;
-  u8 host_ip4_prefix_len;
-  ip4_address_t host_ip4_gw;
-  u8 host_ip4_gw_set;
-  ip6_address_t host_ip6_addr;
-  u8 host_ip6_prefix_len;
-  ip6_address_t host_ip6_gw;
-  u8 host_ip6_gw_set;
-  /* return */
-  u32 sw_if_index;
-  int rv;
-  clib_error_t *error;
+typedef struct {
+    u32 id;
+    u8 mac_addr_set;
+    u8 mac_addr[6];
+    u16 rx_ring_sz;
+    u16 tx_ring_sz;
+    u8 *host_namespace;
+    u8 *host_if_name;
+    u8 host_mac_addr[6];
+    u8 *host_bridge;
+    ip4_address_t host_ip4_addr;
+    u8 host_ip4_prefix_len;
+    ip4_address_t host_ip4_gw;
+    u8 host_ip4_gw_set;
+    ip6_address_t host_ip6_addr;
+    u8 host_ip6_prefix_len;
+    ip6_address_t host_ip6_gw;
+    u8 host_ip6_gw_set;
+    /* return */
+    u32 sw_if_index;
+    int rv;
+    clib_error_t *error;
 } tap_create_if_args_t;
 
 /** TAP interface details struct */
-typedef struct
-{
-  u32 id;
-  u32 sw_if_index;
-  u8 dev_name[64];
-  u16 tx_ring_sz;
-  u16 rx_ring_sz;
-  u8 host_mac_addr[6];
-  u8 host_if_name[64];
-  u8 host_namespace[64];
-  u8 host_bridge[64];
-  u8 host_ip4_addr[4];
-  u8 host_ip4_prefix_len;
-  u8 host_ip6_addr[16];
-  u8 host_ip6_prefix_len;
+typedef struct {
+    u32 id;
+    u32 sw_if_index;
+    u8 dev_name[64];
+    u16 tx_ring_sz;
+    u16 rx_ring_sz;
+    u8 host_mac_addr[6];
+    u8 host_if_name[64];
+    u8 host_namespace[64];
+    u8 host_bridge[64];
+    u8 host_ip4_addr[4];
+    u8 host_ip4_prefix_len;
+    u8 host_ip6_addr[16];
+    u8 host_ip6_prefix_len;
 } tap_interface_details_t;
 
-typedef struct
-{
-  /* logging */
-  vlib_log_class_t log_default;
+typedef struct {
+    /* logging */
+    vlib_log_class_t log_default;
 
-  /* bit-map of in-use IDs */
-  uword *tap_ids;
+    /* bit-map of in-use IDs */
+    uword *tap_ids;
 } tap_main_t;
 
-void tap_create_if (vlib_main_t * vm, tap_create_if_args_t * args);
-int tap_delete_if (vlib_main_t * vm, u32 sw_if_index);
-int tap_dump_ifs (tap_interface_details_t ** out_tapids);
+void tap_create_if(vlib_main_t *vm, tap_create_if_args_t *args);
+int tap_delete_if(vlib_main_t *vm, u32 sw_if_index);
+int tap_dump_ifs(tap_interface_details_t **out_tapids);
 
 #endif /* _VNET_DEVICES_VIRTIO_TAP_H_ */
 

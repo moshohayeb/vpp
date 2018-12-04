@@ -23,14 +23,10 @@
  * A representation of a MAP DPO
  */
 
-extern void map_dpo_create (dpo_proto_t dproto,
-			    u32 domain_index,
-			    dpo_id_t *dpo);
-extern void map_t_dpo_create (dpo_proto_t dproto,
-			      u32 domain_index,
-			      dpo_id_t *dpo);
+extern void map_dpo_create(dpo_proto_t dproto, u32 domain_index, dpo_id_t *dpo);
+extern void map_t_dpo_create(dpo_proto_t dproto, u32 domain_index, dpo_id_t *dpo);
 
-extern u8* format_map_dpo(u8 *s, va_list *args);
+extern u8 *format_map_dpo(u8 *s, va_list *args);
 
 /*
  * Encapsulation violation for fast data-path access

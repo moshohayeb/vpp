@@ -45,8 +45,7 @@
 /**
  * @brief flags
  */
-typedef enum fib_urpf_list_flag_t_
-{
+typedef enum fib_urpf_list_flag_t_ {
     /**
      * @brief Set to indicated that the uRPF list has already been baked.
      * This is protection against it being baked more than once. These
@@ -55,8 +54,7 @@ typedef enum fib_urpf_list_flag_t_
     FIB_URPF_LIST_BAKED = (1 << 0),
 } fib_urpf_list_flag_t;
 
-typedef struct fib_urpf_list_t_
-{
+typedef struct fib_urpf_list_t_ {
     /**
      * The list of interfaces that comprise the allowed accepting interfaces
      */
@@ -93,7 +91,7 @@ extern void fib_urpf_list_show_mem(void);
 extern fib_urpf_list_t *fib_urpf_list_pool;
 
 static inline fib_urpf_list_t *
-fib_urpf_list_get (index_t index)
+fib_urpf_list_get(index_t index)
 {
     return (pool_elt_at_index(fib_urpf_list_pool, index));
 }
@@ -108,7 +106,7 @@ fib_urpf_list_get (index_t index)
  * @return 1 if the interface is found, 0 otherwise
  */
 always_inline int
-fib_urpf_check (index_t ui, u32 sw_if_index)
+fib_urpf_check(index_t ui, u32 sw_if_index)
 {
     fib_urpf_list_t *urpf;
     u32 *swi;
@@ -117,8 +115,8 @@ fib_urpf_check (index_t ui, u32 sw_if_index)
 
     vec_foreach(swi, urpf->furpf_itfs)
     {
-	if (*swi == sw_if_index)
-	    return (1);
+        if (*swi == sw_if_index)
+            return (1);
     }
 
     return (0);
@@ -134,7 +132,7 @@ fib_urpf_check (index_t ui, u32 sw_if_index)
  * @return the number of interfaces in the list
  */
 always_inline int
-fib_urpf_check_size (index_t ui)
+fib_urpf_check_size(index_t ui)
 {
     fib_urpf_list_t *urpf;
 

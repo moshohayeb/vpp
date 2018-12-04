@@ -20,67 +20,60 @@
 #include <lacp/node.h>
 
 static void
-lacp_set_port_selected (vlib_main_t * vm, slave_if_t * sif)
+lacp_set_port_selected(vlib_main_t *vm, slave_if_t *sif)
 {
-  /* Handle loopback port */
-  if (!memcmp (sif->partner.system, sif->actor.system, 6) &&
-      (sif->partner.key == sif->actor.key))
-    {
-      sif->loopback_port = 1;
-      sif->actor.state &= ~LACP_STATE_AGGREGATION;
+    /* Handle loopback port */
+    if (!memcmp(sif->partner.system, sif->actor.system, 6) && (sif->partner.key == sif->actor.key)) {
+        sif->loopback_port = 1;
+        sif->actor.state &= ~LACP_STATE_AGGREGATION;
     }
-  sif->selected = LACP_PORT_SELECTED;
+    sif->selected = LACP_PORT_SELECTED;
 
-  switch (sif->mux_state)
-    {
+    switch (sif->mux_state) {
     case LACP_MUX_STATE_DETACHED:
-      break;
+        break;
     case LACP_MUX_STATE_WAITING:
-      if (!sif->ready)
-	return;
-      break;
+        if (!sif->ready)
+            return;
+        break;
     case LACP_MUX_STATE_ATTACHED:
-      if (!(sif->partner.state & LACP_STATE_SYNCHRONIZATION))
-	return;
-      break;
+        if (!(sif->partner.state & LACP_STATE_SYNCHRONIZATION))
+            return;
+        break;
     case LACP_MUX_STATE_COLLECTING_DISTRIBUTING:
-      break;
+        break;
     default:
-      break;
+        break;
     }
-  lacp_machine_dispatch (&lacp_mux_machine, vm, sif, LACP_MUX_EVENT_SELECTED,
-			 &sif->mux_state);
+    lacp_machine_dispatch(&lacp_mux_machine, vm, sif, LACP_MUX_EVENT_SELECTED, &sif->mux_state);
 }
 
 void
-lacp_selection_logic (vlib_main_t * vm, slave_if_t * sif)
+lacp_selection_logic(vlib_main_t *vm, slave_if_t *sif)
 {
-  slave_if_t *sif2;
-  bond_if_t *bif;
-  u32 *sw_if_index;
+    slave_if_t *sif2;
+    bond_if_t *bif;
+    u32 *sw_if_index;
 
-  bif = bond_get_master_by_dev_instance (sif->bif_dev_instance);
-  vec_foreach (sw_if_index, bif->slaves)
-  {
-    sif2 = bond_get_slave_by_sw_if_index (*sw_if_index);
-    if (sif2 && (sif2->actor.state & LACP_STATE_SYNCHRONIZATION) &&
-	(sif2->ready_n == 0))
-      goto out;
-  }
+    bif = bond_get_master_by_dev_instance(sif->bif_dev_instance);
+    vec_foreach(sw_if_index, bif->slaves)
+    {
+        sif2 = bond_get_slave_by_sw_if_index(*sw_if_index);
+        if (sif2 && (sif2->actor.state & LACP_STATE_SYNCHRONIZATION) && (sif2->ready_n == 0))
+            goto out;
+    }
 
-  vec_foreach (sw_if_index, bif->slaves)
-  {
-    sif2 = bond_get_slave_by_sw_if_index (*sw_if_index);
-    if (sif2)
-      {
-	sif2->ready = 1;
-	if (sif2->selected == LACP_PORT_SELECTED)
-	  lacp_machine_dispatch (&lacp_mux_machine, vm, sif2,
-				 LACP_MUX_EVENT_READY, &sif2->mux_state);
-      }
-  }
+    vec_foreach(sw_if_index, bif->slaves)
+    {
+        sif2 = bond_get_slave_by_sw_if_index(*sw_if_index);
+        if (sif2) {
+            sif2->ready = 1;
+            if (sif2->selected == LACP_PORT_SELECTED)
+                lacp_machine_dispatch(&lacp_mux_machine, vm, sif2, LACP_MUX_EVENT_READY, &sif2->mux_state);
+        }
+    }
 out:
-  lacp_set_port_selected (vm, sif);
+    lacp_set_port_selected(vm, sif);
 }
 
 /*

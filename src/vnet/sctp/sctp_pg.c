@@ -16,9 +16,9 @@
 #include <vnet/pg/pg.h>
 
 uword
-unformat_pg_sctp_header (unformat_input_t * input, va_list * args)
+unformat_pg_sctp_header(unformat_input_t *input, va_list *args)
 {
-  return 1;
+    return 1;
 }
 
 /*

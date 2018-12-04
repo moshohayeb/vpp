@@ -21,18 +21,14 @@
 /*
  * the flags that an RR sourced entry can inherit from its cover
  */
-#define FIB_ENTRY_FLAGS_RR_INHERITED (FIB_ENTRY_FLAG_CONNECTED | \
-                                      FIB_ENTRY_FLAG_ATTACHED)
+#define FIB_ENTRY_FLAGS_RR_INHERITED (FIB_ENTRY_FLAG_CONNECTED | FIB_ENTRY_FLAG_ATTACHED)
 
 /*
  * fib_entry_src_rr_resolve_via_connected
  *
  * Resolve via a connected cover.
  */
-void
-fib_entry_src_rr_resolve_via_connected (fib_entry_src_t *src,
-					const fib_entry_t *fib_entry,
-					const fib_entry_t *cover);
+void fib_entry_src_rr_resolve_via_connected(fib_entry_src_t *src, const fib_entry_t *fib_entry, const fib_entry_t *cover);
 
 /*
  * use the path-list of the cover, unless it would form a loop.
@@ -48,10 +44,7 @@ fib_entry_src_rr_resolve_via_connected (fib_entry_src_t *src,
  * the loop will break when the cover changes, and this function
  * will be called again when that happens.
  */
-void
-fib_entry_src_rr_use_covers_pl (fib_entry_src_t *src,
-                                const fib_entry_t *fib_entry,
-                                const fib_entry_t *cover);
+void fib_entry_src_rr_use_covers_pl(fib_entry_src_t *src, const fib_entry_t *fib_entry, const fib_entry_t *cover);
 
 
 /*
@@ -60,9 +53,7 @@ fib_entry_src_rr_use_covers_pl (fib_entry_src_t *src,
  * This entry's cover has changed. This entry
  * will need to re-inheret.
  */
-fib_entry_src_cover_res_t
-fib_entry_src_rr_cover_change (fib_entry_src_t *src,
-			       const fib_entry_t *fib_entry);
+fib_entry_src_cover_res_t fib_entry_src_rr_cover_change(fib_entry_src_t *src, const fib_entry_t *fib_entry);
 
 /*
  * fib_entry_src_rr_cover_update
@@ -70,8 +61,6 @@ fib_entry_src_rr_cover_change (fib_entry_src_t *src,
  * This entry's cover has updated its forwarding info. This entry
  * will need to re-inheret.
  */
-fib_entry_src_cover_res_t
-fib_entry_src_rr_cover_update (fib_entry_src_t *src,
-			       const fib_entry_t *fib_entry);
+fib_entry_src_cover_res_t fib_entry_src_rr_cover_update(fib_entry_src_t *src, const fib_entry_t *fib_entry);
 
 #endif

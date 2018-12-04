@@ -16,17 +16,17 @@
 #include <vnet/util/throttle.h>
 
 void
-throttle_init (throttle_t * t, u32 n_threads, f64 time)
+throttle_init(throttle_t *t, u32 n_threads, f64 time)
 {
-  u32 i;
+    u32 i;
 
-  t->time = time;
-  vec_validate (t->bitmaps, n_threads);
-  vec_validate (t->seeds, n_threads);
-  vec_validate (t->last_seed_change_time, n_threads);
+    t->time = time;
+    vec_validate(t->bitmaps, n_threads);
+    vec_validate(t->seeds, n_threads);
+    vec_validate(t->last_seed_change_time, n_threads);
 
-  for (i = 0; i < n_threads; i++)
-    vec_validate (t->bitmaps[i], (THROTTLE_BITS / BITS (uword)) - 1);
+    for (i = 0; i < n_threads; i++)
+        vec_validate(t->bitmaps[i], (THROTTLE_BITS / BITS(uword)) - 1);
 }
 
 /*

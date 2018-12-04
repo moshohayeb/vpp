@@ -29,33 +29,32 @@
 
 /* *INDENT-OFF* */
 typedef CLIB_PACKED(struct _l2_rw_entry {
-  u16 skip_n_vectors;
-  u16 rewrite_n_vectors;
-  u64 hit_count;
-  u32x4 *mask;
-  u32x4 *value;
+    u16 skip_n_vectors;
+    u16 rewrite_n_vectors;
+    u64 hit_count;
+    u32x4 *mask;
+    u32x4 *value;
 }) l2_rw_entry_t;
 /* *INDENT-ON* */
 
 /* l2_rw configuration for one interface */
 /* *INDENT-OFF* */
 typedef CLIB_PACKED(struct _l2_rw_config {
-  u32 table_index; /* Which classify table to use */
-  u32 miss_index;  /* Rewrite entry to use if table does not match */
+    u32 table_index; /* Which classify table to use */
+    u32 miss_index;  /* Rewrite entry to use if table does not match */
 }) l2_rw_config_t;
 /* *INDENT-ON* */
 
-typedef struct
-{
-  /* Next feature node indexes */
-  u32 feat_next_node_index[32];
+typedef struct {
+    /* Next feature node indexes */
+    u32 feat_next_node_index[32];
 
-  /* A pool of entries */
-  l2_rw_entry_t *entries;
+    /* A pool of entries */
+    l2_rw_entry_t *entries;
 
-  /* Config vector indexed by sw_if_index */
-  l2_rw_config_t *configs;
-  uword *configs_bitmap;
+    /* Config vector indexed by sw_if_index */
+    l2_rw_config_t *configs;
+    uword *configs_bitmap;
 } l2_rw_main_t;
 
 extern l2_rw_main_t l2_rw_main;
@@ -69,8 +68,7 @@ extern l2_rw_main_t l2_rw_main;
  * when table_index or miss_index is not ~0.
  * returns 0 on success and something else on error.
  */
-int l2_rw_interface_set_table (u32 sw_if_index,
-			       u32 table_index, u32 miss_index);
+int l2_rw_interface_set_table(u32 sw_if_index, u32 table_index, u32 miss_index);
 
 /*
  * Creates, modifies or delete a rewrite entry.
@@ -81,8 +79,7 @@ int l2_rw_interface_set_table (u32 sw_if_index,
  * is set).
  * returns 0 on success and something else on error.
  */
-int l2_rw_mod_entry (u32 * index,
-		     u8 * mask, u8 * value, u32 len, u32 skip, u8 is_del);
+int l2_rw_mod_entry(u32 *index, u8 *mask, u8 *value, u32 len, u32 skip, u8 is_del);
 
 #endif /* L2_FW_H_ */
 

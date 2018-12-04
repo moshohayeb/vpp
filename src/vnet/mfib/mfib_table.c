@@ -23,11 +23,9 @@
 #include <vnet/mfib/mfib_signal.h>
 
 mfib_table_t *
-mfib_table_get (fib_node_index_t index,
-                fib_protocol_t proto)
+mfib_table_get(fib_node_index_t index, fib_protocol_t proto)
 {
-    switch (proto)
-    {
+    switch (proto) {
     case FIB_PROTOCOL_IP4:
         return (pool_elt_at_index(ip4_main.mfibs, index));
     case FIB_PROTOCOL_IP6:
@@ -40,21 +38,15 @@ mfib_table_get (fib_node_index_t index,
 }
 
 static inline fib_node_index_t
-mfib_table_lookup_i (const mfib_table_t *mfib_table,
-                     const mfib_prefix_t *prefix)
+mfib_table_lookup_i(const mfib_table_t *mfib_table, const mfib_prefix_t *prefix)
 {
-    switch (prefix->fp_proto)
-    {
+    switch (prefix->fp_proto) {
     case FIB_PROTOCOL_IP4:
-        return (ip4_mfib_table_lookup(&mfib_table->v4,
-                                      &prefix->fp_src_addr.ip4,
-                                      &prefix->fp_grp_addr.ip4,
-                                      prefix->fp_len));
+        return (
+            ip4_mfib_table_lookup(&mfib_table->v4, &prefix->fp_src_addr.ip4, &prefix->fp_grp_addr.ip4, prefix->fp_len));
     case FIB_PROTOCOL_IP6:
-        return (ip6_mfib_table_lookup(&mfib_table->v6,
-                                      &prefix->fp_src_addr.ip6,
-                                      &prefix->fp_grp_addr.ip6,
-                                      prefix->fp_len));
+        return (
+            ip6_mfib_table_lookup(&mfib_table->v6, &prefix->fp_src_addr.ip6, &prefix->fp_grp_addr.ip6, prefix->fp_len));
     case FIB_PROTOCOL_MPLS:
         break;
     }
@@ -62,27 +54,20 @@ mfib_table_lookup_i (const mfib_table_t *mfib_table,
 }
 
 fib_node_index_t
-mfib_table_lookup (u32 fib_index,
-                   const mfib_prefix_t *prefix)
+mfib_table_lookup(u32 fib_index, const mfib_prefix_t *prefix)
 {
     return (mfib_table_lookup_i(mfib_table_get(fib_index, prefix->fp_proto), prefix));
 }
 
 static inline fib_node_index_t
-mfib_table_lookup_exact_match_i (const mfib_table_t *mfib_table,
-                                 const mfib_prefix_t *prefix)
+mfib_table_lookup_exact_match_i(const mfib_table_t *mfib_table, const mfib_prefix_t *prefix)
 {
-    switch (prefix->fp_proto)
-    {
+    switch (prefix->fp_proto) {
     case FIB_PROTOCOL_IP4:
-        return (ip4_mfib_table_lookup_exact_match(&mfib_table->v4,
-                                                  &prefix->fp_grp_addr.ip4,
-                                                  &prefix->fp_src_addr.ip4,
+        return (ip4_mfib_table_lookup_exact_match(&mfib_table->v4, &prefix->fp_grp_addr.ip4, &prefix->fp_src_addr.ip4,
                                                   prefix->fp_len));
     case FIB_PROTOCOL_IP6:
-        return (ip6_mfib_table_lookup_exact_match(&mfib_table->v6,
-                                                  &prefix->fp_grp_addr.ip6,
-                                                  &prefix->fp_src_addr.ip6,
+        return (ip6_mfib_table_lookup_exact_match(&mfib_table->v6, &prefix->fp_grp_addr.ip6, &prefix->fp_src_addr.ip6,
                                                   prefix->fp_len));
     case FIB_PROTOCOL_MPLS:
         break;
@@ -91,36 +76,24 @@ mfib_table_lookup_exact_match_i (const mfib_table_t *mfib_table,
 }
 
 fib_node_index_t
-mfib_table_lookup_exact_match (u32 fib_index,
-                              const mfib_prefix_t *prefix)
+mfib_table_lookup_exact_match(u32 fib_index, const mfib_prefix_t *prefix)
 {
-    return (mfib_table_lookup_exact_match_i(mfib_table_get(fib_index,
-                                                          prefix->fp_proto),
-                                            prefix));
+    return (mfib_table_lookup_exact_match_i(mfib_table_get(fib_index, prefix->fp_proto), prefix));
 }
 
 static void
-mfib_table_entry_remove (mfib_table_t *mfib_table,
-                         const mfib_prefix_t *prefix,
-                         fib_node_index_t fib_entry_index)
+mfib_table_entry_remove(mfib_table_t *mfib_table, const mfib_prefix_t *prefix, fib_node_index_t fib_entry_index)
 {
     vlib_smp_unsafe_warning();
 
     mfib_table->mft_total_route_counts--;
 
-    switch (prefix->fp_proto)
-    {
+    switch (prefix->fp_proto) {
     case FIB_PROTOCOL_IP4:
-        ip4_mfib_table_entry_remove(&mfib_table->v4,
-                                    &prefix->fp_grp_addr.ip4,
-                                    &prefix->fp_src_addr.ip4,
-                                    prefix->fp_len);
+        ip4_mfib_table_entry_remove(&mfib_table->v4, &prefix->fp_grp_addr.ip4, &prefix->fp_src_addr.ip4, prefix->fp_len);
         break;
     case FIB_PROTOCOL_IP6:
-        ip6_mfib_table_entry_remove(&mfib_table->v6,
-                                    &prefix->fp_grp_addr.ip6,
-                                    &prefix->fp_src_addr.ip6,
-                                    prefix->fp_len);
+        ip6_mfib_table_entry_remove(&mfib_table->v6, &prefix->fp_grp_addr.ip6, &prefix->fp_src_addr.ip6, prefix->fp_len);
         break;
     case FIB_PROTOCOL_MPLS:
         ASSERT(0);
@@ -131,29 +104,20 @@ mfib_table_entry_remove (mfib_table_t *mfib_table,
 }
 
 static void
-mfib_table_entry_insert (mfib_table_t *mfib_table,
-                         const mfib_prefix_t *prefix,
-                         fib_node_index_t mfib_entry_index)
+mfib_table_entry_insert(mfib_table_t *mfib_table, const mfib_prefix_t *prefix, fib_node_index_t mfib_entry_index)
 {
     vlib_smp_unsafe_warning();
 
     mfib_entry_lock(mfib_entry_index);
     mfib_table->mft_total_route_counts++;
 
-    switch (prefix->fp_proto)
-    {
+    switch (prefix->fp_proto) {
     case FIB_PROTOCOL_IP4:
-        ip4_mfib_table_entry_insert(&mfib_table->v4,
-                                    &prefix->fp_grp_addr.ip4,
-                                    &prefix->fp_src_addr.ip4,
-                                    prefix->fp_len,
+        ip4_mfib_table_entry_insert(&mfib_table->v4, &prefix->fp_grp_addr.ip4, &prefix->fp_src_addr.ip4, prefix->fp_len,
                                     mfib_entry_index);
         break;
     case FIB_PROTOCOL_IP6:
-        ip6_mfib_table_entry_insert(&mfib_table->v6,
-                                    &prefix->fp_grp_addr.ip6,
-                                    &prefix->fp_src_addr.ip6,
-                                    prefix->fp_len,
+        ip6_mfib_table_entry_insert(&mfib_table->v6, &prefix->fp_grp_addr.ip6, &prefix->fp_src_addr.ip6, prefix->fp_len,
                                     mfib_entry_index);
         break;
     case FIB_PROTOCOL_MPLS:
@@ -162,28 +126,21 @@ mfib_table_entry_insert (mfib_table_t *mfib_table,
 }
 
 fib_node_index_t
-mfib_table_entry_update (u32 fib_index,
-                         const mfib_prefix_t *prefix,
-                         mfib_source_t source,
-                         fib_rpf_id_t rpf_id,
-                         mfib_entry_flags_t entry_flags)
+mfib_table_entry_update(u32 fib_index, const mfib_prefix_t *prefix, mfib_source_t source, fib_rpf_id_t rpf_id,
+                        mfib_entry_flags_t entry_flags)
 {
     fib_node_index_t mfib_entry_index;
     mfib_table_t *mfib_table;
 
-    mfib_table = mfib_table_get(fib_index, prefix->fp_proto);
+    mfib_table       = mfib_table_get(fib_index, prefix->fp_proto);
     mfib_entry_index = mfib_table_lookup_exact_match_i(mfib_table, prefix);
 
-    if (FIB_NODE_INDEX_INVALID == mfib_entry_index)
-    {
-        if (MFIB_ENTRY_FLAG_NONE != entry_flags)
-        {
+    if (FIB_NODE_INDEX_INVALID == mfib_entry_index) {
+        if (MFIB_ENTRY_FLAG_NONE != entry_flags) {
             /*
              * update to a non-existing entry with non-zero flags
              */
-            mfib_entry_index = mfib_entry_create(fib_index, source,
-                                                 prefix, rpf_id,
-                                                 entry_flags);
+            mfib_entry_index = mfib_entry_create(fib_index, source, prefix, rpf_id, entry_flags);
 
             mfib_table_entry_insert(mfib_table, prefix, mfib_entry_index);
         }
@@ -192,17 +149,10 @@ mfib_table_entry_update (u32 fib_index,
          *   the entry doesn't exist and the request is to set no flags
          *   the result would be an entry that doesn't exist - so do nothing
          */
-    }
-    else
-    {
+    } else {
         mfib_entry_lock(mfib_entry_index);
 
-        if (mfib_entry_update(mfib_entry_index,
-                              source,
-                              entry_flags,
-                              rpf_id,
-                              INDEX_INVALID))
-        {
+        if (mfib_entry_update(mfib_entry_index, source, entry_flags, rpf_id, INDEX_INVALID)) {
             /*
              * this update means we can now remove the entry.
              */
@@ -216,57 +166,41 @@ mfib_table_entry_update (u32 fib_index,
 }
 
 fib_node_index_t
-mfib_table_entry_path_update (u32 fib_index,
-                              const mfib_prefix_t *prefix,
-                              mfib_source_t source,
-                              const fib_route_path_t *rpath,
-                              mfib_itf_flags_t itf_flags)
+mfib_table_entry_path_update(u32 fib_index, const mfib_prefix_t *prefix, mfib_source_t source,
+                             const fib_route_path_t *rpath, mfib_itf_flags_t itf_flags)
 {
     fib_node_index_t mfib_entry_index;
     mfib_table_t *mfib_table;
 
-    mfib_table = mfib_table_get(fib_index, prefix->fp_proto);
+    mfib_table       = mfib_table_get(fib_index, prefix->fp_proto);
     mfib_entry_index = mfib_table_lookup_exact_match_i(mfib_table, prefix);
 
-    if (FIB_NODE_INDEX_INVALID == mfib_entry_index)
-    {
-        mfib_entry_index = mfib_entry_create(fib_index,
-                                             source,
-                                             prefix,
-                                             MFIB_RPF_ID_NONE,
-                                             MFIB_ENTRY_FLAG_NONE);
+    if (FIB_NODE_INDEX_INVALID == mfib_entry_index) {
+        mfib_entry_index = mfib_entry_create(fib_index, source, prefix, MFIB_RPF_ID_NONE, MFIB_ENTRY_FLAG_NONE);
 
         mfib_table_entry_insert(mfib_table, prefix, mfib_entry_index);
     }
 
-    mfib_entry_path_update(mfib_entry_index,
-                           source,
-                           rpath,
-                           itf_flags);
+    mfib_entry_path_update(mfib_entry_index, source, rpath, itf_flags);
 
     return (mfib_entry_index);
 }
 
 void
-mfib_table_entry_path_remove (u32 fib_index,
-                              const mfib_prefix_t *prefix,
-                              mfib_source_t source,
-                              const fib_route_path_t *rpath)
+mfib_table_entry_path_remove(u32 fib_index, const mfib_prefix_t *prefix, mfib_source_t source,
+                             const fib_route_path_t *rpath)
 {
     fib_node_index_t mfib_entry_index;
     mfib_table_t *mfib_table;
 
-    mfib_table = mfib_table_get(fib_index, prefix->fp_proto);
+    mfib_table       = mfib_table_get(fib_index, prefix->fp_proto);
     mfib_entry_index = mfib_table_lookup_exact_match_i(mfib_table, prefix);
 
-    if (FIB_NODE_INDEX_INVALID == mfib_entry_index)
-    {
+    if (FIB_NODE_INDEX_INVALID == mfib_entry_index) {
         /*
          * removing an etry that does not exist. i'll allow it.
          */
-    }
-    else
-    {
+    } else {
         int no_more_sources;
 
         /*
@@ -274,12 +208,9 @@ mfib_table_entry_path_remove (u32 fib_index,
          */
         mfib_entry_lock(mfib_entry_index);
 
-        no_more_sources = mfib_entry_path_remove(mfib_entry_index,
-                                                 source,
-                                                 rpath);
+        no_more_sources = mfib_entry_path_remove(mfib_entry_index, source, rpath);
 
-        if (no_more_sources)
-        {
+        if (no_more_sources) {
             /*
              * last source gone. remove from the table
              */
@@ -291,42 +222,29 @@ mfib_table_entry_path_remove (u32 fib_index,
 }
 
 fib_node_index_t
-mfib_table_entry_special_add (u32 fib_index,
-                              const mfib_prefix_t *prefix,
-                              mfib_source_t source,
-                              mfib_entry_flags_t entry_flags,
-                              index_t rep_dpo)
+mfib_table_entry_special_add(u32 fib_index, const mfib_prefix_t *prefix, mfib_source_t source,
+                             mfib_entry_flags_t entry_flags, index_t rep_dpo)
 {
     fib_node_index_t mfib_entry_index;
     mfib_table_t *mfib_table;
 
-    mfib_table = mfib_table_get(fib_index, prefix->fp_proto);
+    mfib_table       = mfib_table_get(fib_index, prefix->fp_proto);
     mfib_entry_index = mfib_table_lookup_exact_match_i(mfib_table, prefix);
 
-    if (FIB_NODE_INDEX_INVALID == mfib_entry_index)
-    {
-        mfib_entry_index = mfib_entry_create(fib_index,
-                                             source,
-                                             prefix,
-                                             MFIB_RPF_ID_NONE,
-                                             MFIB_ENTRY_FLAG_NONE);
+    if (FIB_NODE_INDEX_INVALID == mfib_entry_index) {
+        mfib_entry_index = mfib_entry_create(fib_index, source, prefix, MFIB_RPF_ID_NONE, MFIB_ENTRY_FLAG_NONE);
 
         mfib_table_entry_insert(mfib_table, prefix, mfib_entry_index);
     }
 
-    mfib_entry_update(mfib_entry_index, source,
-                      (MFIB_ENTRY_FLAG_EXCLUSIVE | entry_flags),
-                      MFIB_RPF_ID_NONE,
-                      rep_dpo);
+    mfib_entry_update(mfib_entry_index, source, (MFIB_ENTRY_FLAG_EXCLUSIVE | entry_flags), MFIB_RPF_ID_NONE, rep_dpo);
 
     return (mfib_entry_index);
 }
 
 static void
-mfib_table_entry_delete_i (u32 fib_index,
-                           fib_node_index_t mfib_entry_index,
-                           const mfib_prefix_t *prefix,
-                           mfib_source_t source)
+mfib_table_entry_delete_i(u32 fib_index, fib_node_index_t mfib_entry_index, const mfib_prefix_t *prefix,
+                          mfib_source_t source)
 {
     mfib_table_t *mfib_table;
 
@@ -337,8 +255,7 @@ mfib_table_entry_delete_i (u32 fib_index,
      */
     mfib_entry_lock(mfib_entry_index);
 
-    if (mfib_entry_delete(mfib_entry_index, source))
-    {
+    if (mfib_entry_delete(mfib_entry_index, source)) {
         /*
          * last source gone. remove from the table
          */
@@ -353,47 +270,37 @@ mfib_table_entry_delete_i (u32 fib_index,
 }
 
 void
-mfib_table_entry_delete (u32 fib_index,
-                         const mfib_prefix_t *prefix,
-                         mfib_source_t source)
+mfib_table_entry_delete(u32 fib_index, const mfib_prefix_t *prefix, mfib_source_t source)
 {
     fib_node_index_t mfib_entry_index;
 
     mfib_entry_index = mfib_table_lookup_exact_match(fib_index, prefix);
 
-    if (FIB_NODE_INDEX_INVALID == mfib_entry_index)
-    {
+    if (FIB_NODE_INDEX_INVALID == mfib_entry_index) {
         /*
          * removing an etry that does not exist.
          * i'll allow it, but i won't like it.
          */
         clib_warning("%U not in FIB", format_mfib_prefix, prefix);
-    }
-    else
-    {
-        mfib_table_entry_delete_i(fib_index, mfib_entry_index,
-                                  prefix, source);
+    } else {
+        mfib_table_entry_delete_i(fib_index, mfib_entry_index, prefix, source);
     }
 }
 
 void
-mfib_table_entry_delete_index (fib_node_index_t mfib_entry_index,
-                               mfib_source_t source)
+mfib_table_entry_delete_index(fib_node_index_t mfib_entry_index, mfib_source_t source)
 {
     mfib_prefix_t prefix;
 
     mfib_entry_get_prefix(mfib_entry_index, &prefix);
 
-    mfib_table_entry_delete_i(mfib_entry_get_fib_index(mfib_entry_index),
-                              mfib_entry_index, &prefix, source);
+    mfib_table_entry_delete_i(mfib_entry_get_fib_index(mfib_entry_index), mfib_entry_index, &prefix, source);
 }
 
 u32
-mfib_table_get_index_for_sw_if_index (fib_protocol_t proto,
-                                      u32 sw_if_index)
+mfib_table_get_index_for_sw_if_index(fib_protocol_t proto, u32 sw_if_index)
 {
-    switch (proto)
-    {
+    switch (proto) {
     case FIB_PROTOCOL_IP4:
         return (ip4_mfib_table_get_index_for_sw_if_index(sw_if_index));
     case FIB_PROTOCOL_IP6:
@@ -406,11 +313,9 @@ mfib_table_get_index_for_sw_if_index (fib_protocol_t proto,
 }
 
 u32
-mfib_table_find (fib_protocol_t proto,
-                 u32 table_id)
+mfib_table_find(fib_protocol_t proto, u32 table_id)
 {
-    switch (proto)
-    {
+    switch (proto) {
     case FIB_PROTOCOL_IP4:
         return (ip4_mfib_index_from_table_id(table_id));
     case FIB_PROTOCOL_IP6:
@@ -423,16 +328,12 @@ mfib_table_find (fib_protocol_t proto,
 }
 
 static u32
-mfib_table_find_or_create_and_lock_i (fib_protocol_t proto,
-                                      u32 table_id,
-                                      mfib_source_t src,
-                                      const u8 *name)
+mfib_table_find_or_create_and_lock_i(fib_protocol_t proto, u32 table_id, mfib_source_t src, const u8 *name)
 {
     mfib_table_t *mfib_table;
     fib_node_index_t fi;
 
-    switch (proto)
-    {
+    switch (proto) {
     case FIB_PROTOCOL_IP4:
         fi = ip4_mfib_table_find_or_create_and_lock(table_id, src);
         break;
@@ -446,17 +347,11 @@ mfib_table_find_or_create_and_lock_i (fib_protocol_t proto,
 
     mfib_table = mfib_table_get(fi, proto);
 
-    if (NULL == mfib_table->mft_desc)
-    {
-        if (name && name[0])
-        {
+    if (NULL == mfib_table->mft_desc) {
+        if (name && name[0]) {
             mfib_table->mft_desc = format(NULL, "%s", name);
-        }
-        else
-        {
-            mfib_table->mft_desc = format(NULL, "%U-VRF:%d",
-                                          format_fib_protocol, proto,
-                                          table_id);
+        } else {
+            mfib_table->mft_desc = format(NULL, "%U-VRF:%d", format_fib_protocol, proto, table_id);
         }
     }
 
@@ -464,30 +359,22 @@ mfib_table_find_or_create_and_lock_i (fib_protocol_t proto,
 }
 
 u32
-mfib_table_find_or_create_and_lock (fib_protocol_t proto,
-                                    u32 table_id,
-                                    mfib_source_t src)
+mfib_table_find_or_create_and_lock(fib_protocol_t proto, u32 table_id, mfib_source_t src)
 {
-    return (mfib_table_find_or_create_and_lock_i(proto, table_id,
-                                                 src, NULL));
+    return (mfib_table_find_or_create_and_lock_i(proto, table_id, src, NULL));
 }
 
 u32
-mfib_table_find_or_create_and_lock_w_name (fib_protocol_t proto,
-                                           u32 table_id,
-                                           mfib_source_t src,
-                                           const u8 *name)
+mfib_table_find_or_create_and_lock_w_name(fib_protocol_t proto, u32 table_id, mfib_source_t src, const u8 *name)
 {
-    return (mfib_table_find_or_create_and_lock_i(proto, table_id,
-                                                 src, name));
+    return (mfib_table_find_or_create_and_lock_i(proto, table_id, src, name));
 }
 
 /**
  * @brief Table flush context. Store the indicies of matching FIB entries
  * that need to be removed.
  */
-typedef struct mfib_table_flush_ctx_t_
-{
+typedef struct mfib_table_flush_ctx_t_ {
     /**
      * The list of entries to flush
      */
@@ -500,32 +387,26 @@ typedef struct mfib_table_flush_ctx_t_
 } mfib_table_flush_ctx_t;
 
 static int
-mfib_table_flush_cb (fib_node_index_t mfib_entry_index,
-                     void *arg)
+mfib_table_flush_cb(fib_node_index_t mfib_entry_index, void *arg)
 {
     mfib_table_flush_ctx_t *ctx = arg;
 
-    if (mfib_entry_is_sourced(mfib_entry_index, ctx->mftf_source))
-    {
+    if (mfib_entry_is_sourced(mfib_entry_index, ctx->mftf_source)) {
         vec_add1(ctx->mftf_entries, mfib_entry_index);
     }
     return (1);
 }
 
 void
-mfib_table_flush (u32 mfib_index,
-                  fib_protocol_t proto,
-                  mfib_source_t source)
+mfib_table_flush(u32 mfib_index, fib_protocol_t proto, mfib_source_t source)
 {
     fib_node_index_t *mfib_entry_index;
     mfib_table_flush_ctx_t ctx = {
         .mftf_entries = NULL,
-        .mftf_source = source,
+        .mftf_source  = source,
     };
 
-    mfib_table_walk(mfib_index, proto,
-                    mfib_table_flush_cb,
-                    &ctx);
+    mfib_table_walk(mfib_index, proto, mfib_table_flush_cb, &ctx);
 
     vec_foreach(mfib_entry_index, ctx.mftf_entries)
     {
@@ -536,12 +417,11 @@ mfib_table_flush (u32 mfib_index,
 }
 
 static void
-mfib_table_destroy (mfib_table_t *mfib_table)
+mfib_table_destroy(mfib_table_t *mfib_table)
 {
     vec_free(mfib_table->mft_desc);
 
-    switch (mfib_table->mft_proto)
-    {
+    switch (mfib_table->mft_proto) {
     case FIB_PROTOCOL_IP4:
         ip4_mfib_table_destroy(&mfib_table->v4);
         break;
@@ -555,9 +435,7 @@ mfib_table_destroy (mfib_table_t *mfib_table)
 }
 
 void
-mfib_table_unlock (u32 fib_index,
-                   fib_protocol_t proto,
-                   mfib_source_t source)
+mfib_table_unlock(u32 fib_index, fib_protocol_t proto, mfib_source_t source)
 {
     mfib_table_t *mfib_table;
 
@@ -565,8 +443,7 @@ mfib_table_unlock (u32 fib_index,
     mfib_table->mft_locks[source]--;
     mfib_table->mft_locks[MFIB_TABLE_TOTAL_LOCKS]--;
 
-    if (0 == mfib_table->mft_locks[source])
-    {
+    if (0 == mfib_table->mft_locks[source]) {
         /*
          * The source no longer needs the table. flush any routes
          * from it just in case
@@ -574,19 +451,16 @@ mfib_table_unlock (u32 fib_index,
         mfib_table_flush(fib_index, proto, source);
     }
 
-    if (0 == mfib_table->mft_locks[MFIB_TABLE_TOTAL_LOCKS])
-    {
+    if (0 == mfib_table->mft_locks[MFIB_TABLE_TOTAL_LOCKS]) {
         /*
          * no more locak from any source - kill it
          */
-	mfib_table_destroy(mfib_table);
+        mfib_table_destroy(mfib_table);
     }
 }
 
 void
-mfib_table_lock (u32 fib_index,
-                 fib_protocol_t proto,
-                 mfib_source_t source)
+mfib_table_lock(u32 fib_index, fib_protocol_t proto, mfib_source_t source)
 {
     mfib_table_t *mfib_table;
 
@@ -596,29 +470,25 @@ mfib_table_lock (u32 fib_index,
 }
 
 void
-mfib_table_walk (u32 fib_index,
-                 fib_protocol_t proto,
-                 mfib_table_walk_fn_t fn,
-                 void *ctx)
+mfib_table_walk(u32 fib_index, fib_protocol_t proto, mfib_table_walk_fn_t fn, void *ctx)
 {
-    switch (proto)
-    {
+    switch (proto) {
     case FIB_PROTOCOL_IP4:
-	ip4_mfib_table_walk(ip4_mfib_get(fib_index), fn, ctx);
-	break;
+        ip4_mfib_table_walk(ip4_mfib_get(fib_index), fn, ctx);
+        break;
     case FIB_PROTOCOL_IP6:
-	ip6_mfib_table_walk(ip6_mfib_get(fib_index), fn, ctx);
-	break;
+        ip6_mfib_table_walk(ip6_mfib_get(fib_index), fn, ctx);
+        break;
     case FIB_PROTOCOL_MPLS:
-	break;
+        break;
     }
 }
 
-u8*
-format_mfib_table_name (u8* s, va_list *ap)
+u8 *
+format_mfib_table_name(u8 *s, va_list *ap)
 {
     fib_node_index_t fib_index = va_arg(*ap, fib_node_index_t);
-    fib_protocol_t proto = va_arg(*ap, int); // int promotion
+    fib_protocol_t proto       = va_arg(*ap, int);   // int promotion
     mfib_table_t *mfib_table;
 
     mfib_table = mfib_table_get(fib_index, proto);
@@ -629,7 +499,7 @@ format_mfib_table_name (u8* s, va_list *ap)
 }
 
 u8 *
-format_mfib_table_memory (u8 *s, va_list *args)
+format_mfib_table_memory(u8 *s, va_list *args)
 {
     s = format(s, "%U", format_ip4_mfib_table_memory);
     s = format(s, "%U", format_ip6_mfib_table_memory);
@@ -638,16 +508,16 @@ format_mfib_table_memory (u8 *s, va_list *args)
 }
 
 static clib_error_t *
-mfib_module_init (vlib_main_t * vm)
+mfib_module_init(vlib_main_t *vm)
 {
-    clib_error_t * error;
+    clib_error_t *error;
 
     mfib_entry_module_init();
     mfib_signal_module_init();
 
-    if ((error = vlib_call_init_function (vm, fib_module_init)))
+    if ((error = vlib_call_init_function(vm, fib_module_init)))
         return (error);
-    if ((error = vlib_call_init_function (vm, rn_module_init)))
+    if ((error = vlib_call_init_function(vm, rn_module_init)))
         return (error);
 
     return (error);

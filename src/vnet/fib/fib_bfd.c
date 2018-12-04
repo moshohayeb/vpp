@@ -21,10 +21,9 @@
 #include <vnet/fib/fib_walk.h>
 
 static fib_bfd_state_t
-fib_bfd_bfd_state_to_fib (bfd_state_e bstate)
+fib_bfd_bfd_state_to_fib(bfd_state_e bstate)
 {
-    switch (bstate)
-    {
+    switch (bstate) {
     case BFD_STATE_up:
         return (FIB_BFD_STATE_UP);
     case BFD_STATE_down:
@@ -36,7 +35,7 @@ fib_bfd_bfd_state_to_fib (bfd_state_e bstate)
 }
 
 static void
-fib_bfd_update_walk (fib_node_index_t fei)
+fib_bfd_update_walk(fib_node_index_t fei)
 {
     /*
      * initiate a backwalk of dependent children
@@ -54,15 +53,13 @@ fib_bfd_update_walk (fib_node_index_t fei)
  * would be static but for the fact it's called from the unit-tests
  */
 void
-fib_bfd_notify (bfd_listen_event_e event,
-                const bfd_session_t *session)
+fib_bfd_notify(bfd_listen_event_e event, const bfd_session_t *session)
 {
     fib_entry_delegate_t *fed;
     const bfd_udp_key_t *key;
     fib_node_index_t fei;
 
-    if (BFD_HOP_TYPE_MULTI != session->hop_type)
-    {
+    if (BFD_HOP_TYPE_MULTI != session->hop_type) {
         /*
          * multi-hop BFD sessions attach directly to the FIB entry
          * single-hop adj to the associate adjacency.
@@ -73,13 +70,9 @@ fib_bfd_notify (bfd_listen_event_e event,
     key = &session->udp.key;
 
     fib_prefix_t pfx = {
-        .fp_addr = key->peer_addr,
-        .fp_proto = (ip46_address_is_ip4 (&key->peer_addr) ?
-                     FIB_PROTOCOL_IP4:
-                     FIB_PROTOCOL_IP6),
-        .fp_len = (ip46_address_is_ip4 (&key->peer_addr) ?
-                   32:
-                   128),
+        .fp_addr  = key->peer_addr,
+        .fp_proto = (ip46_address_is_ip4(&key->peer_addr) ? FIB_PROTOCOL_IP4 : FIB_PROTOCOL_IP6),
+        .fp_len   = (ip46_address_is_ip4(&key->peer_addr) ? 32 : 128),
     };
 
     /*
@@ -87,33 +80,24 @@ fib_bfd_notify (bfd_listen_event_e event,
      */
     fei = fib_table_lookup_exact_match(key->fib_index, &pfx);
 
-    switch (event)
-    {
+    switch (event) {
     case BFD_LISTEN_EVENT_CREATE:
         /*
          * The creation of a new session
          */
         if ((FIB_NODE_INDEX_INVALID != fei) &&
-            (fed = fib_entry_delegate_get(fib_entry_get(fei),
-                                          FIB_ENTRY_DELEGATE_BFD)))
-        {
+            (fed = fib_entry_delegate_get(fib_entry_get(fei), FIB_ENTRY_DELEGATE_BFD))) {
             /*
              * already got state for this entry
              */
-        }
-        else
-        {
+        } else {
             /*
              * source and lock the entry. add the delegate
              */
-            fei = fib_table_entry_special_add(key->fib_index,
-                                              &pfx,
-                                              FIB_SOURCE_RR,
-                                              FIB_ENTRY_FLAG_NONE);
+            fei = fib_table_entry_special_add(key->fib_index, &pfx, FIB_SOURCE_RR, FIB_ENTRY_FLAG_NONE);
             fib_entry_lock(fei);
 
-            fed = fib_entry_delegate_find_or_add(fib_entry_get(fei),
-                                                 FIB_ENTRY_DELEGATE_BFD);
+            fed = fib_entry_delegate_find_or_add(fib_entry_get(fei), FIB_ENTRY_DELEGATE_BFD);
 
             /*
              * pretend the session is up and skip the walk.
@@ -132,11 +116,9 @@ fib_bfd_notify (bfd_listen_event_e event,
          */
         ASSERT(FIB_NODE_INDEX_INVALID != fei);
 
-        fed = fib_entry_delegate_get(fib_entry_get(fei),
-                                     FIB_ENTRY_DELEGATE_BFD);
+        fed = fib_entry_delegate_get(fib_entry_get(fei), FIB_ENTRY_DELEGATE_BFD);
 
-        if (NULL != fed)
-        {
+        if (NULL != fed) {
             fed->fd_bfd_state = fib_bfd_bfd_state_to_fib(session->local_state);
             fib_bfd_update_walk(fei);
         }
@@ -150,26 +132,19 @@ fib_bfd_notify (bfd_listen_event_e event,
         /*
          * session has been removed.
          */
-        if (FIB_NODE_INDEX_INVALID == fei)
-        {
+        if (FIB_NODE_INDEX_INVALID == fei) {
             /*
              * no FIB entry
              */
-        }
-        else if (fib_entry_delegate_get(fib_entry_get(fei),
-                                        FIB_ENTRY_DELEGATE_BFD))
-        {
+        } else if (fib_entry_delegate_get(fib_entry_get(fei), FIB_ENTRY_DELEGATE_BFD)) {
             /*
              * has an associated BFD tracking delegate
              * usource the entry and remove the BFD tracking deletgate
              */
-            fib_entry_delegate_remove(fib_entry_get(fei),
-                                      FIB_ENTRY_DELEGATE_BFD);
+            fib_entry_delegate_remove(fib_entry_get(fei), FIB_ENTRY_DELEGATE_BFD);
             fib_bfd_update_walk(fei);
 
-            fib_table_entry_special_remove(key->fib_index,
-                                           &pfx,
-                                           FIB_SOURCE_RR);
+            fib_table_entry_special_remove(key->fib_index, &pfx, FIB_SOURCE_RR);
             fib_entry_unlock(fei);
         }
         /*
@@ -181,11 +156,11 @@ fib_bfd_notify (bfd_listen_event_e event,
 }
 
 static clib_error_t *
-fib_bfd_main_init (vlib_main_t * vm)
+fib_bfd_main_init(vlib_main_t *vm)
 {
-    clib_error_t * error = NULL;
+    clib_error_t *error = NULL;
 
-    if ((error = vlib_call_init_function (vm, bfd_main_init)))
+    if ((error = vlib_call_init_function(vm, bfd_main_init)))
         return (error);
 
     bfd_register_listener(fib_bfd_notify);
@@ -193,4 +168,4 @@ fib_bfd_main_init (vlib_main_t * vm)
     return (error);
 }
 
-VLIB_INIT_FUNCTION (fib_bfd_main_init);
+VLIB_INIT_FUNCTION(fib_bfd_main_init);

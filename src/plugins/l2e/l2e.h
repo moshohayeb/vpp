@@ -27,8 +27,8 @@
  * as DVR routes, therefore the forwarded packet has the L2 header
  * preserved and togehter the L3 routed system behaves like an L2 bridge.
  */
-extern void l2_emulation_enable (u32 sw_if_index);
-extern void l2_emulation_disable (u32 sw_if_index);
+extern void l2_emulation_enable(u32 sw_if_index);
+extern void l2_emulation_disable(u32 sw_if_index);
 
 #endif
 

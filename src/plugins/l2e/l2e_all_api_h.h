@@ -14,4 +14,3 @@
  */
 /* Include the generated file, see BUILT_SOURCES in Makefile.am */
 #include <l2e/l2e.api.h>
-

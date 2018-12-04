@@ -11,7 +11,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 #error do not #include this file!
 
@@ -41,53 +41,47 @@
 */
 
 /** template key/value backing page structure */
-typedef struct clib_bihash_value
-{
-  union
-  {
+typedef struct clib_bihash_value {
+    union {
 
-    clib_bihash_kv kvp[BIHASH_KVP_PER_PAGE]; /**< the actual key/value pairs */
-    clib_bihash_value *next_free;  /**< used when a KVP page (or block thereof) is on a freelist */
-  };
-} clib_bihash_value_t
-/** bihash bucket structure */
-  typedef struct
-{
-  union
-  {
-    struct
-    {
-      u32 offset;  /**< backing page offset in the clib memory heap */
-      u8 pad[3];   /**< log2 (size of the packing page block) */
-      u8 log2_pages;
+        clib_bihash_kv kvp[BIHASH_KVP_PER_PAGE]; /**< the actual key/value pairs */
+        clib_bihash_value *next_free;            /**< used when a KVP page (or block thereof) is on a freelist */
     };
-    u64 as_u64;
-  };
+} clib_bihash_value_t
+    /** bihash bucket structure */
+    typedef struct {
+    union {
+        struct {
+            u32 offset; /**< backing page offset in the clib memory heap */
+            u8 pad[3];  /**< log2 (size of the packing page block) */
+            u8 log2_pages;
+        };
+        u64 as_u64;
+    };
 } clib_bihash_bucket_t;
 
 /** A bounded index extensible hash table */
-typedef struct
-{
-  clib_bihash_bucket_t *buckets;  /**< Hash bucket vector, power-of-two in size */
-  volatile u32 *writer_lock;  /**< Writer lock, in its own cache line */
-    BVT (clib_bihash_value) ** working_copies;
-					    /**< Working copies (various sizes), to avoid locking against readers */
-  clib_bihash_bucket_t saved_bucket; /**< Saved bucket pointer */
-  u32 nbuckets;			     /**< Number of hash buckets */
-  u32 log2_nbuckets;		     /**< lg(nbuckets) */
-  u8 *name;			     /**< hash table name */
-    BVT (clib_bihash_value) ** freelists;
-				      /**< power of two freelist vector */
-  uword alloc_arena;		      /**< memory allocation arena  */
-  uword alloc_arena_next;	      /**< first available mem chunk */
-  uword alloc_arena_size;	      /**< size of the arena */
+typedef struct {
+    clib_bihash_bucket_t *buckets; /**< Hash bucket vector, power-of-two in size */
+    volatile u32 *writer_lock;     /**< Writer lock, in its own cache line */
+    BVT(clib_bihash_value) * *working_copies;
+    /**< Working copies (various sizes), to avoid locking against readers */
+    clib_bihash_bucket_t saved_bucket; /**< Saved bucket pointer */
+    u32 nbuckets;                      /**< Number of hash buckets */
+    u32 log2_nbuckets;                 /**< lg(nbuckets) */
+    u8 *name;                          /**< hash table name */
+    BVT(clib_bihash_value) * *freelists;
+    /**< power of two freelist vector */
+    uword alloc_arena;      /**< memory allocation arena  */
+    uword alloc_arena_next; /**< first available mem chunk */
+    uword alloc_arena_size; /**< size of the arena */
 } clib_bihash_t;
 
 /** Get pointer to value page given its clib mheap offset */
-static inline void *clib_bihash_get_value (clib_bihash * h, uword offset);
+static inline void *clib_bihash_get_value(clib_bihash *h, uword offset);
 
 /** Get clib mheap offset given a pointer */
-static inline uword clib_bihash_get_offset (clib_bihash * h, void *v);
+static inline uword clib_bihash_get_offset(clib_bihash *h, void *v);
 
 /** initialize a bounded index extensible hash table
 
@@ -98,14 +92,13 @@ a power of two
     @param memory_size - clib mheap size, in bytes
 */
 
-void clib_bihash_init
-  (clib_bihash * h, char *name, u32 nbuckets, uword memory_size);
+void clib_bihash_init(clib_bihash *h, char *name, u32 nbuckets, uword memory_size);
 
 /** Destroy a bounded index extensible hash table
     @param h - the bi-hash table to free
 */
 
-void clib_bihash_free (clib_bihash * h);
+void clib_bihash_free(clib_bihash *h);
 
 /** Add or delete a (key,value) pair from a bi-hash table
 
@@ -116,7 +109,7 @@ void clib_bihash_free (clib_bihash * h);
     @note This function will replace an existing (key,value) pair if the
     new key matches an existing key
 */
-int clib_bihash_add_del (clib_bihash * h, clib_bihash_kv * add_v, int is_add);
+int clib_bihash_add_del(clib_bihash *h, clib_bihash_kv *add_v, int is_add);
 
 
 /** Search a bi-hash table, use supplied hash code
@@ -126,8 +119,7 @@ int clib_bihash_add_del (clib_bihash * h, clib_bihash_kv * add_v, int is_add);
     @param in_out_kv - (key,value) pair containing the search key
     @returns 0 on success (with in_out_kv set), < 0 on error
 */
-int clib_bihash_search_inline_with_hash
-  (clib_bihash * h, u64 hash, clib_bihash_kv * in_out_kv);
+int clib_bihash_search_inline_with_hash(clib_bihash *h, u64 hash, clib_bihash_kv *in_out_kv);
 
 /** Search a bi-hash table
 
@@ -135,7 +127,7 @@ int clib_bihash_search_inline_with_hash
     @param in_out_kv - (key,value) pair containing the search key
     @returns 0 on success (with in_out_kv set), < 0 on error
 */
-int clib_bihash_search_inline (clib_bihash * h, clib_bihash_kv * in_out_kv);
+int clib_bihash_search_inline(clib_bihash *h, clib_bihash_kv *in_out_kv);
 
 /** Prefetch a bi-hash bucket given a hash code
 
@@ -143,7 +135,7 @@ int clib_bihash_search_inline (clib_bihash * h, clib_bihash_kv * in_out_kv);
     @param hash - the hash code
     @note see also clib_bihash_hash to compute the code
 */
-void clib_bihash_prefetch_bucket (clib_bihash * h, u64 hash);
+void clib_bihash_prefetch_bucket(clib_bihash *h, u64 hash);
 
 /** Prefetch bi-hash (key,value) data given a hash code
 
@@ -152,7 +144,7 @@ void clib_bihash_prefetch_bucket (clib_bihash * h, u64 hash);
     @note assumes that the bucket has been prefetched, see
      clib_bihash_prefetch_bucket
 */
-void clib_bihash_prefetch_data (clib_bihash * h, u64 hash);
+void clib_bihash_prefetch_data(clib_bihash *h, u64 hash);
 
 /** Search a bi-hash table
 
@@ -162,8 +154,7 @@ void clib_bihash_prefetch_data (clib_bihash * h, u64 hash);
     @returns 0 on success (with valuep set), < 0 on error
     @note used in situations where key modification is not desired
 */
-int clib_bihash_search_inline_2
-  (clib_bihash * h, clib_bihash_kv * search_key, clib_bihash_kv * valuep);
+int clib_bihash_search_inline_2(clib_bihash *h, clib_bihash_kv *search_key, clib_bihash_kv *valuep);
 
 /** Visit active (key,value) pairs in a bi-hash table
 
@@ -174,8 +165,7 @@ int clib_bihash_search_inline_2
     @note Trying to supply a proper function prototype for the
     callback function appears to be a fool's errand.
 */
-void clib_bihash_foreach_key_value_pair (clib_bihash * h,
-					 void *callback, void *arg);
+void clib_bihash_foreach_key_value_pair(clib_bihash *h, void *callback, void *arg);
 
 /*
  * fd.io coding-style-patch-verification: ON

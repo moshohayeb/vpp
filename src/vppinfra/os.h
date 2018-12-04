@@ -42,38 +42,37 @@
 #include <vppinfra/types.h>
 
 /* External panic function. */
-void os_panic (void);
+void os_panic(void);
 
 /* External exit function analogous to unix exit. */
-void os_exit (int code);
+void os_exit(int code);
 
 /* External function to print a line. */
-void os_puts (u8 * string, uword length, uword is_error);
+void os_puts(u8 *string, uword length, uword is_error);
 
 /* External function to handle out of memory. */
-void os_out_of_memory (void);
+void os_out_of_memory(void);
 
 /* Estimate, measure or divine CPU timestamp clock frequency. */
-f64 os_cpu_clock_frequency (void);
+f64 os_cpu_clock_frequency(void);
 
 extern __thread uword __os_thread_index;
 
 static_always_inline uword
-os_get_thread_index (void)
+os_get_thread_index(void)
 {
-  return __os_thread_index;
+    return __os_thread_index;
 }
 
-static_always_inline uword
-os_get_cpu_number (void) __attribute__ ((deprecated));
+static_always_inline uword os_get_cpu_number(void) __attribute__((deprecated));
 
 static_always_inline uword
-os_get_cpu_number (void)
+os_get_cpu_number(void)
 {
-  return __os_thread_index;
+    return __os_thread_index;
 }
 
-uword os_get_nthreads (void);
+uword os_get_nthreads(void);
 
 #include <vppinfra/smp.h>
 

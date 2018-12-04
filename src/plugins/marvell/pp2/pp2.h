@@ -31,97 +31,88 @@
 #include <drivers/mv_pp2_bpool.h>
 #include <drivers/mv_pp2_ppio.h>
 
-typedef struct
-{
-  CLIB_CACHE_LINE_ALIGN_MARK (cacheline0);
-  u16 size;
-  struct pp2_bpool *bpool;
+typedef struct {
+    CLIB_CACHE_LINE_ALIGN_MARK(cacheline0);
+    u16 size;
+    struct pp2_bpool *bpool;
 } mrvl_pp2_inq_t;
 
-typedef struct
-{
-  CLIB_CACHE_LINE_ALIGN_MARK (cacheline0);
-  u16 size;
-  u32 *buffers;
-  u16 head;
-  u16 tail;
+typedef struct {
+    CLIB_CACHE_LINE_ALIGN_MARK(cacheline0);
+    u16 size;
+    u32 *buffers;
+    u16 head;
+    u16 tail;
 } mrvl_pp2_outq_t;
 
-typedef struct
-{
-  CLIB_CACHE_LINE_ALIGN_MARK (cacheline0);
-  u32 flags;
+typedef struct {
+    CLIB_CACHE_LINE_ALIGN_MARK(cacheline0);
+    u32 flags;
 #define MRVL_PP2_IF_F_ADMIN_UP (1 << 0)
-  struct pp2_ppio *ppio;
-  u32 per_interface_next_index;
+    struct pp2_ppio *ppio;
+    u32 per_interface_next_index;
 
-  mrvl_pp2_inq_t *inqs;
-  mrvl_pp2_outq_t *outqs;
+    mrvl_pp2_inq_t *inqs;
+    mrvl_pp2_outq_t *outqs;
 
-  u32 dev_instance;
-  u32 sw_if_index;
-  u32 hw_if_index;
+    u32 dev_instance;
+    u32 sw_if_index;
+    u32 hw_if_index;
 } mrvl_pp2_if_t;
 
 #define MRVL_PP2_BUFF_BATCH_SZ VLIB_FRAME_SIZE
 
-typedef struct
-{
-  CLIB_CACHE_LINE_ALIGN_MARK (cacheline0);
-  struct pp2_hif *hif;
-  struct pp2_ppio_desc *descs;
-  struct buff_release_entry bre[MRVL_PP2_BUFF_BATCH_SZ];
-  u32 buffers[VLIB_FRAME_SIZE];
+typedef struct {
+    CLIB_CACHE_LINE_ALIGN_MARK(cacheline0);
+    struct pp2_hif *hif;
+    struct pp2_ppio_desc *descs;
+    struct buff_release_entry bre[MRVL_PP2_BUFF_BATCH_SZ];
+    u32 buffers[VLIB_FRAME_SIZE];
 } mrvl_pp2_per_thread_data_t;
 
-typedef struct
-{
-  mrvl_pp2_if_t *interfaces;
-  mrvl_pp2_per_thread_data_t *per_thread_data;
+typedef struct {
+    mrvl_pp2_if_t *interfaces;
+    mrvl_pp2_per_thread_data_t *per_thread_data;
 } mrvl_pp2_main_t;
 
 extern vnet_device_class_t mrvl_pp2_device_class;
 extern mrvl_pp2_main_t mrvl_pp2_main;
 
-typedef struct
-{
-  u8 *name;
-  u16 rx_q_sz;
-  u16 tx_q_sz;
+typedef struct {
+    u8 *name;
+    u16 rx_q_sz;
+    u16 tx_q_sz;
 
-  /* return */
-  int rv;
-  clib_error_t *error;
+    /* return */
+    int rv;
+    clib_error_t *error;
 } mrvl_pp2_create_if_args_t;
 
-void mrvl_pp2_create_if (mrvl_pp2_create_if_args_t * args);
-void mrvl_pp2_delete_if (mrvl_pp2_if_t * dfif);
+void mrvl_pp2_create_if(mrvl_pp2_create_if_args_t *args);
+void mrvl_pp2_delete_if(mrvl_pp2_if_t *dfif);
 
 /* output.c */
 
-#define foreach_mrvl_pp2_tx_func_error \
-  _(NO_FREE_SLOTS, "no free tx slots")			\
-  _(PPIO_SEND, "pp2_ppio_send errors")			\
-  _(PPIO_GET_NUM_OUTQ_DONE, "pp2_ppio_get_num_outq_done errors")
+#define foreach_mrvl_pp2_tx_func_error                                                                                 \
+    _(NO_FREE_SLOTS, "no free tx slots")                                                                               \
+    _(PPIO_SEND, "pp2_ppio_send errors")                                                                               \
+    _(PPIO_GET_NUM_OUTQ_DONE, "pp2_ppio_get_num_outq_done errors")
 
-typedef enum
-{
-#define _(f,s) MRVL_PP2_TX_ERROR_##f,
-  foreach_mrvl_pp2_tx_func_error
+typedef enum {
+#define _(f, s) MRVL_PP2_TX_ERROR_##f,
+    foreach_mrvl_pp2_tx_func_error
 #undef _
-    MRVL_PP2_TX_N_ERROR,
+        MRVL_PP2_TX_N_ERROR,
 } mrvl_pp2_tx_func_error_t;
 
-uword mrvl_pp2_interface_tx (vlib_main_t * vm, vlib_node_runtime_t * node,
-			     vlib_frame_t * frame);
+uword mrvl_pp2_interface_tx(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *frame);
 
 /* input.c */
 
-typedef struct
-{
-  u32 next_index;
-  u32 hw_if_index;
-  struct pp2_ppio_desc desc;
+typedef struct {
+    u32 next_index;
+    u32 hw_if_index;
+    struct pp2_ppio_desc desc;
 } mrvl_pp2_input_trace_t;
 
 extern vlib_node_registration_t mrvl_pp2_input_node;

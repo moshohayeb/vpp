@@ -31,8 +31,7 @@ static dlist_elt_t *mfib_signal_dlist_pool;
 /**
  * the list/set of interfaces with signals pending
  */
-typedef struct mfib_signal_q_t_
-{
+typedef struct mfib_signal_q_t_ {
     /**
      * the dlist indext that is the head of the list
      */
@@ -47,10 +46,10 @@ typedef struct mfib_signal_q_t_
 /**
  * @brief The pending queue of signals to deliver to the control plane
  */
-static mfib_signal_q_t mfib_signal_pending ;
+static mfib_signal_q_t mfib_signal_pending;
 
 static void
-mfib_signal_list_init (void)
+mfib_signal_list_init(void)
 {
     dlist_elt_t *head;
     u32 hi;
@@ -63,62 +62,55 @@ mfib_signal_list_init (void)
 }
 
 void
-mfib_signal_module_init (void)
+mfib_signal_module_init(void)
 {
     mfib_signal_list_init();
 }
 
 static inline void
-mfib_signal_lock_aquire (void)
+mfib_signal_lock_aquire(void)
 {
-    while (__sync_lock_test_and_set (&mfib_signal_pending.mip_lock, 1))
+    while (__sync_lock_test_and_set(&mfib_signal_pending.mip_lock, 1))
         ;
 }
 
 static inline void
-mfib_signal_lock_release (void)
+mfib_signal_lock_release(void)
 {
     mfib_signal_pending.mip_lock = 0;
 }
 
-#define MFIB_SIGNAL_CRITICAL_SECTION(_body) \
-{                                           \
-    mfib_signal_lock_aquire();              \
-    do {                                    \
-        _body;                              \
-    } while (0);                            \
-    mfib_signal_lock_release();             \
-}
+#define MFIB_SIGNAL_CRITICAL_SECTION(_body)                                                                            \
+    {                                                                                                                  \
+        mfib_signal_lock_aquire();                                                                                     \
+        do {                                                                                                           \
+            _body;                                                                                                     \
+        } while (0);                                                                                                   \
+        mfib_signal_lock_release();                                                                                    \
+    }
 
 int
-mfib_signal_send_one (struct vl_api_registration_ *reg,
-                      u32 context)
+mfib_signal_send_one(struct vl_api_registration_ *reg, u32 context)
 {
     u32 li, si;
 
     /*
      * with the lock held, pop a signal from the q.
      */
-    MFIB_SIGNAL_CRITICAL_SECTION(
-    ({
-        li = clib_dlist_remove_head(mfib_signal_dlist_pool,
-                                    mfib_signal_pending.mip_head);
-    }));
+    MFIB_SIGNAL_CRITICAL_SECTION(({ li = clib_dlist_remove_head(mfib_signal_dlist_pool, mfib_signal_pending.mip_head); }));
 
-    if (~0 != li)
-    {
+    if (~0 != li) {
         mfib_signal_t *mfs;
         mfib_itf_t *mfi;
         dlist_elt_t *elt;
 
         elt = pool_elt_at_index(mfib_signal_dlist_pool, li);
-        si = elt->value;
+        si  = elt->value;
 
-        mfs = pool_elt_at_index(mfib_signal_pool, si);
-        mfi = mfib_itf_get(mfs->mfs_itf);
+        mfs         = pool_elt_at_index(mfib_signal_pool, si);
+        mfi         = mfib_itf_get(mfs->mfs_itf);
         mfi->mfi_si = INDEX_INVALID;
-        __sync_fetch_and_and(&mfi->mfi_flags,
-                             ~MFIB_ITF_FLAG_SIGNAL_PRESENT);
+        __sync_fetch_and_and(&mfi->mfi_flags, ~MFIB_ITF_FLAG_SIGNAL_PRESENT);
 
 
         vl_mfib_signal_send_one(reg, context, mfs);
@@ -126,8 +118,7 @@ mfib_signal_send_one (struct vl_api_registration_ *reg,
         /*
          * with the lock held, return the resoruces of the signals posted
          */
-        MFIB_SIGNAL_CRITICAL_SECTION(
-        ({
+        MFIB_SIGNAL_CRITICAL_SECTION(({
             pool_put_index(mfib_signal_pool, si);
             pool_put_index(mfib_signal_dlist_pool, li);
         }));
@@ -138,50 +129,39 @@ mfib_signal_send_one (struct vl_api_registration_ *reg,
 }
 
 void
-mfib_signal_push (const mfib_entry_t *mfe,
-                  mfib_itf_t *mfi,
-                  vlib_buffer_t *b0)
+mfib_signal_push(const mfib_entry_t *mfe, mfib_itf_t *mfi, vlib_buffer_t *b0)
 {
     mfib_signal_t *mfs;
     dlist_elt_t *elt;
     u32 si, li;
 
-    MFIB_SIGNAL_CRITICAL_SECTION(
-    ({
+    MFIB_SIGNAL_CRITICAL_SECTION(({
         pool_get(mfib_signal_pool, mfs);
         pool_get(mfib_signal_dlist_pool, elt);
 
         si = mfs - mfib_signal_pool;
         li = elt - mfib_signal_dlist_pool;
 
-        elt->value = si;
+        elt->value  = si;
         mfi->mfi_si = li;
 
-        clib_dlist_addhead(mfib_signal_dlist_pool,
-                           mfib_signal_pending.mip_head,
-                           li);
+        clib_dlist_addhead(mfib_signal_dlist_pool, mfib_signal_pending.mip_head, li);
     }));
 
     mfs->mfs_entry = mfib_entry_get_index(mfe);
-    mfs->mfs_itf = mfib_itf_get_index(mfi);
+    mfs->mfs_itf   = mfib_itf_get_index(mfi);
 
-    if (NULL != b0)
-    {
+    if (NULL != b0) {
         mfs->mfs_buffer_len = b0->current_length;
-        memcpy(mfs->mfs_buffer,
-               vlib_buffer_get_current(b0),
-               (mfs->mfs_buffer_len > MFIB_SIGNAL_BUFFER_SIZE ?
-                MFIB_SIGNAL_BUFFER_SIZE :
-                mfs->mfs_buffer_len));
-    }
-    else
-    {
+        memcpy(mfs->mfs_buffer, vlib_buffer_get_current(b0),
+               (mfs->mfs_buffer_len > MFIB_SIGNAL_BUFFER_SIZE ? MFIB_SIGNAL_BUFFER_SIZE : mfs->mfs_buffer_len));
+    } else {
         mfs->mfs_buffer_len = 0;
     }
 }
 
 void
-mfib_signal_remove_itf (const mfib_itf_t *mfi)
+mfib_signal_remove_itf(const mfib_itf_t *mfi)
 {
     u32 li;
 
@@ -190,13 +170,11 @@ mfib_signal_remove_itf (const mfib_itf_t *mfi)
      */
     li = mfi->mfi_si;
 
-    if (INDEX_INVALID != li)
-    {
+    if (INDEX_INVALID != li) {
         /*
          * it's in the pending q
          */
-        MFIB_SIGNAL_CRITICAL_SECTION(
-        ({
+        MFIB_SIGNAL_CRITICAL_SECTION(({
             dlist_elt_t *elt;
 
             /*

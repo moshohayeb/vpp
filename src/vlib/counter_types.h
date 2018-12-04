@@ -23,10 +23,9 @@ typedef uint64_t counter_t;
 
 /** Combined counter to hold both packets and byte differences.
  */
-typedef struct
-{
-  counter_t packets;			/**< packet counter */
-  counter_t bytes;			/**< byte counter  */
+typedef struct {
+    counter_t packets; /**< packet counter */
+    counter_t bytes;   /**< byte counter  */
 } vlib_counter_t;
 
 #endif

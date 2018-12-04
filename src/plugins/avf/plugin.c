@@ -20,9 +20,9 @@
 #include <vpp/app/version.h>
 
 /* *INDENT-OFF* */
-VLIB_PLUGIN_REGISTER () = {
-  .version = VPP_BUILD_VER,
-  .description = "Intel Adaptive Virtual Function (AVF) Device Plugin",
+VLIB_PLUGIN_REGISTER() = {
+    .version     = VPP_BUILD_VER,
+    .description = "Intel Adaptive Virtual Function (AVF) Device Plugin",
 };
 /* *INDENT-ON* */
 

@@ -85,18 +85,15 @@ typedef struct bier_fmask_id_t_ {
     bier_nh_type_t bfmi_nh_type;
 } __attribute__((packed)) bier_fmask_id_t;
 
-extern index_t
-bier_fmask_db_find_or_create_and_lock(index_t bti,
-                                      const fib_route_path_t *rpath);
-extern index_t bier_fmask_db_find (index_t bti,
-                                   const fib_route_path_t *rpath);
+extern index_t bier_fmask_db_find_or_create_and_lock(index_t bti, const fib_route_path_t *rpath);
+extern index_t bier_fmask_db_find(index_t bti, const fib_route_path_t *rpath);
 
-extern void bier_fmask_db_remove (const bier_fmask_id_t *fmid);
+extern void bier_fmask_db_remove(const bier_fmask_id_t *fmid);
 
 /**
  * Walk all the BIER fmasks
  */
-typedef walk_rc_t (*bier_fmask_walk_fn_t) (index_t bfmi, void *ctx);
+typedef walk_rc_t (*bier_fmask_walk_fn_t)(index_t bfmi, void *ctx);
 
 extern void bier_fmask_db_walk(bier_fmask_walk_fn_t fn, void *ctx);
 

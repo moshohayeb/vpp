@@ -24,7 +24,7 @@
 mpls_disp_dpo_t *mpls_disp_dpo_pool;
 
 static mpls_disp_dpo_t *
-mpls_disp_dpo_alloc (void)
+mpls_disp_dpo_alloc(void)
 {
     mpls_disp_dpo_t *mdd;
 
@@ -37,17 +37,14 @@ mpls_disp_dpo_alloc (void)
 }
 
 static index_t
-mpls_disp_dpo_get_index (mpls_disp_dpo_t *mdd)
+mpls_disp_dpo_get_index(mpls_disp_dpo_t *mdd)
 {
     return (mdd - mpls_disp_dpo_pool);
 }
 
 void
-mpls_disp_dpo_create (dpo_proto_t payload_proto,
-                      fib_rpf_id_t rpf_id,
-                      fib_mpls_lsp_mode_t mode,
-                      const dpo_id_t *parent,
-                      dpo_id_t *dpo)
+mpls_disp_dpo_create(dpo_proto_t payload_proto, fib_rpf_id_t rpf_id, fib_mpls_lsp_mode_t mode, const dpo_id_t *parent,
+                     dpo_id_t *dpo)
 {
     mpls_disp_dpo_t *mdd;
     dpo_type_t dtype;
@@ -55,51 +52,41 @@ mpls_disp_dpo_create (dpo_proto_t payload_proto,
     mdd = mpls_disp_dpo_alloc();
 
     mdd->mdd_payload_proto = payload_proto;
-    mdd->mdd_rpf_id = rpf_id;
-    mdd->mdd_mode = mode;
-    dtype = (FIB_MPLS_LSP_MODE_PIPE == mode ?
-             DPO_MPLS_DISPOSITION_PIPE :
-             DPO_MPLS_DISPOSITION_UNIFORM);
+    mdd->mdd_rpf_id        = rpf_id;
+    mdd->mdd_mode          = mode;
+    dtype = (FIB_MPLS_LSP_MODE_PIPE == mode ? DPO_MPLS_DISPOSITION_PIPE : DPO_MPLS_DISPOSITION_UNIFORM);
 
     /*
      * stack this disposition object on the parent given
      */
-    dpo_stack(dtype,
-              mdd->mdd_payload_proto,
-              &mdd->mdd_dpo,
-              parent);
+    dpo_stack(dtype, mdd->mdd_payload_proto, &mdd->mdd_dpo, parent);
 
     /*
      * set up the return DPO to refer to this object
      */
-    dpo_set(dpo,
-            dtype,
-            payload_proto,
-            mpls_disp_dpo_get_index(mdd));
+    dpo_set(dpo, dtype, payload_proto, mpls_disp_dpo_get_index(mdd));
 }
 
-u8*
-format_mpls_disp_dpo (u8 *s, va_list *args)
+u8 *
+format_mpls_disp_dpo(u8 *s, va_list *args)
 {
     index_t index = va_arg(*args, index_t);
-    u32 indent = va_arg(*args, u32);
+    u32 indent    = va_arg(*args, u32);
     mpls_disp_dpo_t *mdd;
 
     mdd = mpls_disp_dpo_get(index);
 
-    s = format(s, "mpls-disposition:[%d]:[%U, %U]",
-               index,
-               format_dpo_proto, mdd->mdd_payload_proto,
+    s = format(s, "mpls-disposition:[%d]:[%U, %U]", index, format_dpo_proto, mdd->mdd_payload_proto,
                format_fib_mpls_lsp_mode, mdd->mdd_mode);
 
     s = format(s, "\n%U", format_white_space, indent);
-    s = format(s, "%U", format_dpo_id, &mdd->mdd_dpo, indent+2);
+    s = format(s, "%U", format_dpo_id, &mdd->mdd_dpo, indent + 2);
 
     return (s);
 }
 
 static void
-mpls_disp_dpo_lock (dpo_id_t *dpo)
+mpls_disp_dpo_lock(dpo_id_t *dpo)
 {
     mpls_disp_dpo_t *mdd;
 
@@ -109,7 +96,7 @@ mpls_disp_dpo_lock (dpo_id_t *dpo)
 }
 
 static void
-mpls_disp_dpo_unlock (dpo_id_t *dpo)
+mpls_disp_dpo_unlock(dpo_id_t *dpo)
 {
     mpls_disp_dpo_t *mdd;
 
@@ -117,10 +104,9 @@ mpls_disp_dpo_unlock (dpo_id_t *dpo)
 
     mdd->mdd_locks--;
 
-    if (0 == mdd->mdd_locks)
-    {
-	dpo_reset(&mdd->mdd_dpo);
-	pool_put(mpls_disp_dpo_pool, mdd);
+    if (0 == mdd->mdd_locks) {
+        dpo_reset(&mdd->mdd_dpo);
+        pool_put(mpls_disp_dpo_pool, mdd);
     }
 }
 
@@ -128,8 +114,7 @@ mpls_disp_dpo_unlock (dpo_id_t *dpo)
  * @brief A struct to hold tracing information for the MPLS label disposition
  * node.
  */
-typedef struct mpls_label_disposition_trace_t_
-{
+typedef struct mpls_label_disposition_trace_t_ {
     index_t mdd;
 } mpls_label_disposition_trace_t;
 
@@ -139,50 +124,37 @@ extern vlib_node_registration_t ip4_mpls_label_disposition_uniform_node;
 extern vlib_node_registration_t ip6_mpls_label_disposition_uniform_node;
 
 always_inline uword
-mpls_label_disposition_inline (vlib_main_t * vm,
-                               vlib_node_runtime_t * node,
-                               vlib_frame_t * from_frame,
-                               u8 payload_is_ip4,
-                               u8 payload_is_ip6,
-                               fib_mpls_lsp_mode_t mode)
+mpls_label_disposition_inline(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *from_frame, u8 payload_is_ip4,
+                              u8 payload_is_ip6, fib_mpls_lsp_mode_t mode)
 {
-    u32 n_left_from, next_index, * from, * to_next;
+    u32 n_left_from, next_index, *from, *to_next;
     vlib_node_runtime_t *error_node;
 
-    if (payload_is_ip4)
-    {
+    if (payload_is_ip4) {
         if (FIB_MPLS_LSP_MODE_PIPE == mode)
-            error_node =
-                vlib_node_get_runtime(vm, ip4_mpls_label_disposition_pipe_node.index);
+            error_node = vlib_node_get_runtime(vm, ip4_mpls_label_disposition_pipe_node.index);
         else
-            error_node =
-                vlib_node_get_runtime(vm, ip4_mpls_label_disposition_uniform_node.index);
-    }
-    else
-    {
+            error_node = vlib_node_get_runtime(vm, ip4_mpls_label_disposition_uniform_node.index);
+    } else {
         if (FIB_MPLS_LSP_MODE_PIPE == mode)
-            error_node =
-                vlib_node_get_runtime(vm, ip6_mpls_label_disposition_pipe_node.index);
+            error_node = vlib_node_get_runtime(vm, ip6_mpls_label_disposition_pipe_node.index);
         else
-            error_node =
-                vlib_node_get_runtime(vm, ip6_mpls_label_disposition_uniform_node.index);
+            error_node = vlib_node_get_runtime(vm, ip6_mpls_label_disposition_uniform_node.index);
     }
-    from = vlib_frame_vector_args(from_frame);
+    from        = vlib_frame_vector_args(from_frame);
     n_left_from = from_frame->n_vectors;
 
     next_index = node->cached_next_index;
 
-    while (n_left_from > 0)
-    {
+    while (n_left_from > 0) {
         u32 n_left_to_next;
 
         vlib_get_next_frame(vm, node, next_index, to_next, n_left_to_next);
 
-        while (n_left_from >= 4 && n_left_to_next >= 2)
-        {
+        while (n_left_from >= 4 && n_left_to_next >= 2) {
             mpls_disp_dpo_t *mdd0, *mdd1;
             u32 bi0, mddi0, bi1, mddi1;
-            vlib_buffer_t * b0, *b1;
+            vlib_buffer_t *b0, *b1;
             u32 next0, next1;
 
             bi0 = to_next[0] = from[0];
@@ -190,7 +162,7 @@ mpls_label_disposition_inline (vlib_main_t * vm,
 
             /* Prefetch next iteration. */
             {
-                vlib_buffer_t * p2, * p3;
+                vlib_buffer_t *p2, *p3;
 
                 p2 = vlib_get_buffer(vm, from[2]);
                 p3 = vlib_get_buffer(vm, from[3]);
@@ -213,14 +185,13 @@ mpls_label_disposition_inline (vlib_main_t * vm,
             /* dst lookup was done by ip4 lookup */
             mddi0 = vnet_buffer(b0)->ip.adj_index[VLIB_TX];
             mddi1 = vnet_buffer(b1)->ip.adj_index[VLIB_TX];
-            mdd0 = mpls_disp_dpo_get(mddi0);
-            mdd1 = mpls_disp_dpo_get(mddi1);
+            mdd0  = mpls_disp_dpo_get(mddi0);
+            mdd1  = mpls_disp_dpo_get(mddi1);
 
             next0 = mdd0->mdd_dpo.dpoi_next_node;
             next1 = mdd1->mdd_dpo.dpoi_next_node;
 
-            if (payload_is_ip4)
-            {
+            if (payload_is_ip4) {
                 ip4_header_t *ip0, *ip1;
 
                 ip0 = vlib_buffer_get_current(b0);
@@ -230,12 +201,9 @@ mpls_label_disposition_inline (vlib_main_t * vm,
                  * IPv4 input checks on the exposed IP header
                  * including checksum
                  */
-                ip4_input_check_x2(vm, error_node,
-                                   b0, b1, ip0, ip1,
-                                   &next0, &next1, 1);
+                ip4_input_check_x2(vm, error_node, b0, b1, ip0, ip1, &next0, &next1, 1);
 
-                if (FIB_MPLS_LSP_MODE_UNIFORM == mode)
-                {
+                if (FIB_MPLS_LSP_MODE_UNIFORM == mode) {
                     /*
                      * Copy the TTL from the MPLS packet into the
                      * exposed IP. recalc the chksum
@@ -248,9 +216,7 @@ mpls_label_disposition_inline (vlib_main_t * vm,
                     ip0->checksum = ip4_header_checksum(ip0);
                     ip1->checksum = ip4_header_checksum(ip1);
                 }
-            }
-            else if (payload_is_ip6)
-            {
+            } else if (payload_is_ip6) {
                 ip6_header_t *ip0, *ip1;
 
                 ip0 = vlib_buffer_get_current(b0);
@@ -259,12 +225,9 @@ mpls_label_disposition_inline (vlib_main_t * vm,
                 /*
                  * IPv6 input checks on the exposed IP header
                  */
-                ip6_input_check_x2(vm, error_node,
-                                   b0, b1, ip0, ip1,
-                                   &next0, &next1);
+                ip6_input_check_x2(vm, error_node, b0, b1, ip0, ip1, &next0, &next1);
 
-                if (FIB_MPLS_LSP_MODE_UNIFORM == mode)
-                {
+                if (FIB_MPLS_LSP_MODE_UNIFORM == mode) {
                     /*
                      * Copy the TTL from the MPLS packet into the
                      * exposed IP
@@ -272,47 +235,36 @@ mpls_label_disposition_inline (vlib_main_t * vm,
                     ip0->hop_limit = vnet_buffer(b0)->mpls.ttl;
                     ip1->hop_limit = vnet_buffer(b1)->mpls.ttl;
 
-                    ip6_set_traffic_class_network_order(
-                        ip0,
-                        mpls_exp_to_ip_dscp(vnet_buffer(b0)->mpls.exp));
-                    ip6_set_traffic_class_network_order(
-                        ip1,
-                        mpls_exp_to_ip_dscp(vnet_buffer(b1)->mpls.exp));
+                    ip6_set_traffic_class_network_order(ip0, mpls_exp_to_ip_dscp(vnet_buffer(b0)->mpls.exp));
+                    ip6_set_traffic_class_network_order(ip1, mpls_exp_to_ip_dscp(vnet_buffer(b1)->mpls.exp));
                 }
             }
 
             vnet_buffer(b0)->ip.adj_index[VLIB_TX] = mdd0->mdd_dpo.dpoi_index;
             vnet_buffer(b1)->ip.adj_index[VLIB_TX] = mdd1->mdd_dpo.dpoi_index;
-            vnet_buffer(b0)->ip.rpf_id = mdd0->mdd_rpf_id;
-            vnet_buffer(b1)->ip.rpf_id = mdd1->mdd_rpf_id;
+            vnet_buffer(b0)->ip.rpf_id             = mdd0->mdd_rpf_id;
+            vnet_buffer(b1)->ip.rpf_id             = mdd1->mdd_rpf_id;
 
-            if (PREDICT_FALSE(b0->flags & VLIB_BUFFER_IS_TRACED))
-            {
-                mpls_label_disposition_trace_t *tr =
-                    vlib_add_trace(vm, node, b0, sizeof(*tr));
+            if (PREDICT_FALSE(b0->flags & VLIB_BUFFER_IS_TRACED)) {
+                mpls_label_disposition_trace_t *tr = vlib_add_trace(vm, node, b0, sizeof(*tr));
 
                 tr->mdd = mddi0;
             }
-            if (PREDICT_FALSE(b1->flags & VLIB_BUFFER_IS_TRACED))
-            {
-                mpls_label_disposition_trace_t *tr =
-                    vlib_add_trace(vm, node, b1, sizeof(*tr));
-                tr->mdd = mddi1;
+            if (PREDICT_FALSE(b1->flags & VLIB_BUFFER_IS_TRACED)) {
+                mpls_label_disposition_trace_t *tr = vlib_add_trace(vm, node, b1, sizeof(*tr));
+                tr->mdd                            = mddi1;
             }
 
-            vlib_validate_buffer_enqueue_x2(vm, node, next_index, to_next,
-                                            n_left_to_next,
-                                            bi0, bi1, next0, next1);
+            vlib_validate_buffer_enqueue_x2(vm, node, next_index, to_next, n_left_to_next, bi0, bi1, next0, next1);
         }
 
-        while (n_left_from > 0 && n_left_to_next > 0)
-        {
+        while (n_left_from > 0 && n_left_to_next > 0) {
             mpls_disp_dpo_t *mdd0;
-            vlib_buffer_t * b0;
+            vlib_buffer_t *b0;
             u32 bi0, mddi0;
             u32 next0;
 
-            bi0 = from[0];
+            bi0        = from[0];
             to_next[0] = bi0;
             from += 1;
             to_next += 1;
@@ -323,11 +275,10 @@ mpls_label_disposition_inline (vlib_main_t * vm,
 
             /* dst lookup was done by ip4 lookup */
             mddi0 = vnet_buffer(b0)->ip.adj_index[VLIB_TX];
-            mdd0 = mpls_disp_dpo_get(mddi0);
+            mdd0  = mpls_disp_dpo_get(mddi0);
             next0 = mdd0->mdd_dpo.dpoi_next_node;
 
-            if (payload_is_ip4)
-            {
+            if (payload_is_ip4) {
                 ip4_header_t *ip0;
 
                 ip0 = vlib_buffer_get_current(b0);
@@ -338,19 +289,16 @@ mpls_label_disposition_inline (vlib_main_t * vm,
                  */
                 ip4_input_check_x1(vm, error_node, b0, ip0, &next0, 1);
 
-                if (FIB_MPLS_LSP_MODE_UNIFORM == mode)
-                {
+                if (FIB_MPLS_LSP_MODE_UNIFORM == mode) {
                     /*
                      * Copy the TTL from the MPLS packet into the
                      * exposed IP. recalc the chksum
                      */
-                    ip0->ttl = vnet_buffer(b0)->mpls.ttl;
-                    ip0->tos = mpls_exp_to_ip_dscp(vnet_buffer(b0)->mpls.exp);
+                    ip0->ttl      = vnet_buffer(b0)->mpls.ttl;
+                    ip0->tos      = mpls_exp_to_ip_dscp(vnet_buffer(b0)->mpls.exp);
                     ip0->checksum = ip4_header_checksum(ip0);
                 }
-            }
-            else if (payload_is_ip6)
-            {
+            } else if (payload_is_ip6) {
                 ip6_header_t *ip0;
 
                 ip0 = vlib_buffer_get_current(b0);
@@ -360,32 +308,26 @@ mpls_label_disposition_inline (vlib_main_t * vm,
                  */
                 ip6_input_check_x1(vm, error_node, b0, ip0, &next0);
 
-                if (FIB_MPLS_LSP_MODE_UNIFORM == mode)
-                {
+                if (FIB_MPLS_LSP_MODE_UNIFORM == mode) {
                     /*
                      * Copy the TTL from the MPLS packet into the
                      * exposed IP
                      */
                     ip0->hop_limit = vnet_buffer(b0)->mpls.ttl;
 
-                    ip6_set_traffic_class_network_order(
-                        ip0,
-                        mpls_exp_to_ip_dscp(vnet_buffer(b0)->mpls.exp));
+                    ip6_set_traffic_class_network_order(ip0, mpls_exp_to_ip_dscp(vnet_buffer(b0)->mpls.exp));
                 }
             }
 
             vnet_buffer(b0)->ip.adj_index[VLIB_TX] = mdd0->mdd_dpo.dpoi_index;
-            vnet_buffer(b0)->ip.rpf_id = mdd0->mdd_rpf_id;
+            vnet_buffer(b0)->ip.rpf_id             = mdd0->mdd_rpf_id;
 
-            if (PREDICT_FALSE(b0->flags & VLIB_BUFFER_IS_TRACED))
-            {
-                mpls_label_disposition_trace_t *tr =
-                    vlib_add_trace(vm, node, b0, sizeof(*tr));
-                tr->mdd = mddi0;
+            if (PREDICT_FALSE(b0->flags & VLIB_BUFFER_IS_TRACED)) {
+                mpls_label_disposition_trace_t *tr = vlib_add_trace(vm, node, b0, sizeof(*tr));
+                tr->mdd                            = mddi0;
             }
 
-            vlib_validate_buffer_enqueue_x1(vm, node, next_index, to_next,
-                                            n_left_to_next, bi0, next0);
+            vlib_validate_buffer_enqueue_x1(vm, node, next_index, to_next, n_left_to_next, bi0, next0);
         }
         vlib_put_next_frame(vm, node, next_index, n_left_to_next);
     }
@@ -393,9 +335,9 @@ mpls_label_disposition_inline (vlib_main_t * vm,
 }
 
 static u8 *
-format_mpls_label_disposition_trace (u8 * s, va_list * args)
+format_mpls_label_disposition_trace(u8 *s, va_list *args)
 {
-    CLIB_UNUSED(vlib_main_t * vm) = va_arg(*args, vlib_main_t *);
+    CLIB_UNUSED(vlib_main_t * vm)   = va_arg(*args, vlib_main_t *);
     CLIB_UNUSED(vlib_node_t * node) = va_arg(*args, vlib_node_t *);
     CLIB_UNUSED(mpls_label_disposition_trace_t * t);
 
@@ -406,147 +348,121 @@ format_mpls_label_disposition_trace (u8 * s, va_list * args)
 }
 
 static uword
-ip4_mpls_label_disposition_pipe (vlib_main_t * vm,
-                                 vlib_node_runtime_t * node,
-                                 vlib_frame_t * frame)
+ip4_mpls_label_disposition_pipe(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *frame)
 {
-    return (mpls_label_disposition_inline(vm, node, frame, 1, 0,
-                                          FIB_MPLS_LSP_MODE_PIPE));
+    return (mpls_label_disposition_inline(vm, node, frame, 1, 0, FIB_MPLS_LSP_MODE_PIPE));
 }
 
 VLIB_REGISTER_NODE(ip4_mpls_label_disposition_pipe_node) = {
-    .function = ip4_mpls_label_disposition_pipe,
-    .name = "ip4-mpls-label-disposition-pipe",
+    .function    = ip4_mpls_label_disposition_pipe,
+    .name        = "ip4-mpls-label-disposition-pipe",
     .vector_size = sizeof(u32),
 
-    .format_trace = format_mpls_label_disposition_trace,
-    .sibling_of = "ip4-input",
-    .n_errors = IP4_N_ERROR,
+    .format_trace  = format_mpls_label_disposition_trace,
+    .sibling_of    = "ip4-input",
+    .n_errors      = IP4_N_ERROR,
     .error_strings = ip4_error_strings,
 };
-VLIB_NODE_FUNCTION_MULTIARCH(ip4_mpls_label_disposition_pipe_node,
-                              ip4_mpls_label_disposition_pipe)
+VLIB_NODE_FUNCTION_MULTIARCH(ip4_mpls_label_disposition_pipe_node, ip4_mpls_label_disposition_pipe)
 
 static uword
-ip6_mpls_label_disposition_pipe (vlib_main_t * vm,
-                                 vlib_node_runtime_t * node,
-                                 vlib_frame_t * frame)
+ip6_mpls_label_disposition_pipe(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *frame)
 {
-    return (mpls_label_disposition_inline(vm, node, frame, 0, 1,
-                                          FIB_MPLS_LSP_MODE_PIPE));
+    return (mpls_label_disposition_inline(vm, node, frame, 0, 1, FIB_MPLS_LSP_MODE_PIPE));
 }
 
 VLIB_REGISTER_NODE(ip6_mpls_label_disposition_pipe_node) = {
-    .function = ip6_mpls_label_disposition_pipe,
-    .name = "ip6-mpls-label-disposition-pipe",
+    .function    = ip6_mpls_label_disposition_pipe,
+    .name        = "ip6-mpls-label-disposition-pipe",
     .vector_size = sizeof(u32),
 
-    .format_trace = format_mpls_label_disposition_trace,
-    .sibling_of = "ip6-input",
-    .n_errors = IP6_N_ERROR,
+    .format_trace  = format_mpls_label_disposition_trace,
+    .sibling_of    = "ip6-input",
+    .n_errors      = IP6_N_ERROR,
     .error_strings = ip6_error_strings,
 };
-VLIB_NODE_FUNCTION_MULTIARCH(ip6_mpls_label_disposition_pipe_node,
-                             ip6_mpls_label_disposition_pipe)
+VLIB_NODE_FUNCTION_MULTIARCH(ip6_mpls_label_disposition_pipe_node, ip6_mpls_label_disposition_pipe)
 
 static uword
-ip4_mpls_label_disposition_uniform (vlib_main_t * vm,
-                                 vlib_node_runtime_t * node,
-                                 vlib_frame_t * frame)
+ip4_mpls_label_disposition_uniform(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *frame)
 {
-    return (mpls_label_disposition_inline(vm, node, frame, 1, 0,
-                                          FIB_MPLS_LSP_MODE_UNIFORM));
+    return (mpls_label_disposition_inline(vm, node, frame, 1, 0, FIB_MPLS_LSP_MODE_UNIFORM));
 }
 
 VLIB_REGISTER_NODE(ip4_mpls_label_disposition_uniform_node) = {
-    .function = ip4_mpls_label_disposition_uniform,
-    .name = "ip4-mpls-label-disposition-uniform",
+    .function    = ip4_mpls_label_disposition_uniform,
+    .name        = "ip4-mpls-label-disposition-uniform",
     .vector_size = sizeof(u32),
 
-    .format_trace = format_mpls_label_disposition_trace,
-    .sibling_of = "ip4-input",
-    .n_errors = IP4_N_ERROR,
+    .format_trace  = format_mpls_label_disposition_trace,
+    .sibling_of    = "ip4-input",
+    .n_errors      = IP4_N_ERROR,
     .error_strings = ip4_error_strings,
 };
-VLIB_NODE_FUNCTION_MULTIARCH(ip4_mpls_label_disposition_uniform_node,
-                             ip4_mpls_label_disposition_uniform)
+VLIB_NODE_FUNCTION_MULTIARCH(ip4_mpls_label_disposition_uniform_node, ip4_mpls_label_disposition_uniform)
 
 static uword
-ip6_mpls_label_disposition_uniform (vlib_main_t * vm,
-                                    vlib_node_runtime_t * node,
-                                    vlib_frame_t * frame)
+ip6_mpls_label_disposition_uniform(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *frame)
 {
-    return (mpls_label_disposition_inline(vm, node, frame, 0, 1,
-                                          FIB_MPLS_LSP_MODE_UNIFORM));
+    return (mpls_label_disposition_inline(vm, node, frame, 0, 1, FIB_MPLS_LSP_MODE_UNIFORM));
 }
 
 VLIB_REGISTER_NODE(ip6_mpls_label_disposition_uniform_node) = {
-    .function = ip6_mpls_label_disposition_uniform,
-    .name = "ip6-mpls-label-disposition-uniform",
+    .function    = ip6_mpls_label_disposition_uniform,
+    .name        = "ip6-mpls-label-disposition-uniform",
     .vector_size = sizeof(u32),
 
-    .format_trace = format_mpls_label_disposition_trace,
-    .sibling_of = "ip6-input",
-    .n_errors = IP6_N_ERROR,
+    .format_trace  = format_mpls_label_disposition_trace,
+    .sibling_of    = "ip6-input",
+    .n_errors      = IP6_N_ERROR,
     .error_strings = ip6_error_strings,
 };
-VLIB_NODE_FUNCTION_MULTIARCH(ip6_mpls_label_disposition_uniform_node,
-                             ip6_mpls_label_disposition_uniform)
+VLIB_NODE_FUNCTION_MULTIARCH(ip6_mpls_label_disposition_uniform_node, ip6_mpls_label_disposition_uniform)
 
 static void
-mpls_disp_dpo_mem_show (void)
+mpls_disp_dpo_mem_show(void)
 {
-    fib_show_memory_usage("MPLS label",
-			  pool_elts(mpls_disp_dpo_pool),
-			  pool_len(mpls_disp_dpo_pool),
-			  sizeof(mpls_disp_dpo_t));
+    fib_show_memory_usage("MPLS label", pool_elts(mpls_disp_dpo_pool), pool_len(mpls_disp_dpo_pool),
+                          sizeof(mpls_disp_dpo_t));
 }
 
 const static dpo_vft_t mdd_vft = {
-    .dv_lock = mpls_disp_dpo_lock,
-    .dv_unlock = mpls_disp_dpo_unlock,
-    .dv_format = format_mpls_disp_dpo,
+    .dv_lock     = mpls_disp_dpo_lock,
+    .dv_unlock   = mpls_disp_dpo_unlock,
+    .dv_format   = format_mpls_disp_dpo,
     .dv_mem_show = mpls_disp_dpo_mem_show,
 };
 
-const static char* const mpls_label_disp_pipe_ip4_nodes[] =
-{
+const static char *const mpls_label_disp_pipe_ip4_nodes[] = {
     "ip4-mpls-label-disposition-pipe",
     NULL,
 };
-const static char* const mpls_label_disp_pipe_ip6_nodes[] =
-{
+const static char *const mpls_label_disp_pipe_ip6_nodes[] = {
     "ip6-mpls-label-disposition-pipe",
     NULL,
 };
-const static char* const * const mpls_label_disp_pipe_nodes[DPO_PROTO_NUM] =
-{
-    [DPO_PROTO_IP4]  = mpls_label_disp_pipe_ip4_nodes,
-    [DPO_PROTO_IP6]  = mpls_label_disp_pipe_ip6_nodes,
+const static char *const *const mpls_label_disp_pipe_nodes[DPO_PROTO_NUM] = {
+    [DPO_PROTO_IP4] = mpls_label_disp_pipe_ip4_nodes,
+    [DPO_PROTO_IP6] = mpls_label_disp_pipe_ip6_nodes,
 };
 
-const static char* const mpls_label_disp_uniform_ip4_nodes[] =
-{
+const static char *const mpls_label_disp_uniform_ip4_nodes[] = {
     "ip4-mpls-label-disposition-uniform",
     NULL,
 };
-const static char* const mpls_label_disp_uniform_ip6_nodes[] =
-{
+const static char *const mpls_label_disp_uniform_ip6_nodes[] = {
     "ip6-mpls-label-disposition-uniform",
     NULL,
 };
-const static char* const * const mpls_label_disp_uniform_nodes[DPO_PROTO_NUM] =
-{
-    [DPO_PROTO_IP4]  = mpls_label_disp_uniform_ip4_nodes,
-    [DPO_PROTO_IP6]  = mpls_label_disp_uniform_ip6_nodes,
+const static char *const *const mpls_label_disp_uniform_nodes[DPO_PROTO_NUM] = {
+    [DPO_PROTO_IP4] = mpls_label_disp_uniform_ip4_nodes,
+    [DPO_PROTO_IP6] = mpls_label_disp_uniform_ip6_nodes,
 };
 
 
 void
 mpls_disp_dpo_module_init(void)
 {
-    dpo_register(DPO_MPLS_DISPOSITION_PIPE, &mdd_vft,
-                 mpls_label_disp_pipe_nodes);
-    dpo_register(DPO_MPLS_DISPOSITION_UNIFORM, &mdd_vft,
-                 mpls_label_disp_uniform_nodes);
+    dpo_register(DPO_MPLS_DISPOSITION_PIPE, &mdd_vft, mpls_label_disp_pipe_nodes);
+    dpo_register(DPO_MPLS_DISPOSITION_UNIFORM, &mdd_vft, mpls_label_disp_uniform_nodes);
 }

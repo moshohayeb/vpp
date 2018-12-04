@@ -14,4 +14,3 @@
  */
 /* Include the generated file, see BUILT_SOURCES in Makefile.am */
 #include <gbp/gbp.api.h>
-

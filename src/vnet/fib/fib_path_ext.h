@@ -23,8 +23,7 @@
 /**
  * A description of the type of path extension
  */
-typedef enum fib_path_ext_type_t_
-{
+typedef enum fib_path_ext_type_t_ {
     /**
      * An MPLS extension that maintains the path's outgoing labels,
      */
@@ -39,51 +38,45 @@ typedef enum fib_path_ext_type_t_
 /**
  * Flags present on an ADJ sourced path-extension
  */
-typedef enum fib_path_ext_adj_attr_t_
-{
+typedef enum fib_path_ext_adj_attr_t_ {
     FIB_PATH_EXT_ADJ_ATTR_REFINES_COVER,
 } fib_path_ext_adj_attr_t;
 
-typedef enum fib_path_ext_adj_flags_t_
-{
-    FIB_PATH_EXT_ADJ_FLAG_NONE = 0,
+typedef enum fib_path_ext_adj_flags_t_ {
+    FIB_PATH_EXT_ADJ_FLAG_NONE          = 0,
     FIB_PATH_EXT_ADJ_FLAG_REFINES_COVER = (1 << FIB_PATH_EXT_ADJ_ATTR_REFINES_COVER),
 } fib_path_ext_adj_flags_t;
 
-#define FIB_PATH_EXT_ADJ_ATTR_NAMES {                               \
-    [FIB_PATH_EXT_ADJ_ATTR_REFINES_COVER] = "refines-cover",        \
-}
+#define FIB_PATH_EXT_ADJ_ATTR_NAMES                                                                                    \
+    {                                                                                                                  \
+        [FIB_PATH_EXT_ADJ_ATTR_REFINES_COVER] = "refines-cover",                                                       \
+    }
 
-#define FOR_EACH_PATH_EXT_ADJ_ATTR(_item)               \
-    for (_item = FIB_PATH_EXT_ADJ_ATTR_REFINES_COVER;   \
-         _item <= FIB_PATH_EXT_ADJ_ATTR_REFINES_COVER;  \
-         _item++)
+#define FOR_EACH_PATH_EXT_ADJ_ATTR(_item)                                                                              \
+    for (_item = FIB_PATH_EXT_ADJ_ATTR_REFINES_COVER; _item <= FIB_PATH_EXT_ADJ_ATTR_REFINES_COVER; _item++)
 
 /**
  * Flags present on an MPLS label sourced path-extension
  */
-typedef enum fib_path_ext_mpls_attr_t_
-{
+typedef enum fib_path_ext_mpls_attr_t_ {
     /**
      * Do not decrement the TTL of IP packet during imposition
      */
     FIB_PATH_EXT_MPLS_ATTR_NO_IP_TTL_DECR,
 } fib_path_ext_mpls_attr_t;
 
-typedef enum fib_path_ext_mpls_flags_t_
-{
-    FIB_PATH_EXT_MPLS_FLAG_NONE = 0,
+typedef enum fib_path_ext_mpls_flags_t_ {
+    FIB_PATH_EXT_MPLS_FLAG_NONE           = 0,
     FIB_PATH_EXT_MPLS_FLAG_NO_IP_TTL_DECR = (1 << FIB_PATH_EXT_MPLS_ATTR_NO_IP_TTL_DECR),
 } fib_path_ext_mpls_flags_t;
 
-#define FIB_PATH_EXT_MPLS_ATTR_NAMES {                               \
-    [FIB_PATH_EXT_MPLS_ATTR_NO_IP_TTL_DECR] = "no-ip-tll-decr",      \
-}
+#define FIB_PATH_EXT_MPLS_ATTR_NAMES                                                                                   \
+    {                                                                                                                  \
+        [FIB_PATH_EXT_MPLS_ATTR_NO_IP_TTL_DECR] = "no-ip-tll-decr",                                                    \
+    }
 
-#define FOR_EACH_PATH_EXT_MPLS_ATTR(_item)                \
-    for (_item = FIB_PATH_EXT_MPLS_ATTR_NO_IP_TTL_DECR;   \
-         _item <= FIB_PATH_EXT_MPLS_ATTR_NO_IP_TTL_DECR;  \
-         _item++)
+#define FOR_EACH_PATH_EXT_MPLS_ATTR(_item)                                                                             \
+    for (_item = FIB_PATH_EXT_MPLS_ATTR_NO_IP_TTL_DECR; _item <= FIB_PATH_EXT_MPLS_ATTR_NO_IP_TTL_DECR; _item++)
 
 /**
  * A path extension is a per-entry addition to the forwarding information
@@ -95,8 +88,7 @@ typedef enum fib_path_ext_mpls_flags_t_
  * The out-going MPLS label value 100 is a path-extension. It is a value sepcific
  * to the entry 1.1.1.1/32 and valid only when packets are sent via 10.10.10.10.
  */
-typedef struct fib_path_ext_t_
-{
+typedef struct fib_path_ext_t_ {
     /**
      * A description of the path that is being extended.
      * This description is used to match this extension with the [changing]
@@ -130,47 +122,34 @@ typedef struct fib_path_ext_t_
      * position in the path-list.
      */
     fib_node_index_t fpe_path_index;
-} __attribute__ ((packed)) fib_path_ext_t;
+} __attribute__((packed)) fib_path_ext_t;
 
-extern u8 * format_fib_path_ext(u8 * s, va_list * args);
+extern u8 *format_fib_path_ext(u8 *s, va_list *args);
 
-extern int fib_path_ext_cmp(fib_path_ext_t *path_ext,
-			    const fib_route_path_t *rpath);
+extern int fib_path_ext_cmp(fib_path_ext_t *path_ext, const fib_route_path_t *rpath);
 
-extern void fib_path_ext_resolve(fib_path_ext_t *path_ext,
-				 fib_node_index_t path_list_index);
+extern void fib_path_ext_resolve(fib_path_ext_t *path_ext, fib_node_index_t path_list_index);
 
-extern load_balance_path_t *fib_path_ext_stack(fib_path_ext_t *path_ext,
-                                               fib_forward_chain_type_t fct,
-                                               fib_forward_chain_type_t imp_null_fct,
-                                               load_balance_path_t *nhs);
+extern load_balance_path_t *fib_path_ext_stack(fib_path_ext_t *path_ext, fib_forward_chain_type_t fct,
+                                               fib_forward_chain_type_t imp_null_fct, load_balance_path_t *nhs);
 
-extern fib_path_ext_t * fib_path_ext_list_push_back (fib_path_ext_list_t *list,
-                                                     fib_node_index_t path_list_index,
-                                                     fib_path_ext_type_t ext_type,
-                                                     const fib_route_path_t *rpath);
+extern fib_path_ext_t *fib_path_ext_list_push_back(fib_path_ext_list_t *list, fib_node_index_t path_list_index,
+                                                   fib_path_ext_type_t ext_type, const fib_route_path_t *rpath);
 
-extern fib_path_ext_t * fib_path_ext_list_insert (fib_path_ext_list_t *list,
-                                                  fib_node_index_t path_list_index,
-                                                  fib_path_ext_type_t ext_type,
-                                                  const fib_route_path_t *rpath);
+extern fib_path_ext_t *fib_path_ext_list_insert(fib_path_ext_list_t *list, fib_node_index_t path_list_index,
+                                                fib_path_ext_type_t ext_type, const fib_route_path_t *rpath);
 
-extern u8* format_fib_path_ext_list (u8 * s, va_list * args);
+extern u8 *format_fib_path_ext_list(u8 *s, va_list *args);
 
-extern void fib_path_ext_list_remove (fib_path_ext_list_t *list,
-                                      fib_path_ext_type_t ext_type,
-                                      const fib_route_path_t *rpath);
+extern void fib_path_ext_list_remove(fib_path_ext_list_t *list, fib_path_ext_type_t ext_type,
+                                     const fib_route_path_t *rpath);
 
-extern fib_path_ext_t * fib_path_ext_list_find (const fib_path_ext_list_t *list,
-                                                fib_path_ext_type_t ext_type,
-                                                const fib_route_path_t *rpath);
-extern fib_path_ext_t * fib_path_ext_list_find_by_path_index (const fib_path_ext_list_t *list,
-                                                              fib_node_index_t path_index);
-extern void fib_path_ext_list_resolve(fib_path_ext_list_t *list,
-                                      fib_node_index_t path_list_index);
+extern fib_path_ext_t *fib_path_ext_list_find(const fib_path_ext_list_t *list, fib_path_ext_type_t ext_type,
+                                              const fib_route_path_t *rpath);
+extern fib_path_ext_t *fib_path_ext_list_find_by_path_index(const fib_path_ext_list_t *list, fib_node_index_t path_index);
+extern void fib_path_ext_list_resolve(fib_path_ext_list_t *list, fib_node_index_t path_list_index);
 
 extern int fib_path_ext_list_length(const fib_path_ext_list_t *list);
 extern void fib_path_ext_list_flush(fib_path_ext_list_t *list);
 
 #endif
-
