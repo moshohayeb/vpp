@@ -26,6 +26,8 @@
 #include <vpp/api/vpe_msg_enum.h>
 #include <limits.h>
 
+#include <vlib/init.h>
+
 /*
  * Load plugins from /usr/lib/vpp_plugins by default
  */
@@ -60,10 +62,12 @@ vpp_find_plugin_path()
     s = format(0, "%s/lib/vpp_plugins", path);
     vec_add1(s, 0);
     vlib_plugin_path = (char *) s;
+    printf("vpp plugin path = %s\n", vlib_plugin_path);
 
     s = format(0, "%s/lib/vpp_api_test_plugins", path);
     vec_add1(s, 0);
     vat_plugin_path = (char *) s;
+    printf("vat plugin path = %s\n", vat_plugin_path);
 }
 
 static void
@@ -103,6 +107,8 @@ main(int argc, char *argv[])
     u32 size;
     int main_core = 1;
     cpu_set_t cpuset;
+
+    printf("SizeOf vlib_main_t=%lu\n", sizeof(vlib_main_t));
 
 #if __x86_64__
     CLIB_UNUSED(const char *msg) = "ERROR: This binary requires CPU with %s extensions.\n";

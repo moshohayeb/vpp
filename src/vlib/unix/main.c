@@ -570,6 +570,14 @@ vlib_unix_main(int argc, char *argv[])
     vm->heap_aligned_base = (void *) (((uword) vm->heap_base) & ~(VLIB_FRAME_ALIGN - 1));
     ASSERT(vm->heap_base);
 
+    // printf("heap_base=%p\n", vm->heap_base);
+    // printf("heap_alinged_base=%p\n", vm->heap_aligned_base);
+    // u8 *v = 0;
+    // vec_add1(v, 100);
+    // printf("%p\n", v);
+    // printf("len=%d\n", vec_len(v));
+    // printf("diff=%lu\n", (uintptr_t) vm->heap_base - (uintptr_t) vm->heap_aligned_base );
+
     unformat_init_command_line(&input, (char **) vm->argv);
     if ((e = vlib_plugin_config(vm, &input))) {
         clib_error_report(e);
