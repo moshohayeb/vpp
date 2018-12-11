@@ -440,9 +440,11 @@ vlib_plugin_config(vlib_main_t *vm, unformat_input_t *input)
     unformat_init(&in, 0, 0);
 
     while (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
+      printf("input=%s\n", input->buffer);
         u8 *s, *v;
         if (unformat(input, "%s %v", &s, &v)) {
             if (strncmp((const char *) s, "plugins", 8) == 0) {
+              printf("plguins found\n");
                 if (vec_len(in.buffer) > 0)
                     vec_add1(in.buffer, ' ');
                 vec_add(in.buffer, v, vec_len(v));
@@ -460,8 +462,9 @@ done:
     while (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
         unformat_input_t sub_input;
         u8 *s = 0;
-        if (unformat(input, "path %s", &s))
+        if (unformat(input, "path %s", &s)) {
             pm->plugin_path = s;
+        }
         else if (unformat(input, "name-filter %s", &s))
             pm->plugin_name_filter = s;
         else if (unformat(input, "vat-path %s", &s))
@@ -484,6 +487,8 @@ done:
             }
         }
     }
+
+    printf("pligin_pah=%s\n", pm->plugin_path);
 
 done2:
     unformat_free(&in);

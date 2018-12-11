@@ -31,7 +31,7 @@
 /*
  * Load plugins from /usr/lib/vpp_plugins by default
  */
-char *vlib_plugin_path        = "/usr/lib/vpp_plugins";
+char *vlib_plugin_path = "/usr/lib/vpp_plugins";
 char *vlib_plugin_app_version = VPP_BUILD_VER;
 
 static void
@@ -39,24 +39,27 @@ vpp_find_plugin_path()
 {
     extern char *vat_plugin_path;
     char *p, path[PATH_MAX];
-    int rv;
-    u8 *s;
+    int  rv;
+    u8   *s;
 
     /* find executable path */
-    if ((rv = readlink("/proc/self/exe", path, PATH_MAX - 1)) == -1)
+    if ((rv = readlink("/proc/self/exe", path, PATH_MAX - 1)) == -1) {
         return;
+    }
 
     /* readlink doesn't provide null termination */
     path[rv] = 0;
 
     /* strip filename */
-    if ((p = strrchr(path, '/')) == 0)
+    if ((p = strrchr(path, '/')) == 0) {
         return;
+    }
     *p = 0;
 
     /* strip bin/ */
-    if ((p = strrchr(path, '/')) == 0)
+    if ((p = strrchr(path, '/')) == 0) {
         return;
+    }
     *p = 0;
 
     s = format(0, "%s/lib/vpp_plugins", path);
@@ -75,10 +78,11 @@ vpe_main_init(vlib_main_t *vm)
 {
     void vat_plugin_hash_create(void);
 
-    if (CLIB_DEBUG > 0)
+    if (CLIB_DEBUG > 0) {
         vlib_unix_cli_set_prompt("DBGvpp# ");
-    else
+    } else {
         vlib_unix_cli_set_prompt("vpp# ");
+    }
 
     /* Turn off network stack components which we don't want */
     vlib_mark_init_function_complete(vm, srp_init);
@@ -96,33 +100,35 @@ vpe_main_init(vlib_main_t *vm)
  */
 char *vlib_default_runtime_dir = "vpp";
 
+// ZNOTE: main
 int
 main(int argc, char *argv[])
 {
     int i;
     vlib_main_t *vm = &vlib_global_main;
+
     void vl_msg_api_set_first_available_msg_id(u16);
     uword main_heap_size = (1ULL << 30);
-    u8 *sizep;
-    u32 size;
-    int main_core = 1;
+    u8    *sizep;
+    u32   size;
+    int   main_core = 1;
     cpu_set_t cpuset;
 
     printf("SizeOf vlib_main_t=%lu\n", sizeof(vlib_main_t));
 
 #if __x86_64__
     CLIB_UNUSED(const char *msg) = "ERROR: This binary requires CPU with %s extensions.\n";
-#define _(a, b)                                                                                                        \
-    if (!clib_cpu_supports_##a()) {                                                                                    \
-        fprintf(stderr, msg, b);                                                                                       \
-        exit(1);                                                                                                       \
+#define _(a, b)                       \
+    if (!clib_cpu_supports_ ## a()) { \
+        fprintf(stderr, msg, b);      \
+        exit(1);                      \
     }
 
 #if __AVX2__
-    _(avx2, "AVX2")
+    _(avx2,    "AVX2")
 #endif
 #if __AVX__
-    _(avx, "AVX")
+    _(avx,      "AVX")
 #endif
 #if __SSE4_2__
     _(sse42, "SSE4.2")
@@ -131,10 +137,10 @@ main(int argc, char *argv[])
     _(sse41, "SSE4.1")
 #endif
 #if __SSSE3__
-    _(ssse3, "SSSE3")
+    _(ssse3,  "SSSE3")
 #endif
 #if __SSE3__
-    _(sse3, "SSE3")
+    _(sse3,    "SSE3")
 #endif
 #undef _
 #endif
@@ -145,9 +151,9 @@ main(int argc, char *argv[])
     if ((argc == 3) && !strncmp(argv[1], "-c", 2)) {
         FILE *fp;
         char inbuf[4096];
-        int argc_    = 1;
+        int  argc_ = 1;
         char **argv_ = NULL;
-        char *arg    = NULL;
+        char *arg = NULL;
         char *p;
 
         fp = fopen(argv[2], "r");
@@ -156,43 +162,53 @@ main(int argc, char *argv[])
             return 1;
         }
         argv_ = calloc(1, sizeof(char *));
-        if (argv_ == NULL)
+        if (argv_ == NULL) {
             return 1;
+        }
         arg = strndup(argv[0], 1024);
-        if (arg == NULL)
+        if (arg == NULL) {
             return 1;
+        }
         argv_[0] = arg;
 
         while (1) {
-            if (fgets(inbuf, 4096, fp) == 0)
+            if (fgets(inbuf, 4096, fp) == 0) {
                 break;
+            }
             p = strtok(inbuf, " \t\n");
             while (p != NULL) {
-                if (*p == '#')
+                if (*p == '#') {
                     break;
+                }
                 argc_++;
                 char **tmp = realloc(argv_, argc_ * sizeof(char *));
-                if (tmp == NULL)
+                if (tmp == NULL) {
                     return 1;
+                }
                 argv_ = tmp;
-                arg   = strndup(p, 1024);
-                if (arg == NULL)
+                arg = strndup(p, 1024);
+                if (arg == NULL) {
                     return 1;
+                }
                 argv_[argc_ - 1] = arg;
-                p                = strtok(NULL, " \t\n");
+                p = strtok(NULL, " \t\n");
             }
         }
 
         fclose(fp);
 
         char **tmp = realloc(argv_, (argc_ + 1) * sizeof(char *));
-        if (tmp == NULL)
+        if (tmp == NULL) {
             return 1;
-        argv_        = tmp;
+        }
+        argv_ = tmp;
         argv_[argc_] = NULL;
 
         argc = argc_;
         argv = argv_;
+        for (int i = i; i < argc; i++) {
+            printf("argv[i=%d]=%s\n", i, argv[i]);
+        }
     }
 
     /*
@@ -204,8 +220,9 @@ main(int argc, char *argv[])
 
     for (i = 1; i < (argc - 1); i++) {
         if (!strncmp(argv[i], "plugin_path", 11)) {
-            if (i < (argc - 1))
+            if (i < (argc - 1)) {
                 vlib_plugin_path = argv[++i];
+            }
         } else if (!strncmp(argv[i], "heapsize", 8)) {
             sizep = (u8 *) argv[i + 1];
             size  = 0;
@@ -221,16 +238,18 @@ main(int argc, char *argv[])
 
             main_heap_size = size;
 
-            if (*sizep == 'g' || *sizep == 'G')
+            if (*sizep == 'g' || *sizep == 'G') {
                 main_heap_size <<= 30;
-            else if (*sizep == 'm' || *sizep == 'M')
+            } else if (*sizep == 'm' || *sizep == 'M') {
                 main_heap_size <<= 20;
+            }
         } else if (!strncmp(argv[i], "main-core", 9)) {
             if (i < (argc - 1)) {
-                errno           = 0;
+                errno = 0;
                 unsigned long x = strtol(argv[++i], 0, 0);
-                if (errno == 0)
+                if (errno == 0) {
                     main_core = x;
+                }
             }
         }
     }
@@ -252,7 +271,7 @@ defaulted:
         return vlib_unix_main(argc, argv);
     } else {
         {
-            int rv __attribute__((unused)) = write(2, "Main heap allocation failure!\r\n", 31);
+            int rv __attribute__ ((unused)) = write(2, "Main heap allocation failure!\r\n", 31);
         }
         return 1;
     }
@@ -266,9 +285,11 @@ heapsize_config(vlib_main_t *vm, unformat_input_t *input)
     while (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
         if (unformat(input, "%dm", &junk) || unformat(input, "%dM", &junk) || unformat(input, "%dg", &junk) ||
             unformat(input, "%dG", &junk))
+        {
             return 0;
-        else
+        } else {
             return clib_error_return(0, "unknown input '%U'", format_unformat_error, input);
+        }
     }
     return 0;
 }
@@ -284,8 +305,9 @@ plugin_path_config(vlib_main_t *vm, unformat_input_t *input)
         if (unformat(input, "%s", &junk)) {
             vec_free(junk);
             return 0;
-        } else
+        } else {
             return clib_error_return(0, "unknown input '%U'", format_unformat_error, input);
+        }
     }
     return 0;
 }
@@ -303,11 +325,10 @@ os_panic(void)
     abort();
 }
 
-void vhost_user_unmap_all(void) __attribute__((weak));
+void vhost_user_unmap_all(void) __attribute__ ((weak));
 void
 vhost_user_unmap_all(void)
-{
-}
+{ }
 
 void
 os_exit(int code)
@@ -315,8 +336,9 @@ os_exit(int code)
     static int recursion_block;
 
     if (code) {
-        if (recursion_block)
+        if (recursion_block) {
             abort();
+        }
 
         recursion_block = 1;
 
