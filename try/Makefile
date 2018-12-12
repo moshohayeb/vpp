@@ -42,9 +42,6 @@ test:
 libvppinfra.a: $(VPP_INFRA_OBJS)
 	ar -rcs libvppinfra.a `find objs -type f -name *.o`
 
-# libvppinfra.a: objs/elog.o
-# 	ar -rcs libvppinfra.a `find objs -type f -name *.o`
-
 $(VPP_INFRA_OBJS): objs/%.o: $(VPP_INFRA_DIR)/%.c
 	@mkdir -p objs/linux
 	gcc -c $(CFLAGS) ../src/vppinfra/$*.c -o $@
