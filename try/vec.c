@@ -10,14 +10,14 @@ typedef struct {
 
 typedef struct {
     char *p;
-    int x;
+    int  x;
 } directory_t;
 
 int
 main(int argc, char **argv)
 {
     clib_mem_init_thread_safe(0, 1000000);
-    printf("sizeof file_t=%lu\n", sizeof(file_t));
+    printf(      "sizeof file_t=%lu\n", sizeof(file_t));
     printf("sizeof vec_header_t=%lu\n", sizeof(vec_header_t));
 
     file_t *fv = NULL;
@@ -30,18 +30,20 @@ main(int argc, char **argv)
         vec_add1_ha(fv, f, sizeof(directory_t), 512);
     }
 
-    vec_header_t *vh = _vec_find (fv);
-    directory_t *dh =  vec_header(fv, sizeof(directory_t));
+    vec_header_t *vh = _vec_find(fv);
+    directory_t  *dh = vec_header(fv, sizeof(directory_t));
     dh->x = 24;
-    printf("dh->x=%d\n", dh->x);
+    printf(                             "dh->x=%d\n", dh->x);
 
     printf("userhdr=%p, vechdr=%p firstelement=%p\n", dh, vh, &fv[0]);
 
-    printf("d-userhdr-vechdr=%lu\n", (uword) vh - (uword) dh);
-    printf("d-vechdr-firstelement=%lu\n", (uword) fv - (uword) vh);
+    printf(                 "d-userhdr-vechdr=%lu\n",  (uword) vh - (uword) dh);
+    printf(            "d-vechdr-firstelement=%lu\n",  (uword) fv - (uword) vh);
 
 
-    printf("isPtr aligned on 512: %s\n", (uword) fv % 512 == 0 ? "yes" : "no");
+    printf(         "isPtr hdr aligned on 512: %s\n",  (uword) fv % 512 == 0 ? "yes" : "no");
+    printf( "isPtr user header aligned on 512: %s\n",  (uword) dh % 512 == 0 ? "yes" : "no");
+    printf(  "isPtr vec header aligned on 512: %s\n",  (uword) vh % 512 == 0 ? "yes" : "no");
 
     file_t *iv;
     vec_foreach(iv, fv) {
