@@ -1,4 +1,4 @@
-#!/usr/bin/emacs --script
+#!/opt/usr/bin/emacs --script
 
 ;;; Copyright (c) 2016 Cisco and/or its affiliates.
 ;;; Licensed under the Apache License, Version 2.0 (the "License");

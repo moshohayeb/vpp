@@ -1,38 +1,41 @@
----
-AlignEscapedNewlinesLeft: true
-AlignTrailingComments: true
-AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortIfStatementsOnASingleLine: false
-AllowShortLoopsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: false
-AlwaysBreakBeforeMultilineStrings: false
-BreakBeforeBinaryOperators: false
-BreakBeforeTernaryOperators: true
-BinPackParameters: true
-BreakBeforeBraces: GNU
-ColumnLimit:     79
-IndentCaseLabels: false
-MaxEmptyLinesToKeep: 1
-PenaltyBreakBeforeFirstCallParameter: 19
-PenaltyBreakComment: 60
-PenaltyBreakString: 1000
-PenaltyBreakFirstLessLess: 120
-PenaltyExcessCharacter: 1000000
-PenaltyReturnTypeOnItsOwnLine: 60
-PointerBindsToType: false
-SpaceBeforeAssignmentOperators: true
-SpaceBeforeParens: Always
-SpacesBeforeTrailingComments: 1
-SpacesInParentheses: false
-SpaceInEmptyParentheses: false
-SpacesInCStyleCastParentheses: false
-SpaceAfterControlStatementKeyword: true
-Cpp11BracedListStyle: true
-Standard:        Cpp11
-SortIncludes: false
-IndentWidth:     2
-TabWidth:        4
-UseTab:          Never
-IndentFunctionDeclarationAfterType: false
+BasedOnStyle:            LLVM
+IndentWidth:             4
+TabWidth:                4
+UseTab:                  Never
 ContinuationIndentWidth: 4
-...
+ColumnLimit:             120
+---
+Language: Cpp
+Standard: Cpp11
+MaxEmptyLinesToKeep: 2
+IndentPPDirectives: None
+AlignConsecutiveAssignments: true
+AllowAllParametersOfDeclarationOnNextLine: false
+BreakBeforeTernaryOperators: false
+AllowShortFunctionsOnASingleLine: None
+AlwaysBreakAfterReturnType: TopLevelDefinitions
+BraceWrapping:
+  AfterClass:      false
+  AfterControlStatement: false
+  AfterEnum:       false
+  AfterFunction:   true
+  AfterNamespace:  false
+  AfterObjCDeclaration: false
+  AfterStruct:     false
+  AfterUnion:      false
+  AfterExternBlock: false
+  BeforeCatch:     false
+  BeforeElse:      false
+  IndentBraces:    false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+BreakBeforeBraces: Custom
+PenaltyBreakBeforeFirstCallParameter: 500
+PenaltyExcessCharacter: 10
+SortIncludes: false
+SpaceAfterCStyleCast: true
+SpaceBeforeParens: ControlStatements
+SpacesBeforeTrailingComments: 3
+PointerAlignment: Right
+AlignEscapedNewlines: Right

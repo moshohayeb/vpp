@@ -105,3 +105,4 @@ GTAGS
 
 # No core files
 **/core
+try/

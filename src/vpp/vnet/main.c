@@ -92,6 +92,7 @@ vpe_main_init (vlib_main_t * vm)
  */
 char *vlib_default_runtime_dir = "vpp";
 
+// ZNOTE: main
 int
 main (int argc, char *argv[])
 {

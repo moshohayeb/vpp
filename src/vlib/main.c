@@ -1635,6 +1635,7 @@ vlib_worker_loop (vlib_main_t * vm)
   vlib_main_or_worker_loop (vm, /* is_main */ 0);
 }
 
+// ZNOTE vlib global main
 vlib_main_t vlib_global_main;
 
 static clib_error_t *

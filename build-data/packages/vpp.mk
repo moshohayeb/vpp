@@ -24,6 +24,7 @@ vpp_cmake_prefix_path += $(PACKAGE_INSTALL_DIR)external
 vpp_cmake_prefix_path := $(subst $() $(),;,$(vpp_cmake_prefix_path))
 
 vpp_cmake_args ?=
+vpp_cmake_args += -DCMAKE_EXPORT_COMPILE_COMMANDS=1
 vpp_cmake_args += -DCMAKE_INSTALL_PREFIX:PATH=$(PACKAGE_INSTALL_DIR)
 vpp_cmake_args += -DCMAKE_C_FLAGS="$($(TAG)_TAG_CFLAGS)"
 vpp_cmake_args += -DCMAKE_LINKER_FLAGS="$($(TAG)_TAG_LDFLAGS)"
