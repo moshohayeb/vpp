@@ -1,5 +1,5 @@
 /*
- * znode_periodic.c - skeleton plug-in periodic function 
+ * xfilter_periodic.c - skeleton plug-in periodic function 
  *
  * Copyright (c) <current-year> <your-organization>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,22 +17,22 @@
 
 #include <vlib/vlib.h>
 #include <vppinfra/error.h>
-#include <znode/znode.h>
+#include <xfilter/xfilter.h>
 
 static void 
-handle_event1 (znode_main_t *pm, f64 now, uword event_data)
+handle_event1 (xfilter_main_t *pm, f64 now, uword event_data)
 {
-  clib_warning ("received ZNODE_EVENT1");
+  clib_warning ("received XFILTER_EVENT1");
 }
                            
 static void 
-handle_event2 (znode_main_t *pm, f64 now, uword event_data)
+handle_event2 (xfilter_main_t *pm, f64 now, uword event_data)
 {
-  clib_warning ("received ZNODE_EVENT2");
+  clib_warning ("received XFILTER_EVENT2");
 }
                            
 static void
-handle_periodic_enable_disable (znode_main_t *pm, f64 now, uword event_data)
+handle_periodic_enable_disable (xfilter_main_t *pm, f64 now, uword event_data)
 {
    clib_warning ("Periodic timeouts now %s", 
      event_data ? "enabled" : "disabled");
@@ -40,16 +40,16 @@ handle_periodic_enable_disable (znode_main_t *pm, f64 now, uword event_data)
 }
 
 static void
-handle_timeout (znode_main_t *pm, f64 now)
+handle_timeout (xfilter_main_t *pm, f64 now)
 {
   clib_warning ("timeout at %.2f", now);
 }
 
 static uword
-znode_periodic_process (vlib_main_t * vm,
+xfilter_periodic_process (vlib_main_t * vm,
 	                  vlib_node_runtime_t * rt, vlib_frame_t * f)
 {
-  znode_main_t *pm = &znode_main;
+  xfilter_main_t *pm = &xfilter_main;
   f64 now;
   f64 timeout = 10.0;
   uword *event_data = 0;
@@ -69,19 +69,19 @@ znode_periodic_process (vlib_main_t * vm,
 
       switch (event_type)
 	{
-	  /* Handle ZNODE_EVENT1 */
-	case ZNODE_EVENT1:
+	  /* Handle XFILTER_EVENT1 */
+	case XFILTER_EVENT1:
 	  for (i = 0; i < vec_len (event_data); i++)
 	    handle_event1 (pm, now, event_data[i]);
 	  break;
 
-	  /* Handle ZNODE_EVENT2 */
-	case ZNODE_EVENT2:
+	  /* Handle XFILTER_EVENT2 */
+	case XFILTER_EVENT2:
 	  for (i = 0; i < vec_len (event_data); i++)
 	    handle_event2 (pm, now, event_data[i]);
 	  break;
           /* Handle the periodic timer on/off event */
-	case ZNODE_EVENT_PERIODIC_ENABLE_DISABLE:
+	case XFILTER_EVENT_PERIODIC_ENABLE_DISABLE:
 	  for (i = 0; i < vec_len (event_data); i++)
 	    handle_periodic_enable_disable (pm, now, event_data[i]);
 	  break;
@@ -97,11 +97,11 @@ znode_periodic_process (vlib_main_t * vm,
 }
 
 /* *INDENT-OFF* */
-VLIB_REGISTER_NODE (znode_periodic_node) =
+VLIB_REGISTER_NODE (xfilter_periodic_node) =
 {
-  .function = znode_periodic_process,
+  .function = xfilter_periodic_process,
   .type = VLIB_NODE_TYPE_PROCESS,
-  .name = "znode-periodic-process",
+  .name = "xfilter-periodic-process",
 };
 /* *INDENT-ON* */
 

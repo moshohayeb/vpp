@@ -2219,7 +2219,7 @@ clib_mem_free(void *p)
     do {
         if ((0 > 0) && !(clib_mem_is_heap_object(p))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/mem.h", (uword) 210,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/mem.h", (uword) 210,
                         ((char *) __FUNCTION__), "clib_mem_is_heap_object (p)");
         }
     } while (0);
@@ -2246,7 +2246,7 @@ clib_mem_size(void *p)
     do {
         if ((0 > 0) && !(clib_mem_is_heap_object(p))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/mem.h", (uword) 249,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/mem.h", (uword) 249,
                         ((char *) __FUNCTION__), "clib_mem_is_heap_object (p)");
         }
     } while (0);
@@ -2404,7 +2404,7 @@ _vec_resize_inline(void *v, word length_increment, uword data_bytes, uword heade
         do {
             if ((0 > 0) && !(clib_mem_is_heap_object(p))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/vec.h", (uword) 134,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/vec.h", (uword) 134,
                             ((char *) __FUNCTION__), "clib_mem_is_heap_object (p)");
             }
         } while (0);
@@ -2430,7 +2430,7 @@ _vec_resize_will_expand(void *v, word length_increment, uword data_bytes, uword 
         do {
             if ((0 > 0) && !(clib_mem_is_heap_object(p))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/vec.h", (uword) 178,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/vec.h", (uword) 178,
                             ((char *) __FUNCTION__), "clib_mem_is_heap_object (p)");
             }
         } while (0);
@@ -3077,14 +3077,14 @@ indirect_pair_set(hash_pair_indirect_t *p, uword log2_alloc, uword len)
     do {
         if ((0 > 0) && !(len < ((uword) 1 << ((8 * sizeof(uword)) - (5))))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/hash.h", (uword) 215,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/hash.h", (uword) 215,
                         ((char *) __FUNCTION__), "len < ((uword) 1 << PAIR_BITS)");
         }
     } while (0);
     do {
         if ((0 > 0) && !(log2_alloc < ((uword) 1 << (5)))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/hash.h", (uword) 216,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/hash.h", (uword) 216,
                         ((char *) __FUNCTION__), "log2_alloc < ((uword) 1 << LOG2_ALLOC_BITS)");
         }
     } while (0);
@@ -3133,7 +3133,7 @@ hash_pair_log2_bytes(hash_t *h)
     do {
         if ((0 > 0) && !((8 * sizeof(hash_pair_t)) == 32 || (8 * sizeof(hash_pair_t)) == 64)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/hash.h", (uword) 327,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/hash.h", (uword) 327,
                         ((char *) __FUNCTION__), "BITS (hash_pair_t) == 32 || BITS (hash_pair_t) == 64");
         }
     } while (0);
@@ -3651,7 +3651,7 @@ elf_symbol_name(elf_symbol_table_t *t, elf64_symbol_t *sym)
         do {
             if ((0 > 0) && !((sym->name) < ((t->string_table) ? (((vec_header_t *) (t->string_table) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 837,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 837,
                             ((char *) __FUNCTION__), "(sym->name) < vec_len (t->string_table)");
             }
         } while (0);
@@ -3770,7 +3770,7 @@ elf_get_segment_contents(elf_main_t *em, void *data, uword segment_index)
         do {
             if ((0 > 0) && !((segment_index) < ((em->segments) ? (((vec_header_t *) (em->segments) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 951,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 951,
                             ((char *) __FUNCTION__), "(segment_index) < vec_len (em->segments)");
             }
         } while (0);
@@ -3798,7 +3798,7 @@ elf_get_section_contents(elf_main_t *em, uword section_index, uword elt_size)
         do {
             if ((0 > 0) && !((section_index) < ((em->sections) ? (((vec_header_t *) (em->sections) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 964,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 964,
                             ((char *) __FUNCTION__), "(section_index) < vec_len (em->sections)");
             }
         } while (0);
@@ -3824,7 +3824,7 @@ elf_set_section_contents(elf_main_t *em, uword section_index, void *new_contents
         do {
             if ((0 > 0) && !((section_index) < ((em->sections) ? (((vec_header_t *) (em->sections) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 988,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 988,
                             ((char *) __FUNCTION__), "(section_index) < vec_len (em->sections)");
             }
         } while (0);
@@ -3856,7 +3856,7 @@ elf_section_name(elf_main_t *em, elf_section_t *s)
             if ((0 > 0) && !((em->file_header.section_header_string_table_index) <
                              ((em->sections) ? (((vec_header_t *) (em->sections) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 998,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 998,
                             ((char *) __FUNCTION__),
                             "(em-> file_header.section_header_string_table_index) < vec_len (em->sections)");
             }
@@ -3867,7 +3867,7 @@ elf_section_name(elf_main_t *em, elf_section_t *s)
         do {
             if ((0 > 0) && !((s->header.name) < ((es->contents) ? (((vec_header_t *) (es->contents) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 999,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elf.h", (uword) 999,
                             ((char *) __FUNCTION__), "(s->header.name) < vec_len (es->contents)");
             }
         } while (0);
@@ -4108,7 +4108,7 @@ serialize_integer(serialize_main_t *m, u64 x, u32 n_bytes)
         do {
             if ((0 > 0) && !(0)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/serialize.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/serialize.h",
                             (uword) 197, ((char *) __FUNCTION__), "0");
             }
         } while (0);
@@ -4129,7 +4129,7 @@ unserialize_integer(serialize_main_t *m, void *x, u32 n_bytes)
         do {
             if ((0 > 0) && !(0)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/serialize.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/serialize.h",
                             (uword) 213, ((char *) __FUNCTION__), "0");
             }
         } while (0);
@@ -4217,7 +4217,7 @@ serialize_multiple(serialize_main_t *m, void *data, uword n_data_bytes, uword da
         do {
             if ((0 > 0) && !(0)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/serialize.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/serialize.h",
                             (uword) 335, ((char *) __FUNCTION__), "0");
             }
         } while (0);
@@ -4235,7 +4235,7 @@ unserialize_multiple(serialize_main_t *m, void *data, uword n_data_bytes, uword 
         do {
             if ((0 > 0) && !(0)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/serialize.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/serialize.h",
                             (uword) 350, ((char *) __FUNCTION__), "0");
             }
         } while (0);
@@ -4357,7 +4357,7 @@ clib_rwlock_reader_unlock(clib_rwlock_t *p)
     do {
         if ((0 > 0) && !((*p)->n_readers > 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/lock.h", (uword) 159,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/lock.h", (uword) 159,
                         ((char *) __FUNCTION__), "(*p)->n_readers > 0");
         }
     } while (0);
@@ -4403,14 +4403,14 @@ vlib_error_set(u32 node_index, u32 code)
     do {
         if ((0 > 0) && !(node_index < (1 << 10))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/error.h", (uword) 61,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/error.h", (uword) 61,
                         ((char *) __FUNCTION__), "node_index < (1 << 10)");
         }
     } while (0);
     do {
         if ((0 > 0) && !(code < (1 << 6))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/error.h", (uword) 62,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/error.h", (uword) 62,
                         ((char *) __FUNCTION__), "code < (1 << 6)");
         }
     } while (0);
@@ -4422,14 +4422,14 @@ vlib_error_set_code(vlib_error_t e, u32 code)
     do {
         if ((0 > 0) && !(vlib_error_get_code(e) == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/error.h", (uword) 69,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/error.h", (uword) 69,
                         ((char *) __FUNCTION__), "vlib_error_get_code (e) == 0");
         }
     } while (0);
     do {
         if ((0 > 0) && !(code < (1 << 6))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/error.h", (uword) 70,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/error.h", (uword) 70,
                         ((char *) __FUNCTION__), "code < (1 << 6)");
         }
     } while (0);
@@ -4488,14 +4488,14 @@ vlib_buffer_struct_is_sane(vlib_buffer_t *b)
     do {
         if ((0 > 0) && !(sizeof(b[0]) % 64 == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 192,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 192,
                         ((char *) __FUNCTION__), "sizeof (b[0]) % 64 == 0");
         }
     } while (0);
     do {
         if ((0 > 0) && !(b->pre_data + 128 == b->data)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 195,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 195,
                         ((char *) __FUNCTION__), "b->pre_data + VLIB_BUFFER_PRE_DATA_SIZE == b->data");
         }
     } while (0);
@@ -4506,7 +4506,7 @@ vlib_buffer_get_current(vlib_buffer_t *b)
     do {
         if ((0 > 0) && !((signed) b->current_data >= (signed) -128)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 208,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 208,
                         ((char *) __FUNCTION__), "(signed) b->current_data >= (signed) -VLIB_BUFFER_PRE_DATA_SIZE");
         }
     } while (0);
@@ -4518,7 +4518,7 @@ vlib_buffer_advance(vlib_buffer_t *b, word l)
     do {
         if ((0 > 0) && !(b->current_length >= l)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 220,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 220,
                         ((char *) __FUNCTION__), "b->current_length >= l");
         }
     } while (0);
@@ -4528,7 +4528,7 @@ vlib_buffer_advance(vlib_buffer_t *b, word l)
         if ((0 > 0) && !((b->flags & VLIB_BUFFER_NEXT_PRESENT) == 0 || b->current_length >= (128))) {
             _clib_error(
                 CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 225,
+                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 225,
                 ((char *) __FUNCTION__),
                 "(b->flags & VLIB_BUFFER_NEXT_PRESENT) == 0 || b->current_length >= VLIB_BUFFER_MIN_CHAIN_SEG_SIZE");
         }
@@ -4577,7 +4577,7 @@ vlib_buffer_push_uninit(vlib_buffer_t *b, u8 size)
     do {
         if ((0 > 0) && !(b->current_data + 128 >= size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 307,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 307,
                         ((char *) __FUNCTION__), "b->current_data + VLIB_BUFFER_PRE_DATA_SIZE >= size");
         }
     } while (0);
@@ -4591,7 +4591,7 @@ vlib_buffer_make_headroom(vlib_buffer_t *b, u8 size)
     do {
         if ((0 > 0) && !(b->current_data + 128 >= size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 322,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 322,
                         ((char *) __FUNCTION__), "b->current_data + VLIB_BUFFER_PRE_DATA_SIZE >= size");
         }
     } while (0);
@@ -4670,7 +4670,7 @@ vlib_buffer_pool_get(u8 buffer_pool_index)
             if ((0 > 0) &&
                 !((buffer_pool_index) < ((bm->buffer_pools) ? (((vec_header_t *) (bm->buffer_pools) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 465,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer.h", (uword) 465,
                             ((char *) __FUNCTION__), "(buffer_pool_index) < vec_len (bm->buffer_pools)");
             }
         } while (0);
@@ -4815,7 +4815,7 @@ vlib_get_simple_counter(vlib_simple_counter_main_t *cm, u32 index)
     do {
         if ((0 > 0) && !(index < vlib_simple_counter_n_counters(cm))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 103,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 103,
                         ((char *) __FUNCTION__), "index < vlib_simple_counter_n_counters (cm)");
         }
     } while (0);
@@ -4834,7 +4834,7 @@ vlib_zero_simple_counter(vlib_simple_counter_main_t *cm, u32 index)
     do {
         if ((0 > 0) && !(index < vlib_simple_counter_n_counters(cm))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 128,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 128,
                         ((char *) __FUNCTION__), "index < vlib_simple_counter_n_counters (cm)");
         }
     } while (0);
@@ -4855,14 +4855,14 @@ vlib_counter_sub(vlib_counter_t *a, vlib_counter_t *b)
     do {
         if ((0 > 0) && !(a->packets >= b->packets)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 156,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 156,
                         ((char *) __FUNCTION__), "a->packets >= b->packets");
         }
     } while (0);
     do {
         if ((0 > 0) && !(a->bytes >= b->bytes)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 157,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 157,
                         ((char *) __FUNCTION__), "a->bytes >= b->bytes");
         }
     } while (0);
@@ -4902,7 +4902,7 @@ vlib_prefetch_combined_counter(const vlib_combined_counter_main_t *cm, u32 threa
         do {
             if ((0 > 0) && !(((1 << 6)) <= 4 * (1 << 6))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 228,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 228,
                             ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
             }
         } while (0);
@@ -4933,7 +4933,7 @@ vlib_get_combined_counter(const vlib_combined_counter_main_t *cm, u32 index, vli
             do {
                 if ((0 > 0) && !((index) < ((my_counters) ? (((vec_header_t *) (my_counters) -1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 256,
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 256,
                                 ((char *) __FUNCTION__), "(index) < vec_len (my_counters)");
                 }
             } while (0);
@@ -4954,7 +4954,7 @@ vlib_zero_combined_counter(vlib_combined_counter_main_t *cm, u32 index)
             do {
                 if ((0 > 0) && !((index) < ((my_counters) ? (((vec_header_t *) (my_counters) -1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 278,
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/counter.h", (uword) 278,
                                 ((char *) __FUNCTION__), "(index) < vec_len (my_counters)");
                 }
             } while (0);
@@ -5541,7 +5541,7 @@ clib_bitmap_get_multiple_no_check(uword *ai, uword i, uword n_bits)
     do {
         if ((0 > 0) && !(i1 + n_bits <= (8 * sizeof(uword)))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/bitmap.h", (uword) 224,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/bitmap.h", (uword) 224,
                         ((char *) __FUNCTION__), "i1 + n_bits <= BITS (uword)");
         }
     } while (0);
@@ -5555,7 +5555,7 @@ clib_bitmap_get_multiple(uword *bitmap, uword i, uword n_bits)
     do {
         if ((0 > 0) && !(n_bits <= (8 * sizeof(result)))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/bitmap.h", (uword) 240,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/bitmap.h", (uword) 240,
                         ((char *) __FUNCTION__), "n_bits <= BITS (result)");
         }
     } while (0);
@@ -5581,7 +5581,7 @@ clib_bitmap_set_multiple(uword *bitmap, uword i, uword value, uword n_bits)
     do {
         if ((0 > 0) && !(n_bits <= (8 * sizeof(value)))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/bitmap.h", (uword) 279,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/bitmap.h", (uword) 279,
                         ((char *) __FUNCTION__), "n_bits <= BITS (value)");
         }
     } while (0);
@@ -6455,7 +6455,7 @@ pool_validate(void *v)
     do {
         if ((0 > 0) && !(n_free_bitmap == ((p->free_indices) ? (((vec_header_t *) (p->free_indices) - 1)->len) : 0))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/pool.h", (uword) 102,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/pool.h", (uword) 102,
                         ((char *) __FUNCTION__), "n_free_bitmap == vec_len (p->free_indices)");
         }
     } while (0);
@@ -6463,7 +6463,7 @@ pool_validate(void *v)
         do {
             if ((0 > 0) && !(clib_bitmap_get(p->free_bitmap, p->free_indices[i]) == 1)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/pool.h", (uword) 104,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/pool.h", (uword) 104,
                             ((char *) __FUNCTION__), "clib_bitmap_get (p->free_bitmap, p->free_indices[i]) == 1");
             }
         } while (0);
@@ -7312,7 +7312,7 @@ heap_set_format(void *v, format_function_t *format_elt)
     do {
         if ((0 > 0) && !(v)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 235,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 235,
                         ((char *) __FUNCTION__), "v");
         }
     } while (0);
@@ -7324,7 +7324,7 @@ heap_set_max_len(void *v, uword max_len)
     do {
         if ((0 > 0) && !(v)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 242,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 242,
                         ((char *) __FUNCTION__), "v");
         }
     } while (0);
@@ -7359,7 +7359,7 @@ heap_get_elt(void *v, uword handle)
         do {
             if ((0 > 0) && !((handle) < ((h->elts) ? (((vec_header_t *) (h->elts) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 302,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 302,
                             ((char *) __FUNCTION__), "(handle) < vec_len (h->elts)");
             }
         } while (0);
@@ -7368,7 +7368,7 @@ heap_get_elt(void *v, uword handle)
     do {
         if ((0 > 0) && !(!heap_is_free(e))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 303,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 303,
                         ((char *) __FUNCTION__), "!heap_is_free (e)");
         }
     } while (0);
@@ -7382,7 +7382,7 @@ heap_is_free_handle(void *v, uword heap_handle)
         do {
             if ((0 > 0) && !((heap_handle) < ((h->elts) ? (((vec_header_t *) (h->elts) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 317,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/heap.h", (uword) 317,
                             ((char *) __FUNCTION__), "(heap_handle) < vec_len (h->elts)");
             }
         } while (0);
@@ -7450,7 +7450,7 @@ mhash_key_to_mem(mhash_t *h, uword key)
             if ((0 > 0) &&
                 !((key) < ((h->key_vector_or_heap) ? (((vec_header_t *) (h->key_vector_or_heap) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/mhash.h", (uword) 101,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/mhash.h", (uword) 101,
                             ((char *) __FUNCTION__), "(key) < vec_len (h->key_vector_or_heap)");
             }
         } while (0);
@@ -7620,14 +7620,14 @@ elog_event_data_inline(elog_main_t *em, elog_event_type_t *type, elog_track_t *t
     do {
         if ((0 > 0) && !(track_index < ((em->tracks) ? (((vec_header_t *) (em->tracks) - 1)->len) : 0))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elog.h", (uword) 312,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elog.h", (uword) 312,
                         ((char *) __FUNCTION__), "track_index < vec_len (em->tracks)");
         }
     } while (0);
     do {
         if ((0 > 0) && !(is_pow2(((em->event_ring) ? (((vec_header_t *) (em->event_ring) - 1)->len) : 0)))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elog.h", (uword) 313,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elog.h", (uword) 313,
                         ((char *) __FUNCTION__), "is_pow2 (vec_len (em->event_ring))");
         }
     } while (0);
@@ -7640,7 +7640,7 @@ elog_event_data_inline(elog_main_t *em, elog_event_type_t *type, elog_track_t *t
         do {
             if ((0 > 0) && !((ei) < ((em->event_ring) ? (((vec_header_t *) (em->event_ring) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/elog.h", (uword) 321,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/elog.h", (uword) 321,
                             ((char *) __FUNCTION__), "(ei) < vec_len (em->event_ring)");
             }
         } while (0);
@@ -8116,7 +8116,7 @@ vlib_vector_input_stats_index(vlib_main_t *vm, word delta)
         if ((0 > 0) &&
             !(is_pow2((sizeof(vm->vector_counts_per_main_loop) / sizeof(vm->vector_counts_per_main_loop[0]))))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/main.h", (uword) 292,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/main.h", (uword) 292,
                         ((char *) __FUNCTION__), "is_pow2 (ARRAY_LEN (vm->vector_counts_per_main_loop))");
         }
     } while (0);
@@ -8338,7 +8338,7 @@ vlib_get_main(void)
     do {
         if ((0 > 0) && !(vm)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/global_funcs.h", (uword) 27,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/global_funcs.h", (uword) 27,
                         ((char *) __FUNCTION__), "vm");
         }
     } while (0);
@@ -8442,7 +8442,7 @@ vlib_get_worker_vlib_main(u32 worker_index)
     do {
         if ((0 > 0) && !(worker_index < tm->n_vlib_mains - 1)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 488,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 488,
                         ((char *) __FUNCTION__), "worker_index < tm->n_vlib_mains - 1");
         }
     } while (0);
@@ -8450,7 +8450,7 @@ vlib_get_worker_vlib_main(u32 worker_index)
     do {
         if ((0 > 0) && !(vm)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 490,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 490,
                         ((char *) __FUNCTION__), "vm");
         }
     } while (0);
@@ -8478,7 +8478,7 @@ vlib_get_frame_queue_elt(u32 frame_queue_index, u32 index)
             if ((0 > 0) && !((frame_queue_index) <
                              ((tm->frame_queue_mains) ? (((vec_header_t *) (tm->frame_queue_mains) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 516,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 516,
                             ((char *) __FUNCTION__), "(frame_queue_index) < vec_len (tm->frame_queue_mains)");
             }
         } while (0);
@@ -8489,7 +8489,7 @@ vlib_get_frame_queue_elt(u32 frame_queue_index, u32 index)
     do {
         if ((0 > 0) && !(fq)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 520,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 520,
                         ((char *) __FUNCTION__), "fq");
         }
     } while (0);
@@ -8514,7 +8514,7 @@ is_vlib_frame_queue_congested(u32 frame_queue_index, u32 index, u32 queue_hi_thr
             if ((0 > 0) && !((frame_queue_index) <
                              ((tm->frame_queue_mains) ? (((vec_header_t *) (tm->frame_queue_mains) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 550,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 550,
                             ((char *) __FUNCTION__), "(frame_queue_index) < vec_len (tm->frame_queue_mains)");
             }
         } while (0);
@@ -8527,7 +8527,7 @@ is_vlib_frame_queue_congested(u32 frame_queue_index, u32 index, u32 queue_hi_thr
     do {
         if ((0 > 0) && !(fq)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 557,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/threads.h", (uword) 557,
                         ((char *) __FUNCTION__), "fq");
         }
     } while (0);
@@ -8570,8 +8570,8 @@ vlib_physmem_get_region(vlib_main_t *vm, u8 index)
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h",
-                            (uword) 47, ((char *) __FUNCTION__), "! pool_is_free (vpm->regions, _e)");
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 47,
+                            ((char *) __FUNCTION__), "! pool_is_free (vpm->regions, _e)");
             }
         } while (0);
         _e;
@@ -8585,14 +8585,14 @@ vlib_physmem_offset_to_physical(vlib_main_t *vm, vlib_physmem_region_index_t idx
     do {
         if ((0 > 0) && !(o < pr->size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 56,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 56,
                         ((char *) __FUNCTION__), "o < pr->size");
         }
     } while (0);
     do {
         if ((0 > 0) && !(pr->page_table[page_index] != 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 57,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 57,
                         ((char *) __FUNCTION__), "pr->page_table[page_index] != 0");
         }
     } while (0);
@@ -8601,7 +8601,7 @@ vlib_physmem_offset_to_physical(vlib_main_t *vm, vlib_physmem_region_index_t idx
                     if ((0 > 0) &&
                         !((page_index) < ((pr->page_table) ? (((vec_header_t *) (pr->page_table) - 1)->len) : 0))) {
                         _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                    "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h",
+                                    "../../../build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h",
                                     (uword) 58, ((char *) __FUNCTION__), "(page_index) < vec_len (pr->page_table)");
                     }
                 } while (0);
@@ -8624,7 +8624,7 @@ vlib_physmem_offset_of(vlib_main_t *vm, vlib_physmem_region_index_t idx, void *p
     do {
         if ((0 > 0) && !(vlib_physmem_is_virtual(vm, idx, a))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 78,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 78,
                         ((char *) __FUNCTION__), "vlib_physmem_is_virtual (vm, idx, a)");
         }
     } while (0);
@@ -8632,7 +8632,7 @@ vlib_physmem_offset_of(vlib_main_t *vm, vlib_physmem_region_index_t idx, void *p
     do {
         if ((0 > 0) && !((uword) o == a - pointer_to_uword(pr->mem))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 82,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 82,
                         ((char *) __FUNCTION__), "(uword) o == a - pointer_to_uword (pr->mem)");
         }
     } while (0);
@@ -8645,7 +8645,7 @@ vlib_physmem_at_offset(vlib_main_t *vm, vlib_physmem_region_index_t idx, uword o
     do {
         if ((0 > 0) && !(offset < pr->size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 92,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h", (uword) 92,
                         ((char *) __FUNCTION__), "offset < pr->size");
         }
     } while (0);
@@ -8689,7 +8689,7 @@ vlib_physmem_virtual_to_physical(vlib_main_t *vm, vlib_physmem_region_index_t id
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/physmem_funcs.h",
                             (uword) 133, ((char *) __FUNCTION__), "! pool_is_free (vpm->regions, _e)");
             }
         } while (0);
@@ -8730,7 +8730,7 @@ clib_fifo_elts(void *v)
     do {
         if ((0 > 0) && !(r >= 0 && r <= l)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 77,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 77,
                         ((char *) __FUNCTION__), "r >= 0 && r <= l");
         }
     } while (0);
@@ -8771,7 +8771,7 @@ _clib_fifo_advance_tail(void *v, word n_elts, uword elt_bytes, uword *tail_retur
     do {
         if ((0 > 0) && !(n_free >= n_elts)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 130,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 130,
                         ((char *) __FUNCTION__), "n_free >= n_elts");
         }
     } while (0);
@@ -8790,7 +8790,7 @@ _clib_fifo_advance_tail(void *v, word n_elts, uword elt_bytes, uword *tail_retur
         do {
             if ((0 > 0) && !(n >= 0 && n < l)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 149,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 149,
                             ((char *) __FUNCTION__), "n >= 0 && n < l");
             }
         } while (0);
@@ -8799,7 +8799,7 @@ _clib_fifo_advance_tail(void *v, word n_elts, uword elt_bytes, uword *tail_retur
     do {
         if ((0 > 0) && !(clib_fifo_free_elts(v) == n_free)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 153,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 153,
                         ((char *) __FUNCTION__), "clib_fifo_free_elts (v) == n_free");
         }
     } while (0);
@@ -8815,7 +8815,7 @@ clib_fifo_advance_head(void *v, uword n_elts)
     do {
         if ((0 > 0) && !(clib_fifo_elts(v) >= n_elts)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 174,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 174,
                         ((char *) __FUNCTION__), "clib_fifo_elts (v) >= n_elts");
         }
     } while (0);
@@ -8829,7 +8829,7 @@ clib_fifo_advance_head(void *v, uword n_elts)
     do {
         if ((0 > 0) && !(n < l)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 185,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 185,
                         ((char *) __FUNCTION__), "n < l");
         }
     } while (0);
@@ -8856,7 +8856,7 @@ clib_fifo_elt_index(void *v, uword i)
     do {
         if ((0 > 0) && !(i < clib_fifo_elts(v))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 265,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/fifo.h", (uword) 265,
                         ((char *) __FUNCTION__), "i < clib_fifo_elts (v)");
         }
     } while (0);
@@ -8875,7 +8875,7 @@ vlib_get_buffer(vlib_main_t *vm, u32 buffer_index)
     do {
         if ((0 > 0) && !(offset < bm->buffer_mem_size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 62,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 62,
                         ((char *) __FUNCTION__), "offset < bm->buffer_mem_size");
         }
     } while (0);
@@ -8913,21 +8913,21 @@ vlib_get_buffer_index(vlib_main_t *vm, void *p)
     do {
         if ((0 > 0) && !(pointer_to_uword(p) >= bm->buffer_mem_start)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 158,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 158,
                         ((char *) __FUNCTION__), "pointer_to_uword (p) >= bm->buffer_mem_start");
         }
     } while (0);
     do {
         if ((0 > 0) && !(offset < bm->buffer_mem_size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 159,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 159,
                         ((char *) __FUNCTION__), "offset < bm->buffer_mem_size");
         }
     } while (0);
     do {
         if ((0 > 0) && !((offset % (1 << 6)) == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 160,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 160,
                         ((char *) __FUNCTION__), "(offset % (1 << CLIB_LOG2_CACHE_LINE_BYTES)) == 0");
         }
     } while (0);
@@ -9006,8 +9006,8 @@ vlib_get_buffer_data_physical_address(vlib_main_t *vm, u32 buffer_index)
             if ((0 > 0) &&
                 !((b->buffer_pool_index) < ((bm->buffer_pools) ? (((vec_header_t *) (bm->buffer_pools) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h",
-                            (uword) 324, ((char *) __FUNCTION__), "(b->buffer_pool_index) < vec_len (bm->buffer_pools)");
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 324,
+                            ((char *) __FUNCTION__), "(b->buffer_pool_index) < vec_len (bm->buffer_pools)");
             }
         } while (0);
         (bm->buffer_pools) + (b->buffer_pool_index);
@@ -9073,7 +9073,7 @@ vlib_buffer_alloc_from_free_list(vlib_main_t *vm, u32 *buffers, u32 n_buffers, v
     do {
         if ((0 > 0) && !(bm->cb.vlib_buffer_fill_free_list_cb)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 454,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 454,
                         ((char *) __FUNCTION__), "bm->cb.vlib_buffer_fill_free_list_cb");
         }
     } while (0);
@@ -9089,8 +9089,8 @@ vlib_buffer_alloc_from_free_list(vlib_main_t *vm, u32 *buffers, u32 n_buffers, v
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h",
-                            (uword) 456, ((char *) __FUNCTION__), "! pool_is_free (vm->buffer_free_list_pool, _e)");
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 456,
+                            ((char *) __FUNCTION__), "! pool_is_free (vm->buffer_free_list_pool, _e)");
             }
         } while (0);
         _e;
@@ -9129,7 +9129,7 @@ vlib_buffer_alloc_to_ring(vlib_main_t *vm, u32 *ring, u32 start, u32 ring_size, 
     do {
         if ((0 > 0) && !(n_buffers <= ring_size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 525,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 525,
                         ((char *) __FUNCTION__), "n_buffers <= ring_size");
         }
     } while (0);
@@ -9147,7 +9147,7 @@ vlib_buffer_free(vlib_main_t *vm, u32 *buffers, u32 n_buffers)
     do {
         if ((0 > 0) && !(bm->cb.vlib_buffer_free_cb)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 555,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 555,
                         ((char *) __FUNCTION__), "bm->cb.vlib_buffer_free_cb");
         }
     } while (0);
@@ -9160,7 +9160,7 @@ vlib_buffer_free_no_next(vlib_main_t *vm, u32 *buffers, u32 n_buffers)
     do {
         if ((0 > 0) && !(bm->cb.vlib_buffer_free_no_next_cb)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 576,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 576,
                         ((char *) __FUNCTION__), "bm->cb.vlib_buffer_free_no_next_cb");
         }
     } while (0);
@@ -9177,7 +9177,7 @@ vlib_buffer_free_from_ring(vlib_main_t *vm, u32 *ring, u32 start, u32 ring_size,
     do {
         if ((0 > 0) && !(n_buffers <= ring_size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 605,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 605,
                         ((char *) __FUNCTION__), "n_buffers <= ring_size");
         }
     } while (0);
@@ -9194,7 +9194,7 @@ vlib_buffer_free_from_ring_no_next(vlib_main_t *vm, u32 *ring, u32 start, u32 ri
     do {
         if ((0 > 0) && !(n_buffers <= ring_size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 630,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 630,
                         ((char *) __FUNCTION__), "n_buffers <= ring_size");
         }
     } while (0);
@@ -9213,7 +9213,7 @@ vlib_buffer_delete_free_list(vlib_main_t *vm, vlib_buffer_free_list_index_t free
     do {
         if ((0 > 0) && !(bm->cb.vlib_buffer_delete_free_list_cb)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 653,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 653,
                         ((char *) __FUNCTION__), "bm->cb.vlib_buffer_delete_free_list_cb");
         }
     } while (0);
@@ -9237,8 +9237,8 @@ vlib_buffer_get_buffer_free_list(vlib_main_t *vm, vlib_buffer_t *b, vlib_buffer_
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h",
-                            (uword) 671, ((char *) __FUNCTION__), "! pool_is_free (vm->buffer_free_list_pool, _e)");
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 671,
+                            ((char *) __FUNCTION__), "! pool_is_free (vm->buffer_free_list_pool, _e)");
             }
         } while (0);
         _e;
@@ -9260,8 +9260,8 @@ vlib_buffer_get_free_list(vlib_main_t *vm, vlib_buffer_free_list_index_t free_li
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h",
-                            (uword) 680, ((char *) __FUNCTION__), "! pool_is_free (vm->buffer_free_list_pool, _e)");
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 680,
+                            ((char *) __FUNCTION__), "! pool_is_free (vm->buffer_free_list_pool, _e)");
             }
         } while (0);
         _e;
@@ -9269,7 +9269,7 @@ vlib_buffer_get_free_list(vlib_main_t *vm, vlib_buffer_free_list_index_t free_li
     do {
         if ((0 > 0) && !(f->index == free_list_index)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 683,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 683,
                         ((char *) __FUNCTION__), "f->index == free_list_index");
         }
     } while (0);
@@ -9350,21 +9350,21 @@ vlib_buffer_clone_256(vlib_main_t *vm, u32 src_buffer, u32 *buffers, u16 n_buffe
     do {
         if ((0 > 0) && !(s->n_add_refs == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 803,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 803,
                         ((char *) __FUNCTION__), "s->n_add_refs == 0");
         }
     } while (0);
     do {
         if ((0 > 0) && !(n_buffers)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 804,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 804,
                         ((char *) __FUNCTION__), "n_buffers");
         }
     } while (0);
     do {
         if ((0 > 0) && !(n_buffers <= 256)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 805,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 805,
                         ((char *) __FUNCTION__), "n_buffers <= 256");
         }
     } while (0);
@@ -9429,14 +9429,14 @@ vlib_buffer_attach_clone(vlib_main_t *vm, vlib_buffer_t *head, vlib_buffer_t *ta
     do {
         if ((0 > 0) && !((head->flags & VLIB_BUFFER_NEXT_PRESENT) == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 913,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 913,
                         ((char *) __FUNCTION__), "(head->flags & VLIB_BUFFER_NEXT_PRESENT) == 0");
         }
     } while (0);
     do {
         if ((0 > 0) && !(vlib_buffer_get_free_list_index(head) == vlib_buffer_get_free_list_index(tail))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 915,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 915,
                         ((char *) __FUNCTION__),
                         "vlib_buffer_get_free_list_index (head) == vlib_buffer_get_free_list_index (tail)");
         }
@@ -9487,7 +9487,7 @@ vlib_buffer_chain_append_data(vlib_main_t *vm, vlib_buffer_free_list_index_t fre
     do {
         if ((0 > 0) && !(n_buffer_bytes >= last->current_length + last->current_data)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 983,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 983,
                         ((char *) __FUNCTION__), "n_buffer_bytes >= last->current_length + last->current_data");
         }
     } while (0);
@@ -9565,21 +9565,21 @@ vlib_buffer_init_for_free_list(vlib_buffer_t *dst, vlib_buffer_free_list_t *fl)
     do {
         if ((0 > 0) && !(((uword) & (((vlib_buffer_t *) 0)->cacheline0)) == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1084,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1084,
                         ((char *) __FUNCTION__), "STRUCT_OFFSET_OF (vlib_buffer_t, cacheline0) == 0");
         }
     } while (0);
     do {
         if ((0 > 0) && !(((uword) & (((vlib_buffer_t *) 0)->cacheline1)) == (1 << 6))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1086,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1086,
                         ((char *) __FUNCTION__), "STRUCT_OFFSET_OF (vlib_buffer_t, cacheline1) == CLIB_CACHE_LINE_BYTES");
         }
     } while (0);
     do {
         if ((0 > 0) && !(((uword) & (((vlib_buffer_t *) 0)->cacheline2)) == (1 << 6) * 2)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1088,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1088,
                         ((char *) __FUNCTION__),
                         "STRUCT_OFFSET_OF (vlib_buffer_t, cacheline2) == CLIB_CACHE_LINE_BYTES * 2");
         }
@@ -9587,7 +9587,7 @@ vlib_buffer_init_for_free_list(vlib_buffer_t *dst, vlib_buffer_free_list_t *fl)
     do {
         if ((0 > 0) && !(fl->index == vlib_buffer_get_free_list_index(src))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1091,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1091,
                         ((char *) __FUNCTION__), "fl->index == vlib_buffer_get_free_list_index (src)");
         }
     } while (0);
@@ -9598,7 +9598,7 @@ vlib_buffer_init_for_free_list(vlib_buffer_t *dst, vlib_buffer_free_list_t *fl)
     do {
         if ((0 > 0) && !(dst->current_data == src->current_data)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1104,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1104,
                         ((char *) __FUNCTION__), "dst->current_data == src->current_data");
         }
     } while (0);
@@ -9606,7 +9606,7 @@ vlib_buffer_init_for_free_list(vlib_buffer_t *dst, vlib_buffer_free_list_t *fl)
     do {
         if ((0 > 0) && !(dst->current_length == src->current_length)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1105,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1105,
                         ((char *) __FUNCTION__), "dst->current_length == src->current_length");
         }
     } while (0);
@@ -9614,7 +9614,7 @@ vlib_buffer_init_for_free_list(vlib_buffer_t *dst, vlib_buffer_free_list_t *fl)
     do {
         if ((0 > 0) && !(dst->flags == src->flags)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1106,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1106,
                         ((char *) __FUNCTION__), "dst->flags == src->flags");
         }
     } while (0);
@@ -9622,7 +9622,7 @@ vlib_buffer_init_for_free_list(vlib_buffer_t *dst, vlib_buffer_free_list_t *fl)
     do {
         if ((0 > 0) && !(dst->n_add_refs == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1114,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_funcs.h", (uword) 1114,
                         ((char *) __FUNCTION__), "dst->n_add_refs == 0");
         }
     } while (0);
@@ -9739,7 +9739,7 @@ vlib_cli_get_parse_rule_result(vlib_main_t *vm, uword index)
             if ((0 > 0) &&
                 !((index) < ((cm->parse_rule_data) ? (((vec_header_t *) (cm->parse_rule_data) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/cli_funcs.h", (uword) 47,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/cli_funcs.h", (uword) 47,
                             ((char *) __FUNCTION__), "(index) < vec_len (cm->parse_rule_data)");
             }
         } while (0);
@@ -9804,7 +9804,7 @@ vlib_get_node(vlib_main_t *vm, u32 i)
         do {
             if ((0 > 0) && !((i) < ((vm->node_main.nodes) ? (((vec_header_t *) (vm->node_main.nodes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 61,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 61,
                             ((char *) __FUNCTION__), "(i) < vec_len (vm->node_main.nodes)");
             }
         } while (0);
@@ -9820,7 +9820,7 @@ vlib_get_next_node(vlib_main_t *vm, u32 node_index, u32 next_index)
         do {
             if ((0 > 0) && !((node_index) < ((nm->nodes) ? (((vec_header_t *) (nm->nodes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 77,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 77,
                             ((char *) __FUNCTION__), "(node_index) < vec_len (nm->nodes)");
             }
         } while (0);
@@ -9829,7 +9829,7 @@ vlib_get_next_node(vlib_main_t *vm, u32 node_index, u32 next_index)
     do {
         if ((0 > 0) && !(next_index < ((n->next_nodes) ? (((vec_header_t *) (n->next_nodes) - 1)->len) : 0))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 78,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 78,
                         ((char *) __FUNCTION__), "next_index < vec_len (n->next_nodes)");
         }
     } while (0);
@@ -9843,7 +9843,7 @@ vlib_node_get_runtime(vlib_main_t *vm, u32 node_index)
         do {
             if ((0 > 0) && !((node_index) < ((nm->nodes) ? (((vec_header_t *) (nm->nodes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 92,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 92,
                             ((char *) __FUNCTION__), "(node_index) < vec_len (nm->nodes)");
             }
         } while (0);
@@ -9857,7 +9857,7 @@ vlib_node_get_runtime(vlib_main_t *vm, u32 node_index)
                     !((n->runtime_index) <
                       ((nm->nodes_by_type[n->type]) ? (((vec_header_t *) (nm->nodes_by_type[n->type]) - 1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 95,
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 95,
                                 ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->nodes_by_type[n->type])");
                 }
             } while (0);
@@ -9869,7 +9869,7 @@ vlib_node_get_runtime(vlib_main_t *vm, u32 node_index)
                 if ((0 > 0) &&
                     !((n->runtime_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
                                 (uword) 98, ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->processes)");
                 }
             } while (0);
@@ -9912,7 +9912,7 @@ vlib_node_set_runtime_data(vlib_main_t *vm, u32 node_index, void *runtime_data, 
         if ((0 > 0) && !(((n->runtime_data) ? (((vec_header_t *) (n->runtime_data) - 1)->len) : 0) <=
                          sizeof(vlib_node_runtime_t) - ((uword) & (((vlib_node_runtime_t *) 0)->runtime_data)))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 135,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 135,
                         ((char *) __FUNCTION__),
                         "vec_len (n->runtime_data) <= sizeof (vlib_node_runtime_t) - STRUCT_OFFSET_OF "
                         "(vlib_node_runtime_t, runtime_data)");
@@ -9932,7 +9932,7 @@ vlib_node_set_state(vlib_main_t *vm, u32 node_index, vlib_node_state_t new_state
         do {
             if ((0 > 0) && !((node_index) < ((nm->nodes) ? (((vec_header_t *) (nm->nodes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 154,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 154,
                             ((char *) __FUNCTION__), "(node_index) < vec_len (nm->nodes)");
             }
         } while (0);
@@ -9944,7 +9944,7 @@ vlib_node_set_state(vlib_main_t *vm, u32 node_index, vlib_node_state_t new_state
                 if ((0 > 0) &&
                     !((n->runtime_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
                                 (uword) 157, ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->processes)");
                 }
             } while (0);
@@ -9959,9 +9959,8 @@ vlib_node_set_state(vlib_main_t *vm, u32 node_index, vlib_node_state_t new_state
                     !((n->runtime_index) <
                       ((nm->nodes_by_type[n->type]) ? (((vec_header_t *) (nm->nodes_by_type[n->type]) - 1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
-                                (uword) 166, ((char *) __FUNCTION__),
-                                "(n->runtime_index) < vec_len (nm->nodes_by_type[n->type])");
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 166,
+                                ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->nodes_by_type[n->type])");
                 }
             } while (0);
             (nm->nodes_by_type[n->type]) + (n->runtime_index);
@@ -9969,7 +9968,7 @@ vlib_node_set_state(vlib_main_t *vm, u32 node_index, vlib_node_state_t new_state
     do {
         if ((0 > 0) && !(new_state < VLIB_N_NODE_STATE)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 168,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 168,
                         ((char *) __FUNCTION__), "new_state < VLIB_N_NODE_STATE");
         }
     } while (0);
@@ -9977,7 +9976,7 @@ vlib_node_set_state(vlib_main_t *vm, u32 node_index, vlib_node_state_t new_state
         do {
             if ((0 > 0) && !(nm->input_node_counts_by_state[n->state] > 0)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 172,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 172,
                             ((char *) __FUNCTION__), "nm->input_node_counts_by_state[n->state] > 0");
             }
         } while (0);
@@ -9996,7 +9995,7 @@ vlib_node_get_state(vlib_main_t *vm, u32 node_index)
         do {
             if ((0 > 0) && !((node_index) < ((nm->nodes) ? (((vec_header_t *) (nm->nodes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 191,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 191,
                             ((char *) __FUNCTION__), "(node_index) < vec_len (nm->nodes)");
             }
         } while (0);
@@ -10012,7 +10011,7 @@ vlib_node_set_interrupt_pending(vlib_main_t *vm, u32 node_index)
         do {
             if ((0 > 0) && !((node_index) < ((nm->nodes) ? (((vec_header_t *) (nm->nodes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 199,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 199,
                             ((char *) __FUNCTION__), "(node_index) < vec_len (nm->nodes)");
             }
         } while (0);
@@ -10021,7 +10020,7 @@ vlib_node_set_interrupt_pending(vlib_main_t *vm, u32 node_index)
     do {
         if ((0 > 0) && !(n->type == VLIB_NODE_TYPE_INPUT)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 200,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 200,
                         ((char *) __FUNCTION__), "n->type == VLIB_NODE_TYPE_INPUT");
         }
     } while (0);
@@ -10049,7 +10048,7 @@ vlib_get_process_from_node(vlib_main_t *vm, vlib_node_t *node)
     do {
         if ((0 > 0) && !(node->type == VLIB_NODE_TYPE_PROCESS)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 210,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 210,
                         ((char *) __FUNCTION__), "node->type == VLIB_NODE_TYPE_PROCESS");
         }
     } while (0);
@@ -10058,7 +10057,7 @@ vlib_get_process_from_node(vlib_main_t *vm, vlib_node_t *node)
             if ((0 > 0) &&
                 !((node->runtime_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 211,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 211,
                             ((char *) __FUNCTION__), "(node->runtime_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10079,7 +10078,7 @@ vlib_frame_index_no_check(vlib_main_t *vm, vlib_frame_t *f)
     do {
         if ((0 > 0) && !(((uword) f & ((1 << 6) - 1)) == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 228,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 228,
                         ((char *) __FUNCTION__), "((uword) f & (VLIB_FRAME_ALIGN - 1)) == 0");
         }
     } while (0);
@@ -10087,7 +10086,7 @@ vlib_frame_index_no_check(vlib_main_t *vm, vlib_frame_t *f)
     do {
         if ((0 > 0) && !((i / (1 << 6)) <= 0xFFFFFFFFULL)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 231,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 231,
                         ((char *) __FUNCTION__), "(i / VLIB_FRAME_ALIGN) <= 0xFFFFFFFFULL");
         }
     } while (0);
@@ -10100,7 +10099,7 @@ vlib_get_frame(vlib_main_t *vm, uword frame_index)
     do {
         if ((0 > 0) && !(f->frame_flags & (1 << 1))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 240,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 240,
                         ((char *) __FUNCTION__), "f->frame_flags & VLIB_FRAME_IS_ALLOCATED");
         }
     } while (0);
@@ -10113,7 +10112,7 @@ vlib_frame_index(vlib_main_t *vm, vlib_frame_t *f)
     do {
         if ((0 > 0) && !(vlib_get_frame(vm, i) == f)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 248,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 248,
                         ((char *) __FUNCTION__), "vlib_get_frame (vm, i) == f");
         }
     } while (0);
@@ -10142,7 +10141,7 @@ vlib_node_runtime_get_next_frame(vlib_main_t *vm, vlib_node_runtime_t *n, u32 ne
     do {
         if ((0 > 0) && !(next_index < n->n_next_nodes)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 296,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 296,
                         ((char *) __FUNCTION__), "next_index < n->n_next_nodes");
         }
     } while (0);
@@ -10151,7 +10150,7 @@ vlib_node_runtime_get_next_frame(vlib_main_t *vm, vlib_node_runtime_t *n, u32 ne
             if ((0 > 0) && !((n->next_frame_index + next_index) <
                              ((nm->next_frames) ? (((vec_header_t *) (nm->next_frames) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 297,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 297,
                             ((char *) __FUNCTION__), "(n->next_frame_index + next_index) < vec_len (nm->next_frames)");
             }
         } while (0);
@@ -10163,7 +10162,7 @@ vlib_node_runtime_get_next_frame(vlib_main_t *vm, vlib_node_runtime_t *n, u32 ne
             do {
                 if ((0 > 0) && !((n->node_index) < ((nm->nodes) ? (((vec_header_t *) (nm->nodes) - 1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
                                 (uword) 302, ((char *) __FUNCTION__), "(n->node_index) < vec_len (nm->nodes)");
                 }
             } while (0);
@@ -10174,9 +10173,8 @@ vlib_node_runtime_get_next_frame(vlib_main_t *vm, vlib_node_runtime_t *n, u32 ne
                 if ((0 > 0) &&
                     !((node->next_nodes[next_index]) < ((nm->nodes) ? (((vec_header_t *) (nm->nodes) - 1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
-                                (uword) 303, ((char *) __FUNCTION__),
-                                "(node->next_nodes[next_index]) < vec_len (nm->nodes)");
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 303,
+                                ((char *) __FUNCTION__), "(node->next_nodes[next_index]) < vec_len (nm->nodes)");
                 }
             } while (0);
             (nm->nodes) + (node->next_nodes[next_index]);
@@ -10184,7 +10182,7 @@ vlib_node_runtime_get_next_frame(vlib_main_t *vm, vlib_node_runtime_t *n, u32 ne
         do {
             if ((0 > 0) && !(nf->node_runtime_index == next->runtime_index)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 304,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 304,
                             ((char *) __FUNCTION__), "nf->node_runtime_index == next->runtime_index");
             }
         } while (0);
@@ -10201,7 +10199,7 @@ vlib_node_get_next_frame(vlib_main_t *vm, u32 node_index, u32 next_index)
         do {
             if ((0 > 0) && !((node_index) < ((nm->nodes) ? (((vec_header_t *) (nm->nodes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 331,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 331,
                             ((char *) __FUNCTION__), "(node_index) < vec_len (nm->nodes)");
             }
         } while (0);
@@ -10213,7 +10211,7 @@ vlib_node_get_next_frame(vlib_main_t *vm, u32 node_index, u32 next_index)
                 !((n->runtime_index) <
                   ((nm->nodes_by_type[n->type]) ? (((vec_header_t *) (nm->nodes_by_type[n->type]) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 332,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 332,
                             ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->nodes_by_type[n->type])");
             }
         } while (0);
@@ -10239,7 +10237,7 @@ vlib_set_next_frame_buffer(vlib_main_t *vm, vlib_node_runtime_t *node, u32 next_
         do {
             if ((0 > 0) && !(_n_left > 0)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 402,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 402,
                             ((char *) __FUNCTION__), "_n_left > 0");
             }
         } while (0);
@@ -10265,9 +10263,8 @@ vlib_get_current_process(vlib_main_t *vm)
                 if ((0 > 0) && !((nm->current_process_index) <
                                  ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
-                                (uword) 421, ((char *) __FUNCTION__),
-                                "(nm->current_process_index) < vec_len (nm->processes)");
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 421,
+                                ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
                 }
             } while (0);
             (nm->processes) + (nm->current_process_index);
@@ -10294,7 +10291,7 @@ vlib_process_suspend(vlib_main_t *vm, f64 dt)
             if ((0 > 0) &&
                 !((nm->current_process_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 452,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 452,
                             ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10322,7 +10319,7 @@ vlib_process_free_event_type(vlib_process_t *p, uword t, uword is_one_time_event
                     1;
             }))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 473,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 473,
                         ((char *) __FUNCTION__), "!pool_is_free_index (p->event_type_pool, t)");
         }
     } while (0);
@@ -10337,7 +10334,7 @@ vlib_process_free_event_type(vlib_process_t *p, uword t, uword is_one_time_event
                        (_e) < ((p->event_type_pool) +
                                ((p->event_type_pool) ? (((vec_header_t *) (p->event_type_pool) - 1)->len) : 0))))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
                                 (uword) 474, ((char *) __FUNCTION__), "vec_is_member (p->event_type_pool, _e)");
                 }
             } while (0);
@@ -10350,7 +10347,7 @@ vlib_process_free_event_type(vlib_process_t *p, uword t, uword is_one_time_event
                             1;
                     }))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
                                 (uword) 474, ((char *) __FUNCTION__), "! pool_is_free (p->event_type_pool, _e)");
                 }
             } while (0);
@@ -10359,7 +10356,7 @@ vlib_process_free_event_type(vlib_process_t *p, uword t, uword is_one_time_event
                 do {
                     if ((0 > 0) && !(_pool_l < _pool_p->max_elts)) {
                         _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                    "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
+                                    "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
                                     (uword) 474, ((char *) __FUNCTION__), "_pool_var(l) < _pool_var (p)->max_elts");
                     }
                 } while (0);
@@ -10395,7 +10392,7 @@ vlib_process_maybe_free_event_type(vlib_process_t *p, uword t)
                     1;
             }))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 483,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 483,
                         ((char *) __FUNCTION__), "!pool_is_free_index (p->event_type_pool, t)");
         }
     } while (0);
@@ -10415,7 +10412,7 @@ vlib_process_get_event_data(vlib_main_t *vm, uword *return_event_type_opaque)
             if ((0 > 0) &&
                 !((nm->current_process_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 498,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 498,
                             ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10428,7 +10425,7 @@ vlib_process_get_event_data(vlib_main_t *vm, uword *return_event_type_opaque)
     do {
         if ((0 > 0) && !((((vec_header_t *) (p->pending_event_data_by_type_index[t]) - 1)->len) > 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 509,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 509,
                         ((char *) __FUNCTION__), "_vec_len (p->pending_event_data_by_type_index[t]) > 0");
         }
     } while (0);
@@ -10445,7 +10442,7 @@ vlib_process_get_event_data(vlib_main_t *vm, uword *return_event_type_opaque)
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 513,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 513,
                             ((char *) __FUNCTION__), "! pool_is_free (p->event_type_pool, _e)");
             }
         } while (0);
@@ -10485,7 +10482,7 @@ vlib_process_get_events(vlib_main_t *vm, uword **data_vector)
             if ((0 > 0) &&
                 !((nm->current_process_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 549,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 549,
                             ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10521,7 +10518,7 @@ vlib_process_get_events(vlib_main_t *vm, uword **data_vector)
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 565,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 565,
                             ((char *) __FUNCTION__), "! pool_is_free (p->event_type_pool, _e)");
             }
         } while (0);
@@ -10565,7 +10562,7 @@ vlib_process_get_events_with_type(vlib_main_t *vm, uword **data_vector, uword wi
             if ((0 > 0) &&
                 !((nm->current_process_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 604,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 604,
                             ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10590,7 +10587,7 @@ vlib_process_wait_for_event(vlib_main_t *vm)
             if ((0 > 0) &&
                 !((nm->current_process_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 625,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 625,
                             ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10615,7 +10612,7 @@ vlib_process_wait_for_one_time_event(vlib_main_t *vm, uword **data_vector, uword
             if ((0 > 0) &&
                 !((nm->current_process_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 648,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 648,
                             ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10630,7 +10627,7 @@ vlib_process_wait_for_one_time_event(vlib_main_t *vm, uword **data_vector, uword
                     1;
             }))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 649,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 649,
                         ((char *) __FUNCTION__), "!pool_is_free_index (p->event_type_pool, with_type_index)");
         }
     } while (0);
@@ -10653,7 +10650,7 @@ vlib_process_wait_for_event_with_type(vlib_main_t *vm, uword **data_vector, uwor
             if ((0 > 0) &&
                 !((nm->current_process_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 672,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 672,
                             ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10682,7 +10679,7 @@ vlib_process_wait_for_event_or_clock(vlib_main_t *vm, f64 dt)
             if ((0 > 0) &&
                 !((nm->current_process_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 706,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 706,
                             ((char *) __FUNCTION__), "(nm->current_process_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10747,7 +10744,7 @@ vlib_process_create_one_time_event(vlib_main_t *vm, uword node_index, uword with
         do {
             if ((0 > 0) && !((n->runtime_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 745,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 745,
                             ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10769,7 +10766,7 @@ vlib_process_delete_one_time_event(vlib_main_t *vm, uword node_index, uword t)
         do {
             if ((0 > 0) && !((n->runtime_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 762,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 762,
                             ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10778,7 +10775,7 @@ vlib_process_delete_one_time_event(vlib_main_t *vm, uword node_index, uword t)
     do {
         if ((0 > 0) && !(clib_bitmap_get(p->one_time_event_type_bitmap, t))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 764,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 764,
                         ((char *) __FUNCTION__), "clib_bitmap_get (p->one_time_event_type_bitmap, t)");
         }
     } while (0);
@@ -10793,7 +10790,7 @@ vlib_process_signal_event_helper(vlib_node_main_t *nm, vlib_node_t *n, vlib_proc
     do {
         if ((0 > 0) && !(n->type == VLIB_NODE_TYPE_PROCESS)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 778,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 778,
                         ((char *) __FUNCTION__), "n->type == VLIB_NODE_TYPE_PROCESS");
         }
     } while (0);
@@ -10806,7 +10803,7 @@ vlib_process_signal_event_helper(vlib_node_main_t *nm, vlib_node_t *n, vlib_proc
                     1;
             }))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 780,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 780,
                         ((char *) __FUNCTION__), "!pool_is_free_index (p->event_type_pool, t)");
         }
     } while (0);
@@ -10849,7 +10846,7 @@ vlib_process_signal_event_helper(vlib_node_main_t *nm, vlib_node_t *n, vlib_proc
                 do {
                     if ((0 > 0) && !(_vec_l > 0)) {
                         _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                    "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
+                                    "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h",
                                     (uword) 791, ((char *) __FUNCTION__), "_v(l) > 0");
                     }
                 } while (0);
@@ -10915,7 +10912,7 @@ vlib_process_signal_event_data(vlib_main_t *vm, uword node_index, uword type_opa
         do {
             if ((0 > 0) && !((n->runtime_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 861,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 861,
                             ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -10925,7 +10922,7 @@ vlib_process_signal_event_data(vlib_main_t *vm, uword node_index, uword type_opa
     do {
         if ((0 > 0) && !(vlib_get_thread_index() == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 865,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 865,
                         ((char *) __FUNCTION__), "vlib_get_thread_index () == 0");
         }
     } while (0);
@@ -10952,7 +10949,7 @@ vlib_process_signal_event_at_time(vlib_main_t *vm, f64 dt, uword node_index, uwo
         do {
             if ((0 > 0) && !((n->runtime_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 891,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 891,
                             ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -11019,21 +11016,21 @@ vlib_process_signal_event_at_time(vlib_main_t *vm, f64 dt, uword node_index, uwo
         do {
             if ((0 > 0) && !(te->n_data_elts == n_data_elts)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 919,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 919,
                             ((char *) __FUNCTION__), "te->n_data_elts == n_data_elts");
             }
         } while (0);
         do {
             if ((0 > 0) && !(te->n_data_elt_bytes == n_data_elt_bytes)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 920,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 920,
                             ((char *) __FUNCTION__), "te->n_data_elt_bytes == n_data_elt_bytes");
             }
         } while (0);
         do {
             if ((0 > 0) && !(te->n_data_bytes == n_data_elts * n_data_elt_bytes)) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 921,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 921,
                             ((char *) __FUNCTION__), "te->n_data_bytes == n_data_elts * n_data_elt_bytes");
             }
         } while (0);
@@ -11073,7 +11070,7 @@ vlib_process_signal_one_time_event_data(vlib_main_t *vm, uword node_index, uword
         do {
             if ((0 > 0) && !((n->runtime_index) < ((nm->processes) ? (((vec_header_t *) (nm->processes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 954,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 954,
                             ((char *) __FUNCTION__), "(n->runtime_index) < vec_len (nm->processes)");
             }
         } while (0);
@@ -11162,7 +11159,7 @@ vlib_node_runtime_update_main_loop_vector_stats(vlib_main_t *vm, vlib_node_runti
     do {
         if ((0 > 0) && !(is_pow2((sizeof(node->main_loop_vector_stats) / sizeof(node->main_loop_vector_stats[0]))))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 1062,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/node_funcs.h", (uword) 1062,
                         ((char *) __FUNCTION__), "is_pow2 (ARRAY_LEN (node->main_loop_vector_stats))");
         }
     } while (0);
@@ -11246,7 +11243,7 @@ vlib_error_elog_count(vlib_main_t *vm, uword counter, uword increment)
                                                        (((vec_header_t *) (vm->error_elog_event_types) - 1)->len) :
                                                        0))) {
                          _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                     "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/error_funcs.h",
+                                     "../../../build-root/install-vpp_debug-native/vpp/include/vlib/error_funcs.h",
                                      (uword) 51, ((char *) __FUNCTION__),
                                      "(counter) < vec_len (vm->error_elog_event_types)");
                      }
@@ -11264,7 +11261,7 @@ vlib_error_count(vlib_main_t *vm, uword node_index, uword counter, uword increme
     do {
         if ((0 > 0) && !(counter < n->n_errors)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/error_funcs.h", (uword) 63,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/error_funcs.h", (uword) 63,
                         ((char *) __FUNCTION__), "counter < n->n_errors");
         }
     } while (0);
@@ -11272,7 +11269,7 @@ vlib_error_count(vlib_main_t *vm, uword node_index, uword counter, uword increme
     do {
         if ((0 > 0) && !(counter < ((em->counters) ? (((vec_header_t *) (em->counters) - 1)->len) : 0))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/error_funcs.h", (uword) 66,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/error_funcs.h", (uword) 66,
                         ((char *) __FUNCTION__), "counter < vec_len (em->counters)");
         }
     } while (0);
@@ -11295,7 +11292,7 @@ vlib_validate_trace(vlib_trace_main_t *tm, vlib_buffer_t *b)
     do {
         if ((0 > 0) && !(1 || b->flags & VLIB_BUFFER_IS_TRACED)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 52,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 52,
                         ((char *) __FUNCTION__), "1 || b->flags & VLIB_BUFFER_IS_TRACED");
         }
     } while (0);
@@ -11308,7 +11305,7 @@ vlib_validate_trace(vlib_trace_main_t *tm, vlib_buffer_t *b)
                     1;
             }))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 53,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 53,
                         ((char *) __FUNCTION__), "!pool_is_free_index (tm->trace_buffer_pool, b->trace_index)");
         }
     } while (0);
@@ -11322,7 +11319,7 @@ vlib_add_trace(vlib_main_t *vm, vlib_node_runtime_t *r, vlib_buffer_t *b, u32 n_
     do {
         if ((0 > 0) && !(vnet_trace_dummy)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 64,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 64,
                         ((char *) __FUNCTION__), "vnet_trace_dummy");
         }
     } while (0);
@@ -11331,7 +11328,7 @@ vlib_add_trace(vlib_main_t *vm, vlib_node_runtime_t *r, vlib_buffer_t *b, u32 n_
             if ((0 > 0) && !(((vnet_trace_dummy) ? (((vec_header_t *) (vnet_trace_dummy) -1)->len) : 0) >=
                              n_data_bytes + sizeof(*h))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 68,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 68,
                             ((char *) __FUNCTION__), "vec_len (vnet_trace_dummy) >= n_data_bytes + sizeof (*h)");
             }
         } while (0);
@@ -11382,7 +11379,7 @@ vlib_free_trace(vlib_main_t *vm, vlib_buffer_t *b)
                        (_e) < ((tm->trace_buffer_pool) +
                                ((tm->trace_buffer_pool) ? (((vec_header_t *) (tm->trace_buffer_pool) - 1)->len) : 0))))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h",
                                 (uword) 98, ((char *) __FUNCTION__), "vec_is_member (tm->trace_buffer_pool, _e)");
                 }
             } while (0);
@@ -11395,7 +11392,7 @@ vlib_free_trace(vlib_main_t *vm, vlib_buffer_t *b)
                             1;
                     }))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h",
                                 (uword) 98, ((char *) __FUNCTION__), "! pool_is_free (tm->trace_buffer_pool, _e)");
                 }
             } while (0);
@@ -11404,7 +11401,7 @@ vlib_free_trace(vlib_main_t *vm, vlib_buffer_t *b)
                 do {
                     if ((0 > 0) && !(_pool_l < _pool_p->max_elts)) {
                         _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                    "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h",
+                                    "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h",
                                     (uword) 98, ((char *) __FUNCTION__), "_pool_var(l) < _pool_var (p)->max_elts");
                     }
                 } while (0);
@@ -11506,7 +11503,7 @@ vlib_get_trace_count(vlib_main_t *vm, vlib_node_runtime_t *rt)
     do {
         if ((0 > 0) && !(n >= 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 166,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 166,
                         ((char *) __FUNCTION__), "n >= 0");
         }
     } while (0);
@@ -11520,7 +11517,7 @@ vlib_set_trace_count(vlib_main_t *vm, vlib_node_runtime_t *rt, u32 count)
         do {
             if ((0 > 0) && !((rt->node_index) < ((tm->nodes) ? (((vec_header_t *) (tm->nodes) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 175,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 175,
                             ((char *) __FUNCTION__), "(rt->node_index) < vec_len (tm->nodes)");
             }
         } while (0);
@@ -11529,7 +11526,7 @@ vlib_set_trace_count(vlib_main_t *vm, vlib_node_runtime_t *rt, u32 count)
     do {
         if ((0 > 0) && !(count <= tn->limit)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 177,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/trace_funcs.h", (uword) 177,
                         ((char *) __FUNCTION__), "count <= tn->limit");
         }
     } while (0);
@@ -11573,7 +11570,7 @@ generic_buffer_node_inline(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_fram
                     do {
                         if ((0 > 0) && !((64) <= 4 * (1 << 6))) {
                             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h",
+                                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h",
                                         (uword) 280, ((char *) __FUNCTION__), "(64) <= 4*CLIB_CACHE_LINE_BYTES");
                         }
                     } while (0);
@@ -11595,7 +11592,7 @@ generic_buffer_node_inline(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_fram
                     do {
                         if ((0 > 0) && !((64) <= 4 * (1 << 6))) {
                             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h",
+                                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h",
                                         (uword) 281, ((char *) __FUNCTION__), "(64) <= 4*CLIB_CACHE_LINE_BYTES");
                         }
                     } while (0);
@@ -11617,7 +11614,7 @@ generic_buffer_node_inline(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_fram
                     do {
                         if ((0 > 0) && !((64) <= 4 * (1 << 6))) {
                             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h",
+                                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h",
                                         (uword) 283, ((char *) __FUNCTION__), "(64) <= 4*CLIB_CACHE_LINE_BYTES");
                         }
                     } while (0);
@@ -11639,7 +11636,7 @@ generic_buffer_node_inline(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_fram
                     do {
                         if ((0 > 0) && !((64) <= 4 * (1 << 6))) {
                             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                        "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h",
+                                        "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h",
                                         (uword) 284, ((char *) __FUNCTION__), "(64) <= 4*CLIB_CACHE_LINE_BYTES");
                         }
                     } while (0);
@@ -11813,7 +11810,7 @@ vlib_buffer_enqueue_to_thread(vlib_main_t *vm, u32 frame_queue_index, u32 *buffe
             if ((0 > 0) && !((frame_queue_index) <
                              ((tm->frame_queue_mains) ? (((vec_header_t *) (tm->frame_queue_mains) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h", (uword) 466,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h", (uword) 466,
                             ((char *) __FUNCTION__), "(frame_queue_index) < vec_len (tm->frame_queue_mains)");
             }
         } while (0);
@@ -11824,7 +11821,7 @@ vlib_buffer_enqueue_to_thread(vlib_main_t *vm, u32 frame_queue_index, u32 *buffe
             if ((0 > 0) && !((vm->thread_index) <
                              ((fqm->per_thread_data) ? (((vec_header_t *) (fqm->per_thread_data) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h", (uword) 467,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vlib/buffer_node.h", (uword) 467,
                             ((char *) __FUNCTION__), "(vm->thread_index) < vec_len (fqm->per_thread_data)");
             }
         } while (0);
@@ -11977,7 +11974,7 @@ pcap_add_buffer(pcap_main_t *pm, vlib_main_t *vm, u32 buffer_index, u32 n_bytes_
             do {
                 if ((0 > 0) && !(b->flags & VLIB_BUFFER_NEXT_PRESENT)) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/unix/pcap.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vnet/unix/pcap.h",
                                 (uword) 229, ((char *) __FUNCTION__), "b->flags & VLIB_BUFFER_NEXT_PRESENT");
                 }
             } while (0);
@@ -12250,7 +12247,7 @@ vnet_get_config_data(vnet_config_main_t *cm, u32 *config_index, u32 *next_index,
             if ((0 > 0) &&
                 !((i) < ((cm->config_string_heap) ? (((vec_header_t *) (cm->config_string_heap) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/config.h", (uword) 129,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/config.h", (uword) 129,
                             ((char *) __FUNCTION__), "(i) < vec_len (cm->config_string_heap)");
             }
         } while (0);
@@ -13158,9 +13155,8 @@ vnet_get_hw_interface(vnet_main_t *vnm, u32 hw_if_index)
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
-                            (uword) 46, ((char *) __FUNCTION__),
-                            "! pool_is_free (vnm->interface_main.hw_interfaces, _e)");
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h", (uword) 46,
+                            ((char *) __FUNCTION__), "! pool_is_free (vnm->interface_main.hw_interfaces, _e)");
             }
         } while (0);
         _e;
@@ -13191,7 +13187,7 @@ vnet_get_hw_interface_safe(vnet_main_t *vnm, u32 hw_if_index)
                             1;
                     }))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
                                 (uword) 53, ((char *) __FUNCTION__),
                                 "! pool_is_free (vnm->interface_main.hw_interfaces, _e)");
                 }
@@ -13216,9 +13212,8 @@ vnet_get_sw_interface(vnet_main_t *vnm, u32 sw_if_index)
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
-                            (uword) 60, ((char *) __FUNCTION__),
-                            "! pool_is_free (vnm->interface_main.sw_interfaces, _e)");
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h", (uword) 60,
+                            ((char *) __FUNCTION__), "! pool_is_free (vnm->interface_main.sw_interfaces, _e)");
             }
         } while (0);
         _e;
@@ -13249,7 +13244,7 @@ vnet_get_sw_interface_safe(vnet_main_t *vnm, u32 sw_if_index)
                             1;
                     }))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
                                 (uword) 67, ((char *) __FUNCTION__),
                                 "! pool_is_free (vnm->interface_main.sw_interfaces, _e)");
                 }
@@ -13266,7 +13261,7 @@ vnet_get_hw_sw_interface(vnet_main_t *vnm, u32 hw_if_index)
     do {
         if ((0 > 0) && !(sw->type == VNET_SW_INTERFACE_TYPE_HARDWARE)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h", (uword) 76,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h", (uword) 76,
                         ((char *) __FUNCTION__), "sw->type == VNET_SW_INTERFACE_TYPE_HARDWARE");
         }
     } while (0);
@@ -13288,7 +13283,7 @@ vnet_get_sup_hw_interface(vnet_main_t *vnm, u32 sw_if_index)
     do {
         if ((0 > 0) && !((sw->type == VNET_SW_INTERFACE_TYPE_HARDWARE) || (sw->type == VNET_SW_INTERFACE_TYPE_PIPE))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h", (uword) 96,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h", (uword) 96,
                         ((char *) __FUNCTION__),
                         "(sw->type == VNET_SW_INTERFACE_TYPE_HARDWARE) || (sw->type == VNET_SW_INTERFACE_TYPE_PIPE)");
         }
@@ -13305,7 +13300,7 @@ vnet_get_hw_interface_class(vnet_main_t *vnm, u32 hw_class_index)
                                           (((vec_header_t *) (vnm->interface_main.hw_interface_classes) - 1)->len) :
                                           0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
                             (uword) 104, ((char *) __FUNCTION__),
                             "(hw_class_index) < vec_len (vnm->interface_main.hw_interface_classes)");
             }
@@ -13322,7 +13317,7 @@ vnet_get_device_class(vnet_main_t *vnm, u32 dev_class_index)
                                                       (((vec_header_t *) (vnm->interface_main.device_classes) - 1)->len) :
                                                       0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/interface_funcs.h",
                             (uword) 111, ((char *) __FUNCTION__),
                             "(dev_class_index) < vec_len (vnm->interface_main.device_classes)");
             }
@@ -13640,14 +13635,14 @@ pg_edit_get_value(pg_edit_t *e, int hi_or_lo)
     do {
         if ((0 > 0) && !(n <= ((v) ? (((vec_header_t *) (v) -1)->len) : 0))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/pg/edit.h", (uword) 181,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/pg/edit.h", (uword) 181,
                         ((char *) __FUNCTION__), "n <= vec_len (v)");
         }
     } while (0);
     do {
         if ((0 > 0) && !(n <= sizeof(r))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/pg/edit.h", (uword) 182,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/pg/edit.h", (uword) 182,
                         ((char *) __FUNCTION__), "n <= sizeof (r)");
         }
     } while (0);
@@ -13838,7 +13833,7 @@ pg_stream_get_group(pg_stream_t *s, u32 group_index)
         do {
             if ((0 > 0) && !((group_index) < ((s->edit_groups) ? (((vec_header_t *) (s->edit_groups) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/pg/pg.h", (uword) 227,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/pg/pg.h", (uword) 227,
                             ((char *) __FUNCTION__), "(group_index) < vec_len (s->edit_groups)");
             }
         } while (0);
@@ -13867,7 +13862,7 @@ pg_create_edit_group(pg_stream_t *s, int n_edit_bytes, int n_packet_bytes, u32 *
     do {
         if ((0 > 0) && !(n_edit_bytes % sizeof(pg_edit_t) == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/pg/pg.h", (uword) 241,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/pg/pg.h", (uword) 241,
                         ((char *) __FUNCTION__), "n_edit_bytes % sizeof (pg_edit_t) == 0");
         }
     } while (0);
@@ -13894,7 +13889,7 @@ pg_add_edits(pg_stream_t *s, int n_edit_bytes, int n_packet_bytes, u32 group_ind
     do {
         if ((0 > 0) && !(n_edit_bytes % sizeof(pg_edit_t) == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/pg/pg.h", (uword) 257,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/pg/pg.h", (uword) 257,
                         ((char *) __FUNCTION__), "n_edit_bytes % sizeof (pg_edit_t) == 0");
         }
     } while (0);
@@ -14920,7 +14915,7 @@ ip_csum_add_even(ip_csum_t c, ip_csum_t x)
     do {
         if ((0 > 0) && !((t - c == 0) || (t - c == ~0))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip_packet.h", (uword) 202,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip_packet.h", (uword) 202,
                         ((char *) __FUNCTION__), "(t - c == 0) || (t - c == ~0)");
         }
     } while (0);
@@ -15200,7 +15195,7 @@ ip4_multicast_address_set_for_group(ip4_address_t *a, ip_multicast_group_t g)
     do {
         if ((0 > 0) && !((u32) g < (1 << 28))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip4_packet.h", (uword) 326,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip4_packet.h", (uword) 326,
                         ((char *) __FUNCTION__), "(u32) g < (1 << 28)");
         }
     } while (0);
@@ -15346,7 +15341,7 @@ ip6_set_solicited_node_multicast_address(ip6_address_t *a, u32 id)
     do {
         if ((0 > 0) && !((id >> 24) == 0)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6_packet.h", (uword) 201,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6_packet.h", (uword) 201,
                         ((char *) __FUNCTION__), "(id >> 24) == 0");
         }
     } while (0);
@@ -15420,7 +15415,7 @@ ip6_address_mask_from_width(ip6_address_t *a, u32 width)
     do {
         if ((0 > 0) && !(width <= 128)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6_packet.h", (uword) 282,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6_packet.h", (uword) 282,
                         ((char *) __FUNCTION__), "width <= 128");
         }
     } while (0);
@@ -16211,7 +16206,7 @@ vnet_rewrite_clear_data_internal(vnet_rewrite_header_t *rw, int max_size)
     do {
         if ((0 > 0) && !((max_size > 0) && (max_size < 128))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 119,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 119,
                         ((char *) __FUNCTION__), "(max_size > 0) && (max_size < VLIB_BUFFER_PRE_DATA_SIZE)");
         }
     } while (0);
@@ -16224,14 +16219,14 @@ vnet_rewrite_set_data_internal(vnet_rewrite_header_t *rw, int max_size, void *da
     do {
         if ((0 > 0) && !((max_size > 0) && (max_size < 128))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 130,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 130,
                         ((char *) __FUNCTION__), "(max_size > 0) && (max_size < VLIB_BUFFER_PRE_DATA_SIZE)");
         }
     } while (0);
     do {
         if ((0 > 0) && !((data_bytes >= 0) && (data_bytes < max_size))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 131,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 131,
                         ((char *) __FUNCTION__), "(data_bytes >= 0) && (data_bytes < max_size)");
         }
     } while (0);
@@ -16245,7 +16240,7 @@ vnet_rewrite_get_data_internal(vnet_rewrite_header_t *rw, int max_size)
     do {
         if ((0 > 0) && !(rw->data_bytes <= max_size)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 147,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 147,
                         ((char *) __FUNCTION__), "rw->data_bytes <= max_size");
         }
     } while (0);
@@ -16271,7 +16266,7 @@ _vnet_rewrite_one_header(vnet_rewrite_header_t *h0, void *packet0, int max_size,
     do {
         if ((0 > 0) && !(h0->data_bytes != 0xfefe)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 182,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 182,
                         ((char *) __FUNCTION__), "h0->data_bytes != 0xfefe");
         }
     } while (0);
@@ -16315,14 +16310,14 @@ _vnet_rewrite_two_headers(vnet_rewrite_header_t *h0, vnet_rewrite_header_t *h1, 
     do {
         if ((0 > 0) && !(h0->data_bytes != 0xfefe)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 228,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 228,
                         ((char *) __FUNCTION__), "h0->data_bytes != 0xfefe");
         }
     } while (0);
     do {
         if ((0 > 0) && !(h1->data_bytes != 0xfefe)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 229,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/adj/rewrite.h", (uword) 229,
                         ((char *) __FUNCTION__), "h1->data_bytes != 0xfefe");
         }
     } while (0);
@@ -16471,7 +16466,7 @@ adj_get(adj_index_t adj_index)
         do {
             if ((0 > 0) && !((adj_index) < ((adj_pool) ? (((vec_header_t *) (adj_pool) -1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/adj/adj.h", (uword) 382,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/adj/adj.h", (uword) 382,
                             ((char *) __FUNCTION__), "(adj_index) < vec_len (adj_pool)");
             }
         } while (0);
@@ -16547,7 +16542,7 @@ vnet_device_increment_rx_packets(u32 thread_index, u64 count)
         do {
             if ((0 > 0) && !((thread_index) < ((vdm->workers) ? (((vec_header_t *) (vdm->workers) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/devices/devices.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/devices/devices.h",
                             (uword) 115, ((char *) __FUNCTION__), "(thread_index) < vec_len (vdm->workers)");
             }
         } while (0);
@@ -16570,7 +16565,7 @@ vnet_get_device_input_thread_index(vnet_main_t *vnm, u32 hw_if_index, u16 queue_
                                          (((vec_header_t *) (hw->input_node_thread_index_by_queue) - 1)->len) :
                                          0))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/devices/devices.h", (uword) 131,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/devices/devices.h", (uword) 131,
                         ((char *) __FUNCTION__), "queue_id < vec_len (hw->input_node_thread_index_by_queue)");
         }
     } while (0);
@@ -16594,7 +16589,7 @@ vnet_device_input_set_interrupt_pending(vnet_main_t *vnm, u32 hw_if_index, u16 q
             if ((0 > 0) &&
                 !((idx) < ((rt->devices_and_queues) ? (((vec_header_t *) (rt->devices_and_queues) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/devices/devices.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/devices/devices.h",
                             (uword) 150, ((char *) __FUNCTION__), "(idx) < vec_len (rt->devices_and_queues)");
             }
         } while (0);
@@ -16680,7 +16675,7 @@ vnet_get_feature_config_index(u8 arc, u32 sw_if_index)
                                                   (((vec_header_t *) (cm->config_index_by_sw_if_index) - 1)->len) :
                                                   0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
                             (uword) 203, ((char *) __FUNCTION__),
                             "(sw_if_index) < vec_len (cm->config_index_by_sw_if_index)");
             }
@@ -16702,7 +16697,7 @@ vnet_feature_arc_start_with_data(u8 arc, u32 sw_if_index, u32 *next, vlib_buffer
                                                       (((vec_header_t *) (cm->config_index_by_sw_if_index) - 1)->len) :
                                                       0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
                                 (uword) 218, ((char *) __FUNCTION__),
                                 "(sw_if_index) < vec_len (cm->config_index_by_sw_if_index)");
                 }
@@ -16755,7 +16750,7 @@ vnet_feature_start_device_input_x1(u32 sw_if_index, u32 *next0, vlib_buffer_t *b
                                                       (((vec_header_t *) (cm->config_index_by_sw_if_index) - 1)->len) :
                                                       0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
                                 (uword) 282, ((char *) __FUNCTION__),
                                 "(sw_if_index) < vec_len (cm->config_index_by_sw_if_index)");
                 }
@@ -16786,7 +16781,7 @@ vnet_feature_start_device_input_x2(u32 sw_if_index, u32 *next0, u32 *next1, vlib
                                                       (((vec_header_t *) (cm->config_index_by_sw_if_index) - 1)->len) :
                                                       0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
                                 (uword) 318, ((char *) __FUNCTION__),
                                 "(sw_if_index) < vec_len (cm->config_index_by_sw_if_index)");
                 }
@@ -16826,7 +16821,7 @@ vnet_feature_start_device_input_x4(u32 sw_if_index, u32 *next0, u32 *next1, u32 
                                                       (((vec_header_t *) (cm->config_index_by_sw_if_index) - 1)->len) :
                                                       0))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vnet/feature/feature.h",
                                 (uword) 370, ((char *) __FUNCTION__),
                                 "(sw_if_index) < vec_len (cm->config_index_by_sw_if_index)");
                 }
@@ -16897,7 +16892,7 @@ ip_get_interface_address(ip_lookup_main_t *lm, void *addr_fib)
                         1;
                 }))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/lookup.h", (uword) 169,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/lookup.h", (uword) 169,
                             ((char *) __FUNCTION__), "! pool_is_free (lm->if_address_pool, _e)");
             }
         } while (0);
@@ -16918,7 +16913,7 @@ ip_lookup_set_buffer_fib_index(u32 *fib_index_by_sw_if_index, vlib_buffer_t *b)
             if ((0 > 0) && !((((vnet_buffer_opaque_t *) (b)->opaque)->sw_if_index[VLIB_RX]) <
                              ((fib_index_by_sw_if_index) ? (((vec_header_t *) (fib_index_by_sw_if_index) -1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/lookup.h", (uword) 221,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/lookup.h", (uword) 221,
                             ((char *) __FUNCTION__),
                             "(((vnet_buffer_opaque_t *) (b)->opaque)->sw_if_index[VLIB_RX]) < vec_len "
                             "(fib_index_by_sw_if_index)");
@@ -17472,7 +17467,7 @@ ip4_src_address_for_packet(ip_lookup_main_t *lm, u32 sw_if_index, ip4_address_t 
                             1;
                     }))) {
                     _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip4.h", (uword) 205,
+                                "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip4.h", (uword) 205,
                                 ((char *) __FUNCTION__), "! pool_is_free (lm->if_address_pool, _e)");
                 }
             } while (0);
@@ -17515,7 +17510,7 @@ ip4_interface_address_matching_destination(ip4_main_t *im, ip4_address_t *dst, u
                                                (((vec_header_t *) ((lm)->if_address_pool_index_by_sw_if_index) - 1)->len) :
                                                0))) {
                              _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                         "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip4.h",
+                                         "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip4.h",
                                          (uword) 239, ((char *) __FUNCTION__),
                                          "((_sw_if_index)) < vec_len ((lm)->if_address_pool_index_by_sw_if_index)");
                          }
@@ -17537,7 +17532,7 @@ ip4_interface_address_matching_destination(ip4_main_t *im, ip4_address_t *dst, u
                                 1;
                         }))) {
                         _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                    "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip4.h",
+                                    "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip4.h",
                                     (uword) 239, ((char *) __FUNCTION__), "! pool_is_free ((lm)->if_address_pool, _e)");
                     }
                 } while (0);
@@ -17906,7 +17901,7 @@ clib_bihash_prefetch_bucket_24_8(clib_bihash_24_8_t *h, u64 hash)
         do {
             if ((0 > 0) && !(((1 << 6)) <= 4 * (1 << 6))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/bihash_template.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/bihash_template.h",
                             (uword) 324, ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
             }
         } while (0);
@@ -17942,7 +17937,7 @@ clib_bihash_prefetch_data_24_8(clib_bihash_24_8_t *h, u64 hash)
         do {
             if ((0 > 0) && !(((1 << 6)) <= 4 * (1 << 6))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/bihash_template.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/bihash_template.h",
                             (uword) 345, ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
             }
         } while (0);
@@ -17971,7 +17966,7 @@ clib_bihash_search_inline_2_with_hash_24_8(clib_bihash_24_8_t *h, u64 hash, clib
     do {
         if ((0 > 0) && !(valuep)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vppinfra/bihash_template.h",
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vppinfra/bihash_template.h",
                         (uword) 357, ((char *) __FUNCTION__), "valuep");
         }
     } while (0);
@@ -18187,7 +18182,7 @@ ip6_src_address_for_packet(ip_lookup_main_t *lm, u32 sw_if_index, const ip6_addr
                                 1;
                         }))) {
                         _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                    "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6.h",
+                                    "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6.h",
                                     (uword) 305, ((char *) __FUNCTION__), "! pool_is_free (lm->if_address_pool, _e)");
                     }
                 } while (0);
@@ -18231,7 +18226,7 @@ ip6_interface_address_matching_destination(ip6_main_t *im, ip6_address_t *dst, u
                                                (((vec_header_t *) ((lm)->if_address_pool_index_by_sw_if_index) - 1)->len) :
                                                0))) {
                              _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                         "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6.h",
+                                         "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6.h",
                                          (uword) 341, ((char *) __FUNCTION__),
                                          "((_sw_if_index)) < vec_len ((lm)->if_address_pool_index_by_sw_if_index)");
                          }
@@ -18253,7 +18248,7 @@ ip6_interface_address_matching_destination(ip6_main_t *im, ip6_address_t *dst, u
                                 1;
                         }))) {
                         _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                                    "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6.h",
+                                    "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip6.h",
                                     (uword) 341, ((char *) __FUNCTION__), "! pool_is_free ((lm)->if_address_pool, _e)");
                     }
                 } while (0);
@@ -18638,7 +18633,7 @@ ethernet_get_type_info(ethernet_main_t *em, ethernet_type_t type)
         do {
             if ((0 > 0) && !((p[0]) < ((em->type_infos) ? (((vec_header_t *) (em->type_infos) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ethernet/ethernet.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ethernet/ethernet.h",
                             (uword) 326, ((char *) __FUNCTION__), "(p[0]) < vec_len (em->type_infos)");
             }
         } while (0);
@@ -18704,7 +18699,7 @@ eth_vlan_table_lookups(ethernet_main_t *em, vnet_main_t *vnm, u32 port_sw_if_ind
             if ((0 > 0) &&
                 !(((*hi)->hw_if_index) < ((em->main_intfs) ? (((vec_header_t *) (em->main_intfs) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ethernet/ethernet.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ethernet/ethernet.h",
                             (uword) 484, ((char *) __FUNCTION__), "((*hi)->hw_if_index) < vec_len (em->main_intfs)");
             }
         } while (0);
@@ -18715,7 +18710,7 @@ eth_vlan_table_lookups(ethernet_main_t *em, vnet_main_t *vnm, u32 port_sw_if_ind
         do {
             if ((0 > 0) && !((vlan_table_id) < ((em->vlan_pool) ? (((vec_header_t *) (em->vlan_pool) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ethernet/ethernet.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ethernet/ethernet.h",
                             (uword) 491, ((char *) __FUNCTION__), "(vlan_table_id) < vec_len (em->vlan_pool)");
             }
         } while (0);
@@ -18727,7 +18722,7 @@ eth_vlan_table_lookups(ethernet_main_t *em, vnet_main_t *vnm, u32 port_sw_if_ind
             if ((0 > 0) &&
                 !(((*vlan_intf)->qinqs) < ((em->qinq_pool) ? (((vec_header_t *) (em->qinq_pool) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ethernet/ethernet.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ethernet/ethernet.h",
                             (uword) 494, ((char *) __FUNCTION__), "((*vlan_intf)->qinqs) < vec_len (em->qinq_pool)");
             }
         } while (0);
@@ -18915,7 +18910,7 @@ vnet_classify_hash_packet_inline(vnet_classify_table_t *t, u8 *h)
     do {
         if ((0 > 0) && !(t)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
                         (uword) 227, ((char *) __FUNCTION__), "t");
         }
     } while (0);
@@ -18953,7 +18948,7 @@ vnet_classify_prefetch_bucket(vnet_classify_table_t *t, u64 hash)
     do {
         if ((0 > 0) && !(is_pow2(t->nbuckets))) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
                         (uword) 295, ((char *) __FUNCTION__), "is_pow2 (t->nbuckets)");
         }
     } while (0);
@@ -18963,7 +18958,7 @@ vnet_classify_prefetch_bucket(vnet_classify_table_t *t, u64 hash)
         do {
             if ((0 > 0) && !(((1 << 6)) <= 4 * (1 << 6))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
                             (uword) 299, ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
             }
         } while (0);
@@ -18997,7 +18992,7 @@ vnet_classify_get_offset(vnet_classify_table_t *t, vnet_classify_entry_t *v)
     do {
         if ((0 > 0) && !((vp - hp) < 0x100000000ULL)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
                         (uword) 320, ((char *) __FUNCTION__), "(vp - hp) < 0x100000000ULL");
         }
     } while (0);
@@ -19031,7 +19026,7 @@ vnet_classify_prefetch_entry(vnet_classify_table_t *t, u64 hash)
         do {
             if ((0 > 0) && !(((1 << 6)) <= 4 * (1 << 6))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/classify/vnet_classify.h",
                             (uword) 360, ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
             }
         } while (0);
@@ -19174,7 +19169,7 @@ ip_get_protocol_info(ip_main_t *im, u32 protocol)
         do {
             if ((0 > 0) && !((p[0]) < ((im->protocol_infos) ? (((vec_header_t *) (im->protocol_infos) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip.h", (uword) 141,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip.h", (uword) 141,
                             ((char *) __FUNCTION__), "(p[0]) < vec_len (im->protocol_infos)");
             }
         } while (0);
@@ -19191,7 +19186,7 @@ ip_get_tcp_udp_port_info(ip_main_t *im, u32 port)
         do {
             if ((0 > 0) && !((p[0]) < ((im->port_infos) ? (((vec_header_t *) (im->port_infos) - 1)->len) : 0))) {
                 _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                            "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip.h", (uword) 150,
+                            "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip.h", (uword) 150,
                             ((char *) __FUNCTION__), "(p[0]) < vec_len (im->port_infos)");
             }
         } while (0);
@@ -19208,7 +19203,7 @@ ip_incremental_checksum_buffer(vlib_main_t *vm, vlib_buffer_t *first_buffer, u32
     do {
         if ((0 > 0) && !(b->current_length >= first_buffer_offset)) {
             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails",
-                        "../../..//build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip.h", (uword) 161,
+                        "../../../build-root/install-vpp_debug-native/vpp/include/vnet/ip/ip.h", (uword) 161,
                         ((char *) __FUNCTION__), "b->current_length >= first_buffer_offset");
         }
     } while (0);
@@ -19267,63 +19262,63 @@ typedef struct {
     vlib_main_t *vlib_main;
     vnet_main_t *vnet_main;
     ethernet_main_t *ethernet_main;
-} znode_main_t;
-extern znode_main_t znode_main;
-extern vlib_node_registration_t znode_node;
-extern vlib_node_registration_t znode_periodic_node;
+} xfilter_main_t;
+extern xfilter_main_t xfilter_main;
+extern vlib_node_registration_t xfilter_node;
+extern vlib_node_registration_t xfilter_periodic_node;
 typedef struct {
     u32 next_index;
     u32 sw_if_index;
     u8 new_src_mac[6];
     u8 new_dst_mac[6];
-} znode_trace_t;
+} xfilter_trace_t;
 static u8 *
-znode_format_mac_address(u8 *s, va_list *args)
+xfilter_format_mac_address(u8 *s, va_list *args)
 {
     u8 *a = __builtin_va_arg(*args, u8 *);
     return format(s, "%02x:%02x:%02x:%02x:%02x:%02x", a[0], a[1], a[2], a[3], a[4], a[5]);
 }
 static u8 *
-format_znode_trace(u8 *s, va_list *args)
+format_xfilter_trace(u8 *s, va_list *args)
 {
     vlib_main_t *vm __attribute__((unused))   = __builtin_va_arg(*args, vlib_main_t *);
     vlib_node_t *node __attribute__((unused)) = __builtin_va_arg(*args, vlib_node_t *);
-    znode_trace_t *t                          = __builtin_va_arg(*args, znode_trace_t *);
-    s = format(s, "ZNODE: sw_if_index %d, next index %d\n", t->sw_if_index, t->next_index);
-    s = format(s, "  new src %U -> new dst %U", znode_format_mac_address, t->new_src_mac, znode_format_mac_address,
+    xfilter_trace_t *t                        = __builtin_va_arg(*args, xfilter_trace_t *);
+    s = format(s, "XFILTER: sw_if_index %d, next index %d\n", t->sw_if_index, t->next_index);
+    s = format(s, "  new src %U -> new dst %U", xfilter_format_mac_address, t->new_src_mac, xfilter_format_mac_address,
                t->new_dst_mac);
     return s;
 }
-vlib_node_registration_t znode_node;
+vlib_node_registration_t xfilter_node;
 typedef enum {
-    ZNODE_ERROR_SWAPPED,
-    ZNODE_N_ERROR,
-} znode_error_t;
-static char *znode_error_strings[] = {
+    XFILTER_ERROR_SWAPPED,
+    XFILTER_N_ERROR,
+} xfilter_error_t;
+static char *xfilter_error_strings[] = {
     "Mac swap packets processed",
 };
 typedef enum {
-    ZNODE_NEXT_INTERFACE_OUTPUT,
-    ZNODE_N_NEXT,
-} znode_next_t;
-uword znode_node_fn();
-static vlib_node_fn_registration_t znode_node_fn_registration = {
-    .function = &znode_node_fn,
+    XFILTER_NEXT_INTERFACE_OUTPUT,
+    XFILTER_N_NEXT,
+} xfilter_next_t;
+uword xfilter_node_fn();
+static vlib_node_fn_registration_t xfilter_node_fn_registration = {
+    .function = &xfilter_node_fn,
 };
-static void __attribute__((constructor)) znode_node_multiarch_register(void)
+static void __attribute__((constructor)) xfilter_node_multiarch_register(void)
 {
-    extern vlib_node_registration_t znode_node;
+    extern vlib_node_registration_t xfilter_node;
     vlib_node_fn_registration_t *r;
-    r                                = &znode_node_fn_registration;
-    r->priority                      = 0;
-    r->name                          = "default";
-    r->next_registration             = znode_node.node_fn_registrations;
-    znode_node.node_fn_registrations = r;
+    r                                  = &xfilter_node_fn_registration;
+    r->priority                        = 0;
+    r->name                            = "default";
+    r->next_registration               = xfilter_node.node_fn_registrations;
+    xfilter_node.node_fn_registrations = r;
 }
-uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *frame)
+uword __attribute__((optimize("O3"))) xfilter_node_fn(vlib_main_t *vm, vlib_node_runtime_t *node, vlib_frame_t *frame)
 {
     u32 n_left_from, *from, *to_next;
-    znode_next_t next_index;
+    xfilter_next_t next_index;
     u32 pkts_swapped = 0;
     from             = vlib_frame_vector_args(frame);
     n_left_from      = frame->n_vectors;
@@ -19337,8 +19332,8 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
             (n_left_to_next) = 256 - _n;
         } while (0);
         while (n_left_from >= 4 && n_left_to_next >= 2) {
-            u32 next0 = ZNODE_NEXT_INTERFACE_OUTPUT;
-            u32 next1 = ZNODE_NEXT_INTERFACE_OUTPUT;
+            u32 next0 = XFILTER_NEXT_INTERFACE_OUTPUT;
+            u32 next1 = XFILTER_NEXT_INTERFACE_OUTPUT;
             u32 sw_if_index0, sw_if_index1;
             u8 tmp0[6], tmp1[6];
             ethernet_header_t *en0, *en1;
@@ -19353,7 +19348,7 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
                     do {
                         if ((0 > 0) && !((64) <= 4 * (1 << 6))) {
                             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c",
-                                        (uword) 129, ((char *) __FUNCTION__), "(64) <= 4*CLIB_CACHE_LINE_BYTES");
+                                        (uword) 119, ((char *) __FUNCTION__), "(64) <= 4*CLIB_CACHE_LINE_BYTES");
                         }
                     } while (0);
                     if ((64) > (0) * (1 << 6))
@@ -19374,7 +19369,7 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
                     do {
                         if ((0 > 0) && !((64) <= 4 * (1 << 6))) {
                             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c",
-                                        (uword) 130, ((char *) __FUNCTION__), "(64) <= 4*CLIB_CACHE_LINE_BYTES");
+                                        (uword) 120, ((char *) __FUNCTION__), "(64) <= 4*CLIB_CACHE_LINE_BYTES");
                         }
                     } while (0);
                     if ((64) > (0) * (1 << 6))
@@ -19395,7 +19390,7 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
                     do {
                         if ((0 > 0) && !(((1 << 6)) <= 4 * (1 << 6))) {
                             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c",
-                                        (uword) 132, ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
+                                        (uword) 122, ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
                         }
                     } while (0);
                     if (((1 << 6)) > (0) * (1 << 6))
@@ -19416,7 +19411,7 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
                     do {
                         if ((0 > 0) && !(((1 << 6)) <= 4 * (1 << 6))) {
                             _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c",
-                                        (uword) 133, ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
+                                        (uword) 123, ((char *) __FUNCTION__), "((1 << 6)) <= 4*CLIB_CACHE_LINE_BYTES");
                         }
                     } while (0);
                     if (((1 << 6)) > (0) * (1 << 6))
@@ -19443,13 +19438,13 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
             b1 = vlib_get_buffer(vm, bi1);
             do {
                 if ((0 > 0) && !(b0->current_data == 0)) {
-                    _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 147,
+                    _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 137,
                                 ((char *) __FUNCTION__), "b0->current_data == 0");
                 }
             } while (0);
             do {
                 if ((0 > 0) && !(b1->current_data == 0)) {
-                    _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 148,
+                    _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 138,
                                 ((char *) __FUNCTION__), "b1->current_data == 0");
                 }
             } while (0);
@@ -19504,16 +19499,16 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
             pkts_swapped += 2;
             if (__builtin_expect(((node->flags & (1 << 5))), 0)) {
                 if (b0->flags & VLIB_BUFFER_IS_TRACED) {
-                    znode_trace_t *t = vlib_add_trace(vm, node, b0, sizeof(*t));
-                    t->sw_if_index   = sw_if_index0;
-                    t->next_index    = next0;
+                    xfilter_trace_t *t = vlib_add_trace(vm, node, b0, sizeof(*t));
+                    t->sw_if_index     = sw_if_index0;
+                    t->next_index      = next0;
                     memcpy(t->new_src_mac, en0->src_address, sizeof(t->new_src_mac));
                     memcpy(t->new_dst_mac, en0->dst_address, sizeof(t->new_dst_mac));
                 }
                 if (b1->flags & VLIB_BUFFER_IS_TRACED) {
-                    znode_trace_t *t = vlib_add_trace(vm, node, b1, sizeof(*t));
-                    t->sw_if_index   = sw_if_index1;
-                    t->next_index    = next1;
+                    xfilter_trace_t *t = vlib_add_trace(vm, node, b1, sizeof(*t));
+                    t->sw_if_index     = sw_if_index1;
+                    t->next_index      = next1;
                     memcpy(t->new_src_mac, en1->src_address, sizeof(t->new_src_mac));
                     memcpy(t->new_dst_mac, en1->dst_address, sizeof(t->new_dst_mac));
                 }
@@ -19555,7 +19550,7 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
         while (n_left_from > 0 && n_left_to_next > 0) {
             u32 bi0;
             vlib_buffer_t *b0;
-            u32 next0 = ZNODE_NEXT_INTERFACE_OUTPUT;
+            u32 next0 = XFILTER_NEXT_INTERFACE_OUTPUT;
             u32 sw_if_index0;
             u8 tmp0[6];
             ethernet_header_t *en0;
@@ -19568,7 +19563,7 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
             b0 = vlib_get_buffer(vm, bi0);
             do {
                 if ((0 > 0) && !(b0->current_data == 0)) {
-                    _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 233,
+                    _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 215,
                                 ((char *) __FUNCTION__), "b0->current_data == 0");
                 }
             } while (0);
@@ -19597,9 +19592,9 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
             sw_if_index0 = ((vnet_buffer_opaque_t *) (b0)->opaque)->sw_if_index[VLIB_RX];
             ((vnet_buffer_opaque_t *) (b0)->opaque)->sw_if_index[VLIB_TX] = sw_if_index0;
             if (__builtin_expect(((node->flags & (1 << 5)) && (b0->flags & VLIB_BUFFER_IS_TRACED)), 0)) {
-                znode_trace_t *t = vlib_add_trace(vm, node, b0, sizeof(*t));
-                t->sw_if_index   = sw_if_index0;
-                t->next_index    = next0;
+                xfilter_trace_t *t = vlib_add_trace(vm, node, b0, sizeof(*t));
+                t->sw_if_index     = sw_if_index0;
+                t->next_index      = next0;
                 memcpy(t->new_src_mac, en0->src_address, sizeof(t->new_src_mac));
                 memcpy(t->new_dst_mac, en0->dst_address, sizeof(t->new_dst_mac));
             }
@@ -19622,36 +19617,36 @@ uword __attribute__((optimize("O3"))) znode_node_fn(vlib_main_t *vm, vlib_node_r
         }
         vlib_put_next_frame(vm, node, next_index, n_left_to_next);
     }
-    vlib_node_increment_counter(vm, znode_node.index, ZNODE_ERROR_SWAPPED, pkts_swapped);
+    vlib_node_increment_counter(vm, xfilter_node.index, XFILTER_ERROR_SWAPPED, pkts_swapped);
     return frame->n_vectors;
 }
-vlib_node_registration_t znode_node;
-static void __vlib_add_node_registration_znode_node(void) __attribute__((__constructor__));
+vlib_node_registration_t xfilter_node;
+static void __vlib_add_node_registration_xfilter_node(void) __attribute__((__constructor__));
 static void
-__vlib_add_node_registration_znode_node(void)
+__vlib_add_node_registration_xfilter_node(void)
 {
     vlib_main_t *vm                  = vlib_get_main();
-    znode_node.next_registration     = vm->node_main.node_registrations;
-    vm->node_main.node_registrations = &znode_node;
+    xfilter_node.next_registration   = vm->node_main.node_registrations;
+    vm->node_main.node_registrations = &xfilter_node;
 }
-static void __vlib_rm_node_registration_znode_node(void) __attribute__((__destructor__));
+static void __vlib_rm_node_registration_xfilter_node(void) __attribute__((__destructor__));
 static void
-__vlib_rm_node_registration_znode_node(void)
+__vlib_rm_node_registration_xfilter_node(void)
 {
     vlib_main_t *vm = vlib_get_main();
     {
         do {
             if ((0 > 0) && !(vm->node_main.node_registrations)) {
-                _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 284,
+                _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 258,
                             ((char *) __FUNCTION__), "vm->node_main.node_registrations");
             }
         } while (0);
-        if (vm->node_main.node_registrations == &znode_node)
-            vm->node_main.node_registrations = (&znode_node)->next_registration;
+        if (vm->node_main.node_registrations == &xfilter_node)
+            vm->node_main.node_registrations = (&xfilter_node)->next_registration;
         else {
-            __typeof__(&znode_node) current = vm->node_main.node_registrations;
+            __typeof__(&xfilter_node) current = vm->node_main.node_registrations;
             while (current->next_registration) {
-                if (current->next_registration == &znode_node) {
+                if (current->next_registration == &xfilter_node) {
                     current->next_registration = current->next_registration->next_registration;
                     break;
                 }
@@ -19659,23 +19654,23 @@ __vlib_rm_node_registration_znode_node(void)
             }
             do {
                 if ((0 > 0) && !(current)) {
-                    _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 284,
+                    _clib_error(CLIB_ERROR_ABORT, 0, 0, "%s:%d (%s) assertion `%s' fails", "node.c", (uword) 258,
                                 ((char *) __FUNCTION__), "current");
                 }
             } while (0);
         }
     };
 }
-vlib_node_registration_t znode_node = {
-    .name          = "znode",
+vlib_node_registration_t xfilter_node = {
+    .name          = "xfilter",
     .vector_size   = sizeof(u32),
-    .format_trace  = format_znode_trace,
+    .format_trace  = format_xfilter_trace,
     .type          = VLIB_NODE_TYPE_INTERNAL,
-    .n_errors      = (sizeof(znode_error_strings) / sizeof(znode_error_strings[0])),
-    .error_strings = znode_error_strings,
-    .n_next_nodes  = ZNODE_N_NEXT,
+    .n_errors      = (sizeof(xfilter_error_strings) / sizeof(xfilter_error_strings[0])),
+    .error_strings = xfilter_error_strings,
+    .n_next_nodes  = XFILTER_N_NEXT,
     .next_nodes =
         {
-            [ZNODE_NEXT_INTERFACE_OUTPUT] = "interface-output",
+            [XFILTER_NEXT_INTERFACE_OUTPUT] = "interface-output",
         },
 };

@@ -613,6 +613,7 @@ thread0 (uword arg)
 u8 *
 vlib_thread_stack_init (uword thread_index)
 {
+  printf("validating stack for thread idx = %lu\n", thread_index);
   vec_validate (vlib_thread_stacks, thread_index);
   vlib_thread_stacks[thread_index] = clib_mem_alloc_aligned
     (VLIB_THREAD_STACK_SIZE, VLIB_THREAD_STACK_SIZE);
@@ -627,6 +628,7 @@ vlib_thread_stack_init (uword thread_index)
   return vlib_thread_stacks[thread_index];
 }
 
+// znote vlib_unix_main
 int
 vlib_unix_main (int argc, char *argv[])
 {

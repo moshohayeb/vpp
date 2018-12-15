@@ -1,6 +1,6 @@
 
 /*
- * znode.h - skeleton vpp engine plug-in header file 
+ * xfilter.h - skeleton vpp engine plug-in header file 
  *
  * Copyright (c) <current-year> <your-organization>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef __included_znode_h__
-#define __included_znode_h__
+#ifndef __included_xfilter_h__
+#define __included_xfilter_h__
 
 #include <vnet/vnet.h>
 #include <vnet/ip/ip.h>
@@ -36,19 +36,19 @@ typedef struct {
     vlib_main_t * vlib_main;
     vnet_main_t * vnet_main;
     ethernet_main_t * ethernet_main;
-} znode_main_t;
+} xfilter_main_t;
 
-extern znode_main_t znode_main;
+extern xfilter_main_t xfilter_main;
 
-extern vlib_node_registration_t znode_node;
-extern vlib_node_registration_t znode_periodic_node;
+extern vlib_node_registration_t xfilter_node;
+extern vlib_node_registration_t xfilter_periodic_node;
 
 /* Periodic function events */
-#define ZNODE_EVENT1 1
-#define ZNODE_EVENT2 2
-#define ZNODE_EVENT_PERIODIC_ENABLE_DISABLE 3
+#define XFILTER_EVENT1 1
+#define XFILTER_EVENT2 2
+#define XFILTER_EVENT_PERIODIC_ENABLE_DISABLE 3
 
-#endif /* __included_znode_h__ */
+#endif /* __included_xfilter_h__ */
 
 /*
  * fd.io coding-style-patch-verification: ON

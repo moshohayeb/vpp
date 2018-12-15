@@ -12,23 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-add_vpp_plugin(znode
+add_vpp_plugin(xfilter
   SOURCES
-  znode.c 
+  xfilter.c 
   node.c 
-  znode_periodic.c
-  znode.h
+  xfilter_periodic.c
+  xfilter.h
 
   MULTIARCH_SOURCES
   node.c 
 
   API_FILES
-  znode.api
+  xfilter.api
 
   INSTALL_HEADERS
-  znode_all_api_h.h
-  znode_msg_enum.h
+  xfilter_all_api_h.h
+  xfilter_msg_enum.h
 
   API_TEST_SOURCES
-  znode_test.c
+  xfilter_test.c
 )
