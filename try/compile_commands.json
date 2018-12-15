@@ -1,0 +1,646 @@
+[
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "bin/vec",
+            "vec.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "vec.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/valloc.o",
+            "../src/vppinfra/valloc.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/valloc.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/string.o",
+            "../src/vppinfra/string.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/string.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/anneal.o",
+            "../src/vppinfra/anneal.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/anneal.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/elog.o",
+            "../src/vppinfra/elog.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/elog.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/timing_wheel.o",
+            "../src/vppinfra/timing_wheel.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/timing_wheel.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/vhash.o",
+            "../src/vppinfra/vhash.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/vhash.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/serialize.o",
+            "../src/vppinfra/serialize.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/serialize.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/linux/sysfs.o",
+            "../src/vppinfra/linux/sysfs.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/linux/sysfs.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/unix-misc.o",
+            "../src/vppinfra/unix-misc.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/unix-misc.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/slist.o",
+            "../src/vppinfra/slist.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/slist.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/qsort.o",
+            "../src/vppinfra/qsort.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/qsort.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/mhash.o",
+            "../src/vppinfra/mhash.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/mhash.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/vec.o",
+            "../src/vppinfra/vec.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/vec.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/macros.o",
+            "../src/vppinfra/macros.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/macros.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/cpu.o",
+            "../src/vppinfra/cpu.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/cpu.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/format.o",
+            "../src/vppinfra/format.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/format.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/socket.o",
+            "../src/vppinfra/socket.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/socket.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/random_isaac.o",
+            "../src/vppinfra/random_isaac.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/random_isaac.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/elf_clib.o",
+            "../src/vppinfra/elf_clib.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/elf_clib.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/asm_x86.o",
+            "../src/vppinfra/asm_x86.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/asm_x86.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/std-formats.o",
+            "../src/vppinfra/std-formats.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/std-formats.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/elf.o",
+            "../src/vppinfra/elf.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/elf.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/error.o",
+            "../src/vppinfra/error.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/error.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/fifo.o",
+            "../src/vppinfra/fifo.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/fifo.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/fheap.o",
+            "../src/vppinfra/fheap.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/fheap.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/mheap.o",
+            "../src/vppinfra/mheap.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/mheap.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/zvec.o",
+            "../src/vppinfra/zvec.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/zvec.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/timer.o",
+            "../src/vppinfra/timer.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/timer.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/pool.o",
+            "../src/vppinfra/pool.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/pool.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/unix-formats.o",
+            "../src/vppinfra/unix-formats.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/unix-formats.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/time.o",
+            "../src/vppinfra/time.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/time.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/ptclosure.o",
+            "../src/vppinfra/ptclosure.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/ptclosure.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/linux/mem.o",
+            "../src/vppinfra/linux/mem.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/linux/mem.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/mem_mheap.o",
+            "../src/vppinfra/mem_mheap.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/mem_mheap.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/heap.o",
+            "../src/vppinfra/heap.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/heap.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/phash.o",
+            "../src/vppinfra/phash.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/phash.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/time_range.o",
+            "../src/vppinfra/time_range.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/time_range.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/random_buffer.o",
+            "../src/vppinfra/random_buffer.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/random_buffer.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/backtrace.o",
+            "../src/vppinfra/backtrace.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/backtrace.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/random.o",
+            "../src/vppinfra/random.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/random.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/unformat.o",
+            "../src/vppinfra/unformat.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/unformat.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/maplog.o",
+            "../src/vppinfra/maplog.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/maplog.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/hash.o",
+            "../src/vppinfra/hash.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/hash.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/vector.o",
+            "../src/vppinfra/vector.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/vector.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-I../build-root/install-vpp_debug-native/vpp/include/",
+            "-I../src/",
+            "-Wno-incompatible-pointer-types",
+            "-o",
+            "objs/graph.o",
+            "../src/vppinfra/graph.c"
+        ],
+        "directory": "/opt/vpp/try",
+        "file": "../src/vppinfra/graph.c"
+    }
+]
