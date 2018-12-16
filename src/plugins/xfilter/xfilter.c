@@ -54,22 +54,18 @@ xfilter_main_t xfilter_main;
 
 /* List of message types that this plugin understands */
 
-#define foreach_xfilter_plugin_api_msg \
-    _(XFILTER_ENABLE_DISABLE, xfilter_enable_disable)
+#define foreach_xfilter_plugin_api_msg _(XFILTER_ENABLE_DISABLE, xfilter_enable_disable)
 
 /* Action function shared between message handler and debug CLI */
 
 int
-xfilter_enable_disable(xfilter_main_t *sm, u32 sw_if_index,
-        int enable_disable)
+xfilter_enable_disable(xfilter_main_t *sm, u32 sw_if_index, int enable_disable)
 {
     vnet_sw_interface_t *sw;
     int rv = 0;
 
     /* Utterly wrong? */
-    if (pool_is_free_index(sm->vnet_main->interface_main.sw_interfaces,
-                sw_if_index))
-    {
+    if (pool_is_free_index(sm->vnet_main->interface_main.sw_interfaces, sw_if_index)) {
         return VNET_API_ERROR_INVALID_SW_IF_INDEX;
     }
 
@@ -79,21 +75,17 @@ xfilter_enable_disable(xfilter_main_t *sm, u32 sw_if_index,
         return VNET_API_ERROR_INVALID_SW_IF_INDEX;
     }
 
-    vnet_feature_enable_disable("device-input", "xfilter",
-            sw_if_index, enable_disable, 0, 0);
+    vnet_feature_enable_disable("device-input", "xfilter", sw_if_index, enable_disable, 0, 0);
 
     /* Send an event to enable/disable the periodic scanner process */
-    vlib_process_signal_event(sm->vlib_main, xfilter_periodic_node.index,
-            XFILTER_EVENT_PERIODIC_ENABLE_DISABLE,
+    vlib_process_signal_event(sm->vlib_main, xfilter_periodic_node.index, XFILTER_EVENT_PERIODIC_ENABLE_DISABLE,
             (uword) enable_disable);
 
     return rv;
 }
 
 static clib_error_t *
-xfilter_enable_disable_command_fn(vlib_main_t *vm,
-        unformat_input_t                      *input,
-        vlib_cli_command_t                    *cmd)
+xfilter_enable_disable_command_fn(vlib_main_t *vm, unformat_input_t *input, vlib_cli_command_t *cmd)
 {
     xfilter_main_t *sm = &xfilter_main;
     u32 sw_if_index = ~0;
@@ -104,9 +96,7 @@ xfilter_enable_disable_command_fn(vlib_main_t *vm,
     while (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
         if (unformat(input, "disable")) {
             enable_disable = 0;
-        } else if (unformat(input, "%U", unformat_vnet_sw_interface,
-                           sm->vnet_main, &sw_if_index))
-        { } else {
+        } else if (unformat(input, "%U", unformat_vnet_sw_interface, sm->vnet_main, &sw_if_index)) { } else {
             break;
         }
     }
@@ -125,8 +115,7 @@ xfilter_enable_disable_command_fn(vlib_main_t *vm,
 
     case VNET_API_ERROR_INVALID_SW_IF_INDEX:
     {
-        return clib_error_return
-                   (0, "Invalid interface, only works on physical ports");
+        return clib_error_return(0, "Invalid interface, only works on physical ports");
         break;
     }
 
@@ -137,19 +126,16 @@ xfilter_enable_disable_command_fn(vlib_main_t *vm,
     }
 
     default:
-        return clib_error_return(0, "xfilter_enable_disable returned %d",
-                rv);
+        return clib_error_return(0, "xfilter_enable_disable returned %d", rv);
     }
     return 0;
 }
 
 /* *INDENT-OFF* */
-VLIB_CLI_COMMAND (xfilter_enable_disable_command, static) = 
-{
-  .path = "xfilter enable-disable",
-  .short_help =
-  "xfilter enable-disable <interface-name> [disable]",
-  .function = xfilter_enable_disable_command_fn,
+VLIB_CLI_COMMAND(xfilter_enable_disable_command, static) = {
+    .path       = "xfilter enable-disable",
+    .short_help = "xfilter enable-disable <interface-name> [disable]",
+    .function   = xfilter_enable_disable_command_fn,
 };
 /* *INDENT-ON* */
 
@@ -161,8 +147,7 @@ vl_api_xfilter_enable_disable_t_handler(vl_api_xfilter_enable_disable_t *mp)
     xfilter_main_t *sm = &xfilter_main;
     int rv;
 
-    rv = xfilter_enable_disable(sm, ntohl(mp->sw_if_index),
-            (int) (mp->enable_disable));
+    rv = xfilter_enable_disable(sm, ntohl(mp->sw_if_index), (int) (mp->enable_disable));
 
     REPLY_MACRO(VL_API_XFILTER_ENABLE_DISABLE_REPLY);
 }
@@ -173,14 +158,9 @@ xfilter_plugin_api_hookup(vlib_main_t *vm)
 {
     xfilter_main_t *sm = &xfilter_main;
 
-#define _(N, n)                                               \
-    vl_msg_api_set_handlers((VL_API_ ## N + sm->msg_id_base), \
-            #n,                                               \
-            vl_api_ ## n ## _t_handler,                       \
-            vl_noop_handler,                                  \
-            vl_api_ ## n ## _t_endian,                        \
-            vl_api_ ## n ## _t_print,                         \
-            sizeof(vl_api_ ## n ## _t), 1);
+#define _(N, n)                                                                                                \
+    vl_msg_api_set_handlers((VL_API_ ## N + sm->msg_id_base), #n, vl_api_ ## n ## _t_handler, vl_noop_handler, \
+            vl_api_ ## n ## _t_endian, vl_api_ ## n ## _t_print, sizeof(vl_api_ ## n ## _t), 1);
     foreach_xfilter_plugin_api_msg;
 #undef _
 
@@ -194,7 +174,7 @@ xfilter_plugin_api_hookup(vlib_main_t *vm)
 static void
 setup_message_id_table(xfilter_main_t *sm, api_main_t *am)
 {
-#define _(id, n, crc) vl_msg_api_add_msg_name_crc(am, #n  #crc, id + sm->msg_id_base);
+#define _(id, n, crc) vl_msg_api_add_msg_name_crc(am, #n #crc, id + sm->msg_id_base);
     foreach_vl_msg_name_crc_xfilter;
 #undef _
 }
@@ -212,8 +192,7 @@ xfilter_init(vlib_main_t *vm)
     name = format(0, "xfilter_%08x%c", api_version, 0);
 
     /* Ask for a correctly-sized block of API message decode slots */
-    sm->msg_id_base = vl_msg_api_get_msg_ids
-                          ((char *) name, VL_MSG_FIRST_AVAILABLE);
+    sm->msg_id_base = vl_msg_api_get_msg_ids((char *) name, VL_MSG_FIRST_AVAILABLE);
 
     error = xfilter_plugin_api_hookup(vm);
 
@@ -244,20 +223,18 @@ VLIB_CONFIG_FUNCTION(xfilter_config, "xfilter");
 VLIB_INIT_FUNCTION(xfilter_init);
 
 /* *INDENT-OFF* */
-VNET_FEATURE_INIT (xfilter, static) =
-{
-  .arc_name = "device-input",
-  .node_name = "xfilter",
-  .runs_before = VNET_FEATURES ("ethernet-input"),
+VNET_FEATURE_INIT(xfilter, static) = {
+    .arc_name    = "device-input",
+    .node_name   = "xfilter",
+    .runs_before = VNET_FEATURES("ethernet-input"),
 };
 /* *INDENT-ON */
 
 /* *INDENT-OFF* */
-VLIB_PLUGIN_REGISTER () = 
-{
-  .version = VPP_BUILD_VER,
-  .description = "xfilter plugin description goes here",
-  .early_init = "xfilter_early_init",
+VLIB_PLUGIN_REGISTER() = {
+    .version     = VPP_BUILD_VER,
+    .description = "xfilter plugin description goes here",
+    .early_init  = "xfilter_early_init",
 };
 /* *INDENT-ON* */
 
