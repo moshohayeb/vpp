@@ -105,3 +105,7 @@ GTAGS
 
 # No core files
 **/core
+try/bin/
+/try/libvppinfra.a
+try/objs/
+/try/compile_commands.json
