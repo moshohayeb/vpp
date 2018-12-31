@@ -1,5 +1,5 @@
 /*
- * xfilter_periodic.c - skeleton plug-in periodic function 
+ * xfilter_periodic.c - skeleton plug-in periodic function
  *
  * Copyright (c) <current-year> <your-organization>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,89 +19,96 @@
 #include <vppinfra/error.h>
 #include <xfilter/xfilter.h>
 
-static void 
-handle_event1 (xfilter_main_t *pm, f64 now, uword event_data)
-{
-  clib_warning ("received XFILTER_EVENT1");
-}
-                           
-static void 
-handle_event2 (xfilter_main_t *pm, f64 now, uword event_data)
-{
-  clib_warning ("received XFILTER_EVENT2");
-}
-                           
 static void
-handle_periodic_enable_disable (xfilter_main_t *pm, f64 now, uword event_data)
+handle_event1(xfilter_main_t *pm, f64 now, uword event_data)
 {
-   clib_warning ("Periodic timeouts now %s", 
-     event_data ? "enabled" : "disabled");
-   pm->periodic_timer_enabled = event_data;
+    clib_warning("received XFILTER_EVENT1");
 }
 
 static void
-handle_timeout (xfilter_main_t *pm, f64 now)
+handle_event2(xfilter_main_t *pm, f64 now, uword event_data)
 {
-  clib_warning ("timeout at %.2f", now);
+    clib_warning("received XFILTER_EVENT2");
+}
+
+static void
+handle_periodic_enable_disable(xfilter_main_t *pm, f64 now, uword event_data)
+{
+    clib_warning("Periodic timeouts now %s", event_data ? "enabled" : "disabled");
+    pm->periodic_timer_enabled = event_data;
+}
+
+static void
+handle_timeout(xfilter_main_t *pm, f64 now)
+{
+    clib_warning("timeout at %.2f", now);
 }
 
 static uword
-xfilter_periodic_process (vlib_main_t * vm,
-	                  vlib_node_runtime_t * rt, vlib_frame_t * f)
+xfilter_periodic_process(vlib_main_t *vm, vlib_node_runtime_t *rt, vlib_frame_t *f)
 {
-  xfilter_main_t *pm = &xfilter_main;
-  f64 now;
-  f64 timeout = 10.0;
-  uword *event_data = 0;
-  uword event_type;
-  int i;
+    xfilter_main_t *pm = &xfilter_main;
+    f64   now;
+    f64   timeout = 10.0;
+    uword *event_data = 0;
+    uword event_type;
+    int   i;
 
-  while (1)
-    {
-      if (pm->periodic_timer_enabled)
-        vlib_process_wait_for_event_or_clock (vm, timeout);
-      else
-        vlib_process_wait_for_event (vm);
+    while (1) {
+        if (pm->periodic_timer_enabled) {
+            vlib_process_wait_for_event_or_clock(vm, timeout);
+        } else {
+            vlib_process_wait_for_event(vm);
+        }
 
-      now = vlib_time_now (vm);
+        now = vlib_time_now(vm);
 
-      event_type = vlib_process_get_events (vm, (uword **) & event_data);
+        event_type = vlib_process_get_events(vm, (uword **) &event_data);
 
-      switch (event_type)
-	{
-	  /* Handle XFILTER_EVENT1 */
-	case XFILTER_EVENT1:
-	  for (i = 0; i < vec_len (event_data); i++)
-	    handle_event1 (pm, now, event_data[i]);
-	  break;
+        switch (event_type) {
+        /* Handle XFILTER_EVENT1 */
+        case XFILTER_EVENT1:
+        {
+            for (i = 0; i < vec_len(event_data); i++) {
+                handle_event1(pm, now, event_data[i]);
+            }
+            break;
+        }
 
-	  /* Handle XFILTER_EVENT2 */
-	case XFILTER_EVENT2:
-	  for (i = 0; i < vec_len (event_data); i++)
-	    handle_event2 (pm, now, event_data[i]);
-	  break;
-          /* Handle the periodic timer on/off event */
-	case XFILTER_EVENT_PERIODIC_ENABLE_DISABLE:
-	  for (i = 0; i < vec_len (event_data); i++)
-	    handle_periodic_enable_disable (pm, now, event_data[i]);
-	  break;
+        /* Handle XFILTER_EVENT2 */
+        case XFILTER_EVENT2:
+        {
+            for (i = 0; i < vec_len(event_data); i++) {
+                handle_event2(pm, now, event_data[i]);
+            }
+            break;
+        }
+        /* Handle the periodic timer on/off event */
+        case XFILTER_EVENT_PERIODIC_ENABLE_DISABLE:
+        {
+            for (i = 0; i < vec_len(event_data); i++) {
+                handle_periodic_enable_disable(pm, now, event_data[i]);
+            }
+            break;
+        }
 
-          /* Handle periodic timeouts */
-	case ~0:
-	  handle_timeout (pm, now);
-	  break;
-	}
-      vec_reset_length (event_data);
+        /* Handle periodic timeouts */
+        case ~0:
+        {
+            handle_timeout(pm, now);
+            break;
+        }
+        }
+        vec_reset_length(event_data);
     }
-  return 0;			/* or not */
+    return 0; /* or not */
 }
 
 /* *INDENT-OFF* */
-VLIB_REGISTER_NODE (xfilter_periodic_node) =
-{
-  .function = xfilter_periodic_process,
-  .type = VLIB_NODE_TYPE_PROCESS,
-  .name = "xfilter-periodic-process",
+VLIB_REGISTER_NODE(xfilter_periodic_node) = {
+    .function = xfilter_periodic_process,
+    .type     = VLIB_NODE_TYPE_PROCESS,
+    .name     = "xfilter-periodic-process",
 };
 /* *INDENT-ON* */
 
